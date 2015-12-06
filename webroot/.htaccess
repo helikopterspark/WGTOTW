@@ -4,13 +4,17 @@ ErrorDocument 404 "This is a Anax 404. Document is not here."
 
 
 #<IfModule mod_rewrite.c>
-#  RewriteEngine on
+  RewriteEngine on
 #
 #  # Must use RewriteBase on www.student.bth.se, Rewritebase for url /~mos/test is /~mos/test/
-#  #RewriteBase /change/this/to/site/base/url/if/needed/
-#
-#  RewriteCond %{REQUEST_FILENAME} !-f
-#  #RewriteCond %{REQUEST_FILENAME} !-d
-#
-#  RewriteRule (.*) index.php/$1 [NC,L]
+#  RewriteBase /~carb14/phpmvc/WGTOTW/webroot/
+
+# ReWrite rule for comments routes:
+# RewriteRule ^(comments-.*)$ comments.php/$1 [NC,L]
+
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  RewriteRule (.*) index.php/$1 [NC,L]
 #</IfModule>
