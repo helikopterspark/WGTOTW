@@ -31,7 +31,6 @@ class CThemeExtended extends CThemeBasic
      */
     public function render()
     {
-		$this->di->logger->stamp(__CLASS__, __METHOD__, 'render starts');
         // Prepare details
     	$path       = $this->config['settings']['path'];
     	$name       = $this->config['settings']['name'] . '/';
@@ -69,6 +68,5 @@ class CThemeExtended extends CThemeBasic
     	$view->setDI($this->di);
     	$view->render();
 
-		$this->di->logger->stamp(__CLASS__, __METHOD__, 'render ends');
     }
 }

@@ -21,7 +21,7 @@ return [
      * Add default views.
      */
     'views' => [
-        ['region' => 'header', 'template' => 'wgtotw/header', 'data' => ['siteTitle' => "WGTOTW", 'siteTagline' => "We're gonna take over the world"], 'sort' => -1],
+        ['region' => 'header', 'template' => 'wgtotw/header', 'data' => ['siteTitle' => "PIGS IN SPACE", 'siteTagline' => "We're gonna take over the world"], 'sort' => -1],
         ['region' => 'footer', 'template' => 'welcome/footer', 'data' => [], 'sort' => -1],
         ['region' => 'navbar', 'template' => [
             'callback' => function() {
@@ -42,7 +42,7 @@ return [
         'lang' => 'sv',
 
         // Append this value to each <title>
-        'title_append' => ' | Anax a web template',
+        'title_append' => ' | Allt om X',
 
         // Stylesheets
         'stylesheets' => ['css/style.css', 'css/navbar.css'],

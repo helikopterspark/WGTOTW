@@ -38,7 +38,7 @@ class CDIFactoryExtended extends CDIFactoryDefault
           $flashmessages->setDI($this);
           return $flashmessages;
         });
-
+/*
         // Comments
         $this->set('CommentsController', function() {
           $commentscontroller = new \CR\Comment\CommentsController();
@@ -51,7 +51,7 @@ class CDIFactoryExtended extends CDIFactoryDefault
           $userscontroller = new \Anax\Users\UsersController();
           $userscontroller->setDI($this);
           return $userscontroller;
-        });
+      });*/
       }
 
     }

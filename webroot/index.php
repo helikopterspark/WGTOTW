@@ -3,12 +3,12 @@
 * This is a Anax pagecontroller.
 *
 */
-require __DIR__.'/config_with_app.php';
-//require __DIR__.'/config_with_app_WGTOTW.php';
+//require __DIR__.'/config_with_app.php';
+require __DIR__.'/config_with_app_WGTOTW.php';
 
 $app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
 $app->navbar->configure(ANAX_APP_PATH . 'config/navbar_wgtotw.php');
-$app->theme->configure(ANAX_APP_PATH . 'config/theme_wgtotw.php');
+$app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 
 /*
 // Scaffolding demo, use anax-scaffold.php to add demo class Scaffold to try it out
@@ -31,7 +31,12 @@ $app->dispatcher->forward([
 *
 */
 $app->router->add('', function() use ($app) {
-    $app->theme->setTitle("WGTOTW");
+    $app->theme->setTitle("PIGS IN SPACE");
+
+    $app->views->add('default/page', [
+        'title' => "<h2>Allt om grisar i rymden</h2>",
+        'content' => "<p>Start page</p>",
+    ]);
 });
 
 /**
