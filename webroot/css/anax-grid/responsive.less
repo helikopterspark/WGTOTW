@@ -1,0 +1,178 @@
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: 767px) {
+
+	#wrapper {
+		min-width: 320px;
+	}
+
+	.comments {
+		width: 100%;
+	}
+
+	//#header,
+	#navbar {
+		.column(@columns);
+		margin-bottom: @magicNumber * 3.5;
+		font-size: @fontSizeSmaller;
+	}
+
+	.siteslogan {
+		font-size: @fontSizeSmaller;
+		top: 65px;
+	}
+
+	.sitetitle {
+		font-size: 2.25em;
+	}
+
+	.byline {
+		margin-bottom: @magicNumber;
+	}
+
+	#flash,
+	#featured-1,
+	#featured-2,
+	#featured-3,
+	#triptych-1,
+	#triptych-2,
+	#triptych-3,
+	#main,
+	#sidebar,
+	#main-extended,
+	#sidebar-reduced,
+	#fullpage,
+	#footer-col-1,
+	#footer-col-2,
+	#footer-col-3,
+	#footer-col-4,
+	#footer {
+		.column(@columns);
+		margin-bottom: @magicNumber;
+	}
+	/* Calendar */
+	
+	div.weeks-in-month {
+		//background: yellow;
+	}
+
+	div.week-row-0,
+	div.week-row-1,
+	div.week-row-2,
+	div.week-row-3,
+	div.week-row-4,
+	div.week-row-5,
+	div.week-row-6 {
+		margin-left: 5%;
+	}
+
+	div.weekdays, div.day, div.today {
+		min-width: 9.5%;
+	}
+
+	h1.calendar-heading {
+		font-size: @fontSizeH3;
+	}
+
+	div.weekdays {
+		font-size: 0.5em;
+	}
+
+	img.cal_pic {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	#wrapper {
+		min-width: 640px;
+	}
+
+	.comments {
+		width: 100%;
+	}
+
+	#main,
+	#main-extended,
+	#sidebar,
+	#sidebar-reduced,
+	#fullpage {
+		.column(@columns);
+		margin-bottom: @magicNumber;
+	}
+
+	
+	#featured-1,
+	#featured-2,
+	#featured-3,
+	#triptych-1,
+	#triptych-2,
+	#triptych-3 {
+		.column(@columns / 3);
+		margin-bottom: @magicNumber;
+	}
+
+	#footer-col-1,
+	#footer-col-2,
+	#footer-col-3,
+	#footer-col-4 {
+		.column(@columns / 2);
+		margin-bottom: @magicNumber;
+	}
+
+	img.cal_pic {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	#wrapper {
+		max-width: 960px;
+	}
+
+	.comments,
+	.comment-form {
+		width: 75%;
+	}
+
+	#main-extended {
+		.column(@columns * 0.75);
+	}
+
+	#sidebar-reduced {
+		.column(@columns * 0.25);
+	}
+
+	#main {
+		.column(@columns / 3 * 2);
+	}
+
+	#sidebar {
+		.column(@columns / 3);
+	}
+
+	#main,
+	#sidebar,
+	#main-extended,
+	#sidebar-reduced,
+	#fullpage {
+		margin-bottom: @magicNumber;
+	}
+
+	#footer-col-1,
+	#footer-col-2,
+	#footer-col-3,
+	#footer-col-4 {
+		.column(@columns / 4);
+		margin-bottom: @magicNumber;
+	}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+	
+}

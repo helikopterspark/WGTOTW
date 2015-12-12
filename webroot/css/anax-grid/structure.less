@@ -1,0 +1,236 @@
+/**
+ * General elements
+ */
+
+ body {
+  background: url("../../img/bg.png") repeat-x scroll 0 0 #fff;
+  color: #333;
+  overflow-y: scroll;
+}
+
+
+/**
+ * Layout of the main page elements 
+ */
+ #wrapper {
+  margin: 8px auto;
+  max-width: 960px;
+  .clearfix();
+}
+
+#wrap-featured,
+#wrap-main,
+#wrap-triptych,
+#wrap-footer-col,
+ {
+  .clearfix();
+}
+
+
+/**
+ * Layout for header
+ */
+ #header {
+  position: relative;
+  height: 5 * 22px;
+}
+
+.globe {
+  margin-top: @magicNumber;
+}
+
+.logo {
+  float: right;
+}
+
+.sitetitle {
+  font-family: @fontFamilyOrbitron;
+  font-size: 48px;
+  font-weight: bold;
+  position: absolute;
+  top: @magicNumber;
+  left: 90px;
+}
+
+.siteslogan {
+  font-style: italic;
+  position: absolute;
+  top: 85px;
+  left: 90px;
+  color: #666;
+}
+
+.sitelogo {
+  position: relative;
+  top: @magicNumber;
+}
+
+/**
+ * navbar
+ */
+ #navbar {
+  height: 3 * 22px;
+}
+
+/**
+ * Flash
+ */
+ #flash {
+  height: 6 * 22px;
+ }
+
+
+/**
+ * Layout for main
+ */
+ #main {
+  min-height: 1 * 22px;
+}
+
+
+/**
+ * Layout for footer
+ */
+ #footer {
+  margin-top: 2 * @magicNumber;
+  border-top: 1px solid #ccc;
+  padding-top: @magicNumber;
+}
+
+.sitefooter {
+  color: #666;
+}
+
+
+/**
+ * For articles
+ */
+ .article1 {
+  border-right: 1px solid #ccc;
+  padding-right: 1em;
+}
+
+/*
+.article1 h1,
+.article1 h2 {
+  border-bottom: 1px solid @theme-color;
+}
+*/
+
+.byline {
+  height: 3 * @magicNumber;
+  margin-top: 2 * @magicNumber;
+  border-top: 1px dashed #ccc;
+  padding-top: @magicNumber / 2;
+  color: #666;
+}
+
+.byline p, .smaller-text {
+  font-size: @fontSizeSmall;
+}
+
+.smaller-text {
+  color: #666;
+}
+
+.right_float_with_margin {
+    float: right;
+    margin-left: 5px;
+}
+
+a {
+  //color: @theme-color;
+  text-decoration: none;
+  -webkit-transition: all 0.2s ease-in-out;
+-moz-transition: all 0.2s ease-in-out;
+-o-transition: all 0.2s ease-in-out;
+transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+a:active,
+a:focus {
+    position: relative;
+    top: 2px;
+}
+
+/* aside for AppAd
+-------------------------------------------------------------- */
+.appad {
+    text-align: center;
+    padding-top: 3 * @magicNumber;
+    font-size: @fontSizeSmaller;
+}
+
+.appad img {
+  margin: @magicNumber / 2;
+}
+
+// Grid
+
+#header,
+#navbar,
+#flash,
+#fullpage,
+#footer {
+  .column(@columns);
+}
+
+#main-extended {
+  .column(@columns * 0.75);
+}
+
+#sidebar-reduced {
+  .column(@columns * 0.25);
+}
+
+#main {
+  .column(@columns / 3 * 2);
+}
+
+#sidebar {
+  .column(@columns / 3);
+}
+
+#featured-1,
+#featured-2,
+#featured-3,
+#triptych-1,
+#triptych-2,
+#triptych-3 {
+  .column(@columns / 3);
+}
+
+#footer-col-1,
+#footer-col-2,
+#footer-col-3, 
+#footer-col-4 {
+  .column(@columns / 4);
+}
+
+#header,
+#navbar,
+#flash,
+#featured-1,
+#featured-2,
+#featured-3,
+#main-extended,
+#sidebar-reduced,
+#main,
+#sidebar,
+#fullpage,
+#triptych-1,
+#triptych-2,
+#triptych-3,
+#footer-col-1,
+#footer-col-2,
+#footer-col-3, 
+#footer-col-4,
+#footer {
+  min-height: 3 * @magicNumber;
+  margin-bottom: @magicNumber;
+}
