@@ -28,7 +28,7 @@ return [
         // This is a menu item
         'tags'  => [
             'text'  => 'Taggar',
-            'url'   => $this->di->get('url')->create('tags'),
+            'url'   => $this->di->get('url')->create('tag'),
             'title' => 'Ämnestaggar'
         ],
 

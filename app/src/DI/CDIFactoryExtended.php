@@ -52,6 +52,13 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           $answers->setDI($this);
           return $answers;
         });
+
+        // Answers
+        $this->setShared('TagController', function() {
+          $tags = new \CR\Tag\TagController();
+          $tags->setDI($this);
+          return $tags;
+        });
 /*
         // Comments
         $this->set('CommentsController', function() {

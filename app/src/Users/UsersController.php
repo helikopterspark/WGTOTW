@@ -273,7 +273,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 */
 	public function setupAction() {
 		//$this->db->setVerbose();
-
+		/*
 		$this->db->dropTableIfExists('user')->execute();
 
 		$this->db->createTable(
@@ -290,7 +290,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			'active' => ['datetime'],
 			]
 			)->execute();
-
+		*/
 		$this->db->insert(
 			'user',
 			['acronym', 'email', 'name', 'password', 'created', 'updated', 'active', 'deleted']

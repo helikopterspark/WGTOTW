@@ -1,11 +1,11 @@
 <?php
 
-namespace CR\Question;
+namespace CR\Tag;
 
 /**
-* A controller for Question and CRUD related events.
+* A controller for Tag and CRUD related events.
 */
-class QuestionController implements \Anax\DI\IInjectionAware {
+class TagController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
@@ -15,8 +15,8 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function initialize() {
-		$this->Question = new \CR\Question\Question();
-		$this->Question->setDI($this->di);
+		$this->Tag = new \CR\Tag\Tag();
+		$this->Tag->setDI($this->di);
 	}
 
 	/**
@@ -27,12 +27,12 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = null;
-		//$all = $this->Question->findAll();
+		//$all = $this->Tag->findAll();
 
-		$this->theme->setTitle('Frågor');
-		$this->views->add('question/index', [
+		$this->theme->setTitle('Taggar');
+		$this->views->add('tag/index', [
 			'content' => $all,
-			'title' => 'Frågor',
+			'title' => 'Taggar',
 		], 'main');
 	}
 
@@ -44,23 +44,31 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	public function setupAction() {
 		//$this->db->setVerbose();
 
-		$this->db->dropTableIfExists('Question')->execute();
+		$this->db->dropTableIfExists('tag2question')->execute();
+		$this->db->dropTableIfExists('tag')->execute();
 
 		$this->db->createTable(
-		'question',
+		'tag',
 		[
 			'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
-			'data' => ['text'],
+			'name' => ['varchar(80)'],
+			'description' => ['varchar(255)'],
 			'created' => ['datetime'],
 			'updated' => ['datetime'],
 			'deleted' => ['datetime'],
-			'questionUserId' => ['integer', 'not null'],
-			'foreign key' => ['(questionUserId)', 'references', 'wgtotw_user(id)'],
 		]
 		)->execute();
 
-		$url = $this->url->create('answer/setup');
-		$this->response->redirect($url);
+		$this->db->createTable(
+		'tag2question',
+		[
+			'idQuestion' => ['integer', 'not null'],
+			'idTag' => ['integer', 'not null'],
+			'foreign key' => ['(idQuestion)', 'references', 'wgtotw_question(id)'],
+			'foreign key' => ['(idTag)', 'references', 'wgtotw_tag(id)'],
+			'primary key' => ['(idQuestion, idTag)'],
+		]
+		)->execute();
 	}
 	/**
 	* Find with id.
@@ -71,16 +79,16 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function idAction($id = null) {
 
-		$res = $this->Question->find($id);
+		$res = $this->Tag->find($id);
 
 		if ($res) {
-			$this->theme->setTitle('Question');
-			$this->views->add('question/view', [
+			$this->theme->setTitle('Tag');
+			$this->views->add('tag/view', [
 				'content' => [$res],
-				'title' => 'Question Detail view',
+				'title' => 'Tag Detail view',
 			], 'main');
 		} else {
-			$url = $this->url->create('question');
+			$url = $this->url->create('tag');
 			$this->response->redirect($url);
 		}
 	}
@@ -92,13 +100,13 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function addAction() {
 		/*
-		$form = new \Anax\HTMLForm\CFormAddQuestion();
+		$form = new \Anax\HTMLForm\CFormAddTag();
 		$form->setDI($this->di);
 		$form->check();
 
 		$this->di->theme->setTitle('New');
-		$this->views->add('Question/add', [
-		'title' => 'New Question',
+		$this->views->add('tag/add', [
+		'title' => 'New Tag',
 		'content' => $form->getHTML()
 	], 'main');
 	*/
@@ -116,6 +124,6 @@ public function deleteAction($id = null) {
 		die('Missing id');
 	}
 
-	$res = $this->Question->delete($id);
+	$res = $this->Tag->delete($id);
 }
 }
