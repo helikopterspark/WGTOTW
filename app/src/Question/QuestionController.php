@@ -30,7 +30,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		//$all = $this->Question->findAll();
 
 		$this->theme->setTitle('Question');
-		$this->views->add('Question/index', [
+		$this->views->add('question/index', [
 			'content' => $all,
 			'title' => 'Question',
 		], 'main');
@@ -75,12 +75,12 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 		if ($res) {
 			$this->theme->setTitle('Question');
-			$this->views->add('Question/view', [
+			$this->views->add('question/view', [
 				'content' => [$res],
 				'title' => 'Question Detail view',
 			], 'main');
 		} else {
-			$url = $this->url->create('Question-');
+			$url = $this->url->create('question');
 			$this->response->redirect($url);
 		}
 	}

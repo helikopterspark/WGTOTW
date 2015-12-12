@@ -30,7 +30,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 		//$all = $this->Answer->findAll();
 
 		$this->theme->setTitle('Answer');
-		$this->views->add('Answer/index', [
+		$this->views->add('answer/index', [
 			'content' => $all,
 			'title' => 'Answer',
 			], 'main');
@@ -77,12 +77,12 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 		if ($res) {
 			$this->theme->setTitle('Answer');
-			$this->views->add('Answer/view', [
+			$this->views->add('answer/view', [
 				'content' => [$res],
 				'title' => 'Answer Detail view',
 				], 'main');
 		} else {
-			$url = $this->url->create('Answer-');
+			$url = $this->url->create('answer-');
 			$this->response->redirect($url);
 		}
 	}
