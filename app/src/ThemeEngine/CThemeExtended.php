@@ -2,9 +2,9 @@
 /**
  * Extended class to handle easy change of themes.
  */
-namespace Anax\ThemeEngine;
+namespace CR\ThemeEngine;
 
-class CThemeExtended extends CThemeBasic
+class CThemeExtended extends \Anax\ThemeEngine\CThemeBasic
 {
 	use \Anax\TConfigure;
 

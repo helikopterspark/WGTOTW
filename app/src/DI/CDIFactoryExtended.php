@@ -2,9 +2,9 @@
 /**
  * Extended class to handle easy change of themes, creation of forms, database service etc.
  */
-namespace Anax\DI;
+namespace CR\DI;
 
-class CDIFactoryExtended extends CDIFactoryDefault
+class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
 {
        /**
          * Construct.
@@ -15,7 +15,7 @@ class CDIFactoryExtended extends CDIFactoryDefault
        	parent::__construct();
 
        	$this->setShared('theme', function () {
-       		$themeEngine = new \Anax\ThemeEngine\CThemeExtended();
+       		$themeEngine = new \CR\ThemeEngine\CThemeExtended();
        		$themeEngine->setDI($this);
        		$themeEngine->configure(ANAX_APP_PATH . 'config/theme.php');
        		return $themeEngine;
@@ -27,7 +27,7 @@ class CDIFactoryExtended extends CDIFactoryDefault
         // Database service for Anax
         $this->setShared('db', function () {
           $db = new \Mos\Database\CDatabaseBasic();
-          $db->setOptions(require ANAX_APP_PATH . 'config/config_sqlite.php');
+          $db->setOptions(require ANAX_APP_PATH . 'config/config_mysql_wgtotw.php');
           $db->connect();
           return $db;
         });
@@ -38,20 +38,34 @@ class CDIFactoryExtended extends CDIFactoryDefault
           $flashmessages->setDI($this);
           return $flashmessages;
         });
+
+        // Questions
+        $this->setShared('QuestionController', function() {
+          $questions = new \CR\Question\QuestionController();
+          $questions->setDI($this);
+          return $questions;
+        });
+
+        // Answers
+        $this->setShared('AnswerController', function() {
+          $answers = new \CR\Answer\AnswerController();
+          $answers->setDI($this);
+          return $answers;
+        });
 /*
         // Comments
         $this->set('CommentsController', function() {
           $commentscontroller = new \CR\Comment\CommentsController();
           $commentscontroller->setDI($this);
           return $commentscontroller;
-        });
+      });*/
 
         // Users
         $this->set('UsersController', function() {
-          $userscontroller = new \Anax\Users\UsersController();
+          $userscontroller = new \CR\Users\UsersController();
           $userscontroller->setDI($this);
           return $userscontroller;
-      });*/
+      });
       }
 
     }

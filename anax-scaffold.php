@@ -127,6 +127,10 @@ function createViews($class_name, $type, $logfile) {
 */
 function createCDatabaseModel($logfile) {
 
+	if (!is_dir('app')) {
+		mkdir('app');
+	}
+	chdir('app');
 	if (!is_dir('src')) {
 		mkdir('src');
 	}
@@ -145,8 +149,8 @@ function createCDatabaseModel($logfile) {
 		$code = cdatabasemodelBoilerplate();
 		fwrite($fp, $code);
 		fclose($fp);
-		echo "--> CDatabaseModel.php created in directory /src/MVC".PHP_EOL;
-		fwrite($logfile, '/src/MVC/CDatabaseModel.php'.PHP_EOL);
+		echo "--> CDatabaseModel.php created in directory /app/src/MVC".PHP_EOL;
+		fwrite($logfile, '/app/src/MVC/CDatabaseModel.php'.PHP_EOL);
 	}
 	chdir('../../../');
 }

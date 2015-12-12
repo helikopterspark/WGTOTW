@@ -40,6 +40,28 @@ $app->router->add('', function() use ($app) {
 });
 
 /**
+ * Dispatch to QuestionController and list all users in db
+ *
+ */
+$app->router->add('question', function() use ($app) {
+  $app->dispatcher->forward([
+    'controller' => 'question',
+    'action' => 'index'
+    ]);
+});
+
+/**
+ * Dispatch to UsersController and list all users in db
+ *
+ */
+$app->router->add('users', function() use ($app) {
+  $app->dispatcher->forward([
+    'controller' => 'users',
+    'action' => 'index'
+    ]);
+});
+
+/**
 * Source code
 *
 */

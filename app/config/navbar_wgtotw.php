@@ -13,11 +13,32 @@ return [
 
         // This is a menu item
         'home'  => [
-            'text'  => 'Home',
+            'text'  => 'Hem',
             'url'   => $this->di->get('url')->create(''),
-            'title' => 'Home route of current frontcontroller'
+            'title' => 'Startsidan'
         ],
 
+        // This is a menu item
+        'questions'  => [
+            'text'  => 'Frågor',
+            'url'   => $this->di->get('url')->create('question'),
+            'title' => 'Frågor och svar'
+        ],
+
+        // This is a menu item
+        'tags'  => [
+            'text'  => 'Taggar',
+            'url'   => $this->di->get('url')->create('tags'),
+            'title' => 'Ämnestaggar'
+        ],
+
+        // This is a menu item
+        'users'  => [
+            'text'  => 'Användare',
+            'url'   => $this->di->get('url')->create('users'),
+            'title' => 'Översikt över användare'
+        ],
+/*
         // This is a menu item
         'test'  => [
             'text'  => 'Submenu',
@@ -61,12 +82,12 @@ return [
             'title' => 'Url to relative frontcontroller, other file',
             'mark-if-parent-of' => 'controller',
         ],
-
+*/
         // This is a menu item
         'about' => [
-            'text'  =>'About',
+            'text'  =>'Om',
             'url'   => $this->di->get('url')->create('about'),
-            'title' => 'Internal route within this frontcontroller'
+            'title' => 'Om webbplatsen'
         ],
 
         // This is a menu item
