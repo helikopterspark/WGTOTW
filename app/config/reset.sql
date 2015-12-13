@@ -24,6 +24,7 @@ CREATE TABLE wgtotw_user
 CREATE TABLE wgtotw_question
 (
 	id integer primary key not null auto_increment,
+    title varchar(80),
     data text,
     created datetime,
     updated datetime,
@@ -37,12 +38,14 @@ CREATE TABLE wgtotw_question
 CREATE TABLE wgtotw_answer
 (
 	id integer primary key not null auto_increment,
+    title varchar(80),
     data text,
     created datetime,
     updated datetime,
     deleted datetime,
     upvotes integer,
     downvotes integer,
+    accepted bit,
     answerUserId integer not null,
     questionId integer not null,
     foreign key (answerUserId) references wgtotw_user(id),
@@ -52,7 +55,7 @@ CREATE TABLE wgtotw_answer
 CREATE TABLE wgtotw_tag
 (
 	id integer primary key not null auto_increment,
-	name varchar(80),
+	name varchar(80) unique,
 	description varchar(255),
 	created datetime,
 	updated datetime,

@@ -9,7 +9,7 @@ return [
     'table_prefix'    => "wgtotw_",
 
     // Display details on what happens
-    'verbose' => true,
+    'verbose' => false,
 
     // Throw a more verbose exception when failing to connect
     //'debug_connect' => 'true',

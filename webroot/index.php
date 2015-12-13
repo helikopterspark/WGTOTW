@@ -86,9 +86,9 @@ $app->router->add('source', function() use ($app) {
         'add_ignore' => ['.htaccess'],
     ]);
 
-    $app->views->add('wgtotw/source', [
+    $app->views->add('theme/index', [
         'content' => $source->View(),
-    ]);
+    ], 'fullpage');
 });
 
 $app->router->handle();

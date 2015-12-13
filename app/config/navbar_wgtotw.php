@@ -91,6 +91,13 @@ return [
         ],
 
         // This is a menu item
+        'login' => [
+            'text'  =>'Logga in',
+            'url'   => $this->di->get('url')->create('login'),
+            'title' => 'Logga in eller ut'
+        ],
+
+        // This is a menu item
         'source' => [
             'text'  =>'Source code',
             'url'   => $this->di->get('url')->create('source'),

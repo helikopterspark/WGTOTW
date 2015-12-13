@@ -15,8 +15,8 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->Answer = new \CR\Answer\Answer();
-		$this->Answer->setDI($this->di);
+		$this->answer = new \CR\Answer\Answer();
+		$this->answer->setDI($this->di);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 	 */
 	public function idAction($id = null) {
 
-		$res = $this->Answer->find($id);
+		$res = $this->answer->find($id);
 
 		if ($res) {
 			$this->theme->setTitle('Answer');
@@ -82,7 +82,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 				'title' => 'Answer Detail view',
 				], 'main');
 		} else {
-			$url = $this->url->create('answer-');
+			$url = $this->url->create('answer');
 			$this->response->redirect($url);
 		}
 	}
@@ -118,6 +118,6 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			die('Missing id');
 		}
 
-		$res = $this->Answer->delete($id);
+		$res = $this->answer->delete($id);
 	}
 }

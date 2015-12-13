@@ -15,8 +15,8 @@ class TagController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function initialize() {
-		$this->Tag = new \CR\Tag\Tag();
-		$this->Tag->setDI($this->di);
+		$this->tag = new \CR\Tag\Tag();
+		$this->tag->setDI($this->di);
 	}
 
 	/**
@@ -27,7 +27,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = null;
-		//$all = $this->Tag->findAll();
+		//$all = $this->tag->findAll();
 
 		$this->theme->setTitle('Taggar');
 		$this->views->add('tag/index', [
@@ -79,7 +79,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 	*/
 	public function idAction($id = null) {
 
-		$res = $this->Tag->find($id);
+		$res = $this->tag->find($id);
 
 		if ($res) {
 			$this->theme->setTitle('Tag');
@@ -124,6 +124,6 @@ public function deleteAction($id = null) {
 		die('Missing id');
 	}
 
-	$res = $this->Tag->delete($id);
+	$res = $this->tag->delete($id);
 }
 }
