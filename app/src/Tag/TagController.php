@@ -27,13 +27,23 @@ class TagController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = null;
-		//$all = $this->tag->findAll();
+		$all = $this->tag->findAll();
+
+		foreach ($all as $tag) {
+			$this->db->select("idQuestion")
+			->from('tag2question')
+			->where("idTag = ".$tag->id)
+			;
+			$this->db->execute();
+			$taglist = $this->db->fetchAll();
+			$tag->taggedquestions = count($taglist);
+		}
 
 		$this->theme->setTitle('Taggar');
 		$this->views->add('tag/index', [
 			'content' => $all,
 			'title' => 'Taggar',
-		], 'main');
+		], 'fullpage');
 	}
 
 	/**

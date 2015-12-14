@@ -3218,6 +3218,17 @@ fieldset {
   padding: 0.5em 0.5em 0.5em 0.5em;
   overflow: auto;
 }
+.inactive,
+.inactive a {
+  color: grey !important;
+}
+.deleted a {
+  text-decoration: line-through;
+  color: grey !important;
+}
+.centered {
+  text-align: center;
+}
 @media (max-width: 767px) {
   #wrapper {
     min-width: 320px;

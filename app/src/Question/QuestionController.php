@@ -53,13 +53,13 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		$this->db->execute();
 		$taglist = $this->db->fetchAll();
 
-		$this->db->select("name")
+		$this->db->select("name, description")
 		->from('tag')
 		->where("id = ".$tag)
 		;
 		$this->db->execute();
 		$tagname = $this->db->fetchAll();
-		
+
 		foreach ($taglist as $value) {
 			$q = new \CR\Question\Question();
 			$q->setDI($this->di);
@@ -68,11 +68,14 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 		$all = $this->getRelatedData($all);
 
-		$this->theme->setTitle('Frågor');
+		$this->theme->setTitle($tagname[0]->name);
 		$this->views->add('question/index', [
 			'content' => $all,
-			'title' => 'Frågor med taggen ' . $tagname[0]->name,
+			'title' => 'Frågor om ' . $tagname[0]->name,
 		], 'main-extended');
+		$this->views->add('theme/index', [
+			'content' => '<h3>'.$tagname[0]->name.'</h3><p>'.$tagname[0]->description.'</p>',
+		], 'sidebar-reduced');
 	}
 
 	/**
