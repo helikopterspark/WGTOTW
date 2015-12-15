@@ -1,9 +1,10 @@
-# Logs and databases 
+# Logs and databases
 *.sqlite
 *.log
+queries.sql
 
 
-# OS generated files 
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -21,4 +22,3 @@ vendor
 
 # Test
 coverage
-

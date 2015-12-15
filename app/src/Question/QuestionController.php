@@ -46,35 +46,25 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function tagAction($tag = null) {
 
-		$this->db->select("idQuestion")
-		->from('tag2question')
-		->where("idTag = ".$tag)
-		;
-		$this->db->execute();
-		$taglist = $this->db->fetchAll();
+		$t = new \CR\Tag\Tag();
+		$t->setDI($this->di);
+		$tagname = $t->find($tag);
 
-		$this->db->select("name, description")
-		->from('tag')
-		->where("id = ".$tag)
-		;
-		$this->db->execute();
-		$tagname = $this->db->fetchAll();
-
-		foreach ($taglist as $value) {
-			$q = new \CR\Question\Question();
-			$q->setDI($this->di);
-			$all[] = $q->find($value->idQuestion);
-		}
-
+		$all = $this->questions->query("q.*")
+		->from('question AS q')
+		->join('tag2question AS t2q', 'q.id = t2q.idQuestion')
+		->where("t2q.idTag = " . $tag)
+		->groupBy('q.id')
+		->execute();
 		$all = $this->getRelatedData($all);
 
-		$this->theme->setTitle($tagname[0]->name);
+		$this->theme->setTitle($tagname->name);
 		$this->views->add('question/index', [
 			'content' => $all,
-			'title' => 'Frågor om ' . $tagname[0]->name,
+			'title' => 'Frågor om ' . $tagname->name,
 		], 'main-extended');
 		$this->views->add('theme/index', [
-			'content' => '<h3>'.$tagname[0]->name.'</h3><p>'.$tagname[0]->description.'</p>',
+			'content' => '<h3>'.$tagname->name.'</h3><p>'.$tagname->description .'</p>',
 		], 'sidebar-reduced');
 	}
 
@@ -165,7 +155,7 @@ public function deleteAction($id = null) {
 }
 
 /**
-* Get user data, answers and comments
+* Get user data, tags, answers and comments
 *
 * @param array $data questions fetched from db
 *
@@ -180,11 +170,11 @@ private function getRelatedData($data) {
 			$users->setDI($this->di);
 			$question->user = $users->find($question->getProperties()['questionUserId']);
 			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg';
+
 			$this->db->select("idTag")
 			->from('tag2question')
 			->where("idQuestion = ".$question->getProperties()['id'])
-			;
-			$this->db->execute();
+			->execute();
 			$taglist = $this->db->fetchAll();
 
 			$question->tags = array();
@@ -193,6 +183,13 @@ private function getRelatedData($data) {
 				$tag->setDI($this->di);
 				$question->tags[] = $tag->find($value->idTag);
 			}
+			$this->db->select("COUNT(*) AS noOfAnswers")
+			->from('answer')
+			->where("questionId = ".$question->getProperties()['id'])
+			->execute();
+
+			$res = $this->db->fetchAll();
+			$question->noOfAnswers = $res[0]->noOfAnswers;
 		}
 	}
 	return $data;

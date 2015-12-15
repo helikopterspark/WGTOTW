@@ -27,17 +27,12 @@ class TagController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = null;
-		$all = $this->tag->findAll();
 
-		foreach ($all as $tag) {
-			$this->db->select("idQuestion")
-			->from('tag2question')
-			->where("idTag = ".$tag->id)
-			;
-			$this->db->execute();
-			$taglist = $this->db->fetchAll();
-			$tag->taggedquestions = count($taglist);
-		}
+		$all = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
+		->from('tag AS t')
+		->join('tag2question AS t2q', 't.id = t2q.idTag')
+		->groupBy('t.id')
+		->execute();
 
 		$this->theme->setTitle('Taggar');
 		$this->views->add('tag/index', [
