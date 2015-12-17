@@ -107,13 +107,19 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	public function idAction($id = null) {
 
 		$res = $this->questions->find($id);
+		$res = $this->getRelatedData([$res]);
 
 		if ($res) {
-			$this->theme->setTitle('Question');
+			$this->theme->setTitle($res[0]->getProperties()['title']);
 			$this->views->add('question/view', [
-				'content' => [$res],
-				'title' => 'Question Detail view',
-			], 'main');
+				'question' => $res[0],
+				'title' => $res[0]->getProperties()['title'],
+			], 'main-extended');
+			$this->dispatcher->forward([
+     			'controller' => 'comments',
+     			'action'     => 'viewComments',
+     			'params'	=> [$id, 'question', 'question'],
+			]);
 		} else {
 			$url = $this->url->create('question');
 			$this->response->redirect($url);
@@ -162,7 +168,7 @@ public function deleteAction($id = null) {
 * @return array $data questions with user data, answers and comments
 */
 private function getRelatedData($data) {
-	// If $all array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
+	// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 	if (is_array($data)) {
 		foreach ($data as $id => &$question) {
 			$question->getProperties()['data'] = $this->textFilter->doFilter($question->getProperties()['data'], 'shortcode, markdown');

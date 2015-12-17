@@ -1,5 +1,7 @@
 USE WGTOTW;
 
+DROP TABLE IF EXISTS wgtotw_comment2answer;
+DROP TABLE IF EXISTS wgtotw_comment2question;
 DROP TABLE IF EXISTS wgtotw_comment;
 DROP TABLE IF EXISTS wgtotw_tag2question;
 DROP TABLE IF EXISTS wgtotw_tag;
@@ -80,10 +82,24 @@ CREATE TABLE wgtotw_comment
     deleted datetime,
     upvotes integer,
     downvotes integer,
-    questionId integer,
-    answerId integer,
     userId integer not null,
-    foreign key (questionId) references wgtotw_question(id),
-    foreign key (answerId) references wgtotw_answer(id),
     foreign key (userId) references wgtotw_user(id)
+);
+
+CREATE TABLE wgtotw_comment2question
+(
+	idQuestion integer not null,
+    idComment integer not null,
+    foreign key (idQuestion) references wgtotw_question(id),
+    foreign key (idComment) references wgtotw_comment(id),
+    primary key (idQuestion, idComment)
+);
+
+CREATE TABLE wgtotw_comment2answer
+(
+	idAnswer integer not null,
+    idComment integer not null,
+    foreign key (idAnswer) references wgtotw_answer(id),
+    foreign key (idComment) references wgtotw_comment(id),
+    primary key (idAnswer, idComment)
 );

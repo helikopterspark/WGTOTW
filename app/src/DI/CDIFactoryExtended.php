@@ -59,13 +59,13 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           $tags->setDI($this);
           return $tags;
         });
-/*
+
         // Comments
         $this->set('CommentsController', function() {
           $commentscontroller = new \CR\Comment\CommentsController();
           $commentscontroller->setDI($this);
           return $commentscontroller;
-      });*/
+      });
 
         // Users
         $this->set('UsersController', function() {

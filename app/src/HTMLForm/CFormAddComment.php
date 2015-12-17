@@ -59,10 +59,10 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
             'formnovalidate' => true,
             'callback'  => [$this, 'callbackSubmitFail'],
             ],
-            
+
             ]);
-        
-        $this->page = $params['page'];
+
+        $this->page = $params['id'];
         $this->redirect = $params['redirect'];
 }
 
@@ -77,11 +77,11 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if (isset($_POST['submit-abort'])) {
-            $this->redirectTo($this->redirect.'#comments');
+            $this->redirectTo($this->redirect.'/id/'.$this->page.'#comments');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
     }
-        
+
     }
 
 
@@ -108,7 +108,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
             'redirect'  => $this->redirect,
             'page'      => $this->page
             ]);
-        
+
         //$this->saveInSession = true;
         return true;
     }

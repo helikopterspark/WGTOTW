@@ -73,6 +73,18 @@ $app->router->add('users', function() use ($app) {
 });
 
 /**
+* About page
+*
+*/
+$app->router->add('about', function() use($app) {
+    $app->theme->setTitle("Om WGTOTW");
+
+    $app->views->add('theme/index', [
+        'content' => "<h2>Om WGTOTW</h2><p>Här kommer lite info om sidan senare...</p>",
+    ], 'main-extended');
+});
+
+/**
 * Source code
 *
 */

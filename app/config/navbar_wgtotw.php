@@ -22,7 +22,8 @@ return [
         'questions'  => [
             'text'  => 'Frågor',
             'url'   => $this->di->get('url')->create('question'),
-            'title' => 'Frågor och svar'
+            'title' => 'Frågor och svar',
+            'mark-if-parent-of' => 'question',
         ],
 
         // This is a menu item
@@ -36,7 +37,8 @@ return [
         'users'  => [
             'text'  => 'Användare',
             'url'   => $this->di->get('url')->create('users'),
-            'title' => 'Översikt över användare'
+            'title' => 'Översikt över användare',
+            'mark-if-parent-of' => 'users',
         ],
 /*
         // This is a menu item
