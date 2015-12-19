@@ -28,7 +28,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 		$this->views->add('comment/index', [], 'main-extended');
 		$this->dispatcher->forward([
      		'controller' => 'comments',
-     		'action'     => 'viewPageComments',
+     		'action'     => 'viewComments',
      		'params'	=> ['comments-', 'comments-'],
      	]);
 	}
@@ -67,8 +67,8 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 			->from('comment AS c')
 			->where("c.deleted IS NULL")
 			->join("comment2".$type." AS c2x", "c.id = c2x.idComment")
-			->where("c.id = ?")
-			//->groupBy("comment.id")
+			->andWhere("c2x.id".ucfirst($type)." = ?")
+			->groupBy("c.id")
 			->orderBy("c.".$sorting)
 			->execute([$id]);
 
@@ -83,11 +83,14 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 			$this->add(array('id' => $id, 'redirect' => $redirect ));
 		}
 
-		// If $all array not empty, convert comment content from markdown to html, and get Gravatars
+		// If $all array not empty, convert comment content from markdown to html, and get user object and Gravatar
 		if (is_array($all)) {
 			foreach ($all as $id => &$comment) {
 				$comment->getProperties()['content'] = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
-				$comment->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($comment->getProperties()['email']))) . '.jpg';
+				$users = new \CR\Users\User();
+				$users->setDI($this->di);
+				$comment->user = $users->find($comment->getProperties()['userId']);
+				$comment->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($comment->user->getProperties()['email']))) . '.jpg';
 			}
 		}
 
@@ -96,7 +99,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 			'comments' => $all,
 			'redirect' => $redirect,
 			'sorting' => $change_sorting
-			], 'fullpage');
+		], 'main-extended');
 	}
 
 	/**

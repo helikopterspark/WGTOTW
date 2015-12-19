@@ -105,7 +105,6 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function idAction($id = null) {
-
 		$res = $this->questions->find($id);
 		$res = $this->getRelatedData([$res]);
 
@@ -119,6 +118,11 @@ class QuestionController implements \Anax\DI\IInjectionAware {
      			'controller' => 'comments',
      			'action'     => 'viewComments',
      			'params'	=> [$id, 'question', 'question'],
+			]);
+			$this->dispatcher->forward([
+				'controller' => 'answer',
+				'action'	=> 'index',
+				'params'	=> [$id],
 			]);
 		} else {
 			$url = $this->url->create('question');

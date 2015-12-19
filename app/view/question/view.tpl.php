@@ -2,7 +2,7 @@
 <article class='article1'>
 	<!-- <h2><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$title?></a></h2> -->
 	<div id='question-<?=$question->getProperties()['id']?>' class='question-container'>
-		<h3><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
+		<h3><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
 		<p><?=$question->getProperties()['data']?></p>
 		<p class='tags'>
 			<?php foreach ($question->tags as $tag) : ?>
@@ -10,7 +10,9 @@
 			<?php endforeach; ?>
 		</p>
 		<?php $timestamp = strtotime($question->getProperties()['created']); ?>
-		<p class=smaller-text>Frågan ställdes för
+		<p class=smaller-text><a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'>
+			<img src='<?=$question->user->gravatar?>' alt='Gravatar'>&nbsp;
+		<?=$question->user->getProperties()['name']?></a> frågade för
 			<?php $timeinterval = time() - $timestamp; ?>
 			<?php if (($timeinterval) < 60): ?>
 				<?=round($timeinterval)?> sekunder sedan
@@ -33,13 +35,9 @@
 			<?php else : ?>
 				<?=round($timeinterval/(60*60*24*30))?> månader sedan
 			<?php endif; ?>
-			&nbsp;av <a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'>
-				<?=$question->user->getProperties()['name']?>&nbsp;<img src='<?=$question->user->gravatar?>' alt='Gravatar'></a></p>
+			</p>
 				<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>
 					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$question->getProperties()['upvotes']?></span>
 					&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$question->getProperties()['downvotes']?></span></p>
 				</div> <!-- question-container -->
-				<div class='question-comments-container'>
-				</div> <!-- question-comments-container -->
-				<div class='question-stats'><p><?=$question->getProperties()['noOfAnswers']?>&nbsp;svar</p><hr></div>
 			</article>

@@ -4,7 +4,7 @@
 	<?php foreach ($content as $question) : ?>
 		<div id='question-<?=$question->getProperties()['id']?>' class='question-shortlist-container'>
 			<div class='question-stats'><p><?=$question->getProperties()['noOfAnswers']?>&nbsp;svar</p></div>
-		<h3><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
+		<h3><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
 		<p><?=substr($question->getProperties()['data'], 0, 160)?>...</p>
 		<p class='tags'>
 		<?php foreach ($question->tags as $tag) : ?>

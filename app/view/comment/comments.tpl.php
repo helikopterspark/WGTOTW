@@ -1,10 +1,5 @@
 <div class='comments' id='comments'>
 	<hr class='comments-hr'>
-	<?php if (!$noForm) : ?>
-		<div class='comment-button-container'>
-			<p><a class='comment-button' href='<?=$this->url->create("{$this->request->getRoute()}?comment=yes#comment-form")?>' title='Ny kommentar'><i class="fa fa-comment-o"></i> Ny kommentar</a></p>
-		</div>
-<?php endif; ?>
 
 <?php if (is_array($comments) && count($comments) > 0) : ?>
 	<div class='comments-heading-container'>
@@ -17,16 +12,16 @@
 		</div>
 		<div class='comments-heading-side'>
 			<?php if ($sorting == 'ASC') $button_text = "äldsta"; else $button_text = "senaste"; ?>
-			<p class='button-right'><a class='sort-button' href='<?=$this->url->create("{$this->request->getRoute()}?sorting=$sorting#comments")?>' title='Ändra sortering'><i class="fa fa-sort"></i> Visa <?=$button_text?> inlägg först</a></p>
+			<p class='button-right'><a class='sort-button' href='<?=$this->url->create("{$this->request->getRoute()}?sorting=$sorting#comments")?>' title='Ändra sortering'><i class="fa fa-sort"></i> Visa <?=$button_text?> kommentar först</a></p>
 		</div>
 	</div> <!-- comments-heading-container -->
 
 	<?php foreach ($comments as $comment) : ?>
 		<div id='comment-<?=$comment->getProperties()['id']?>' class='comment-container'>
-			<img src='<?=$comment->getProperties()['gravatar']?>' alt='Gravatar'>
+			<img src='<?=$comment->user->getProperties()['gravatar']?>' alt='Gravatar'>
 			<div class="comment-section">
-				<p><span class='comments-name'><a href="mailto:<?=$comment->getProperties()['email']?>"><?=$comment->getProperties()['name']?></a></span> 
-					<span class='comments-id-time'>| 
+				<p><span class='comments-name'><a href="mailto:<?=$comment->user->getProperties()['email']?>"><?=$comment->user->getProperties()['name']?></a></span>
+					<span class='comments-id-time'>|
 						<?php $timestamp = strtotime($comment->getProperties()['created']); ?>
 
 						<?php $timeinterval = time() - $timestamp; ?>
@@ -53,7 +48,7 @@
 						<?php endif; ?>
 
 						<?php if (isset($comment->getProperties()['updated'])) : ?>
-							| <span class='italics'> Uppdaterad för 
+							| <span class='italics'> Uppdaterad för
 							<?php $timestamp = strtotime($comment->getProperties()['updated']); ?>
 
 							<?php $timeinterval = time() - $timestamp; ?>
@@ -81,17 +76,24 @@
 							</span>
 						<?php endif; ?>
 
-						<?php if ($comment->getProperties()['url']) : ?>
+						<?php if ($comment->user->getProperties()['url']) : ?>
 							<br/>
-							<a href='<?=$comment->getProperties()['url']?>'><?=$comment->getProperties()['url']?></a>
+							<a href='<?=$comment->user->getProperties()['url']?>'><?=$comment->user->getProperties()['url']?></a>
 						<?php endif; ?>
 					</span>
 				</p>
 				<p><?=$comment->getProperties()['content']?></p>
 				<p><a class='edit-button' href='<?=$this->url->create("{$this->request->getRoute()}?edit=yes&amp;id=".$comment->getProperties()['id']."#comment-form")?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera</a></p>
+				<p>Rank&nbsp;<?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?>
+					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$comment->getProperties()['upvotes']?></span>
+				&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$comment->getProperties()['downvotes']?></span></p>
 			</div> <!-- comment-section -->
 		</div> <!-- comment-container -->
 	<?php endforeach; ?>
-	<p class='uplink'><a href="#">Upp</a></p>
+<?php endif; ?>
+<?php if (!$noForm) : ?>
+	<div class='comment-button-container'>
+		<p><a class='comment-button' href='<?=$this->url->create("{$this->request->getRoute()}?comment=yes#comment-form")?>' title='Ny kommentar'><i class="fa fa-comment-o"></i>&nbsp;Ny kommentar</a></p>
+	</div>
 <?php endif; ?>
 </div> <!-- comments -->
