@@ -15,7 +15,7 @@ CREATE TABLE wgtotw_user
     acronym varchar(20) unique not null,
 	email varchar(80),
 	name varchar(80),
-	password char(32),
+	password char(255),
     url varchar(80),
     activityPoints integer,
 	created datetime,

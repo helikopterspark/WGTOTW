@@ -3039,6 +3039,9 @@ a:focus {
 .navbar li .italic {
   font-style: italic;
 }
+.navbar-img {
+  vertical-align: -6px;
+}
 figure {
   margin: 0;
   margin-bottom: 22px;

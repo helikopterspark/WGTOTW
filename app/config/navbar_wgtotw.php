@@ -3,6 +3,62 @@
  * Config-file for navigation bar.
  *
  */
+
+ // Check whether user is logged in
+ $source = null;
+if ($this->di->session->has('acronym')) {
+    // show user gravatar and acronym in menu bar
+    $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg';
+    // if admin, show source code menu item
+    if ($this->di->session->get('acronym') == 'admin') {
+        $login = [
+            'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar" height="20" width="20"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
+            'url'   => $this->di->get('url')->create('users/id/'.$this->di->session->get('id')),
+            'title' => 'Översikt över användare',
+            //'mark-if-parent-of' => 'users',
+            'submenu' => [
+                'items' => [
+                    'source' => [
+                        'text'  =>'Source code',
+                        'url'   => $this->di->get('url')->create('source'),
+                        'title' => 'Source code'
+                    ],
+                    'logout' => [
+                        'text' => 'Logga ut',
+                        'url'   => $this->di->get('url')->create('logout'),
+                        'title' => 'Logga ut'
+                    ],
+                ],
+            ],
+        ];
+
+    } else {
+
+        $login = [
+            'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar" height="20" width="20"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
+            'url'   => $this->di->get('url')->create('users/id/'.$this->di->session->get('id')),
+            'title' => 'Översikt över användare',
+            //'mark-if-parent-of' => 'users',
+            'submenu' => [
+                'items' => [
+                    'logout' => [
+                        'text' => 'Logga ut',
+                        'url'   => $this->di->get('url')->create('logout'),
+                        'title' => 'Logga ut'
+                    ],
+                ],
+            ],
+        ];
+    }
+} else {
+    // Not logged in, show Login menu item
+    $login = [
+        'text'  =>'Logga in',
+        'url'   => $this->di->get('url')->create('login'),
+        'title' => 'Logga in'
+    ];
+}
+
 return [
 
     // Use for styling the menu
@@ -40,6 +96,23 @@ return [
             'title' => 'Översikt över användare',
             'mark-if-parent-of' => 'users',
         ],
+
+        // This is a menu item
+        'about' => [
+            'text'  =>'Om',
+            'url'   => $this->di->get('url')->create('about'),
+            'title' => 'Om webbplatsen'
+        ],
+
+        $login,
+        /*
+        // This is a menu item
+        'source' => [
+            'text'  =>'Source code',
+            'url'   => $this->di->get('url')->create('source'),
+            'title' => 'Source code'
+        ],*/
+    ],
 /*
         // This is a menu item
         'test'  => [
@@ -85,28 +158,6 @@ return [
             'mark-if-parent-of' => 'controller',
         ],
 */
-        // This is a menu item
-        'about' => [
-            'text'  =>'Om',
-            'url'   => $this->di->get('url')->create('about'),
-            'title' => 'Om webbplatsen'
-        ],
-
-        // This is a menu item
-        'login' => [
-            'text'  =>'Logga in',
-            'url'   => $this->di->get('url')->create('login'),
-            'title' => 'Logga in eller ut'
-        ],
-
-        // This is a menu item
-        'source' => [
-            'text'  =>'Source code',
-            'url'   => $this->di->get('url')->create('source'),
-            'title' => 'Source code'
-        ],
-    ],
-
 
 
     /**

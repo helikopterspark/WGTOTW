@@ -77,11 +77,37 @@ $app->router->add('users', function() use ($app) {
 *
 */
 $app->router->add('about', function() use($app) {
+    $content = $app->fileContent->get('about.md');
+   $content = $app->textFilter->doFilter($content, 'shortcode, markdown');
     $app->theme->setTitle("Om WGTOTW");
 
     $app->views->add('theme/index', [
-        'content' => "<h2>Om WGTOTW</h2><p>Här kommer lite info om sidan senare...</p>",
+        'content' => $content,
     ], 'main-extended');
+});
+
+/**
+ * Dispatch to UserLoginController and show login page
+ *
+ */
+$app->router->add('login', function() use ($app) {
+    $app->theme->setTitle("Logga in");
+  $app->dispatcher->forward([
+    'controller' => 'userlogin',
+    'action' => 'login'
+    ]);
+});
+
+/**
+ * Dispatch to UserLoginController and logout
+ *
+ */
+$app->router->add('logout', function() use ($app) {
+    $app->theme->setTitle("Logga ut");
+  $app->dispatcher->forward([
+    'controller' => 'userlogin',
+    'action' => 'logout'
+    ]);
 });
 
 /**
