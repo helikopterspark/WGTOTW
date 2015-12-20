@@ -79,23 +79,13 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             ->execute([$this->Value('acronym')]);
 
         if ($login) {
-            $this->error .= $login[0]->password;
-            $verifyPW = password_verify($this->Value('password'), $login[0]->password);
-            if ($verifyPW) {
-                $this->id = $login[0]->id;
-                $this->di->session->set('acronym', $this->Value('acronym'));
-                $this->di->session->set('id', $login[0]->id);
-                $this->di->session->set('email', $login[0]->email);
-            } else {
-                $this->error .= 'Felaktigt lösenord. '.$this->Value('password');
-                return false;
-            }
+            // acronym exists so check password, returns true or false
+            return $this->verifyPassword($login[0], $this->Value('password'));
         } else {
+            // acronym does not exist
             $this->error .= 'Användarnamnet finns inte.';
             return false;
         }
-
-        return true;
     }
 
 
@@ -133,5 +123,32 @@ class CFormLogin extends \Mos\HTMLForm\CForm
         $this->di->flashmessage->error($this->error);
         //$this->AddOutput("<p><i>Det gick inte att spara. Kontrollera fälten.</i></p>");
         $this->redirectTo();
+    }
+
+    /**
+    * Verify password
+    *
+    * @param User object $user
+    * @param string @password, entered password
+    *
+    * @return true or false
+    */
+    private function verifyPassword($user, $password) {
+        if (version_compare(phpversion(), '5.5.0', '<')) {
+            $verify_password = (md5($password) == $user->password) ? true : false;
+        } else {
+            $verify_password = password_verify($password, $user->password);
+        }
+
+        if ($verify_password) {
+            $this->id = $user->id;
+            $this->di->session->set('acronym', $this->Value('acronym'));
+            $this->di->session->set('id', $user->id);
+            $this->di->session->set('email', $user->email);
+            return true;
+        } else {
+            $this->error .= 'Felaktigt lösenord.';
+            return false;
+        }
     }
 }
