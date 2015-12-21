@@ -107,17 +107,33 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function updateAction($id = null) {
+		$content = null;
+		if (!$this->di->session->has('acronym')) {
+			// Not logged in
+			$this->di->flashmessage->error('Logga in för att redigera.');
+			$url = $this->url->create('login');
+			$this->response->redirect($url);
 
-		$user = $this->users->find($id);
+		} elseif ($this->di->session->has('acronym') && ($this->di->session->get('id') === $id)) {
+			// User is logged in, show update form
+			$user = $this->users->find($id);
+			$form = new \CR\HTMLForm\CFormEditUser($user);
+			$form->setDI($this->di);
+			$form->check();
 
-		$form = new \CR\HTMLForm\CFormEditUser($user);
-		$form->setDI($this->di);
-		$form->check();
+			$content = $form->getHTML();
+
+		} else {
+			// Wrong user is logged in
+			//$this->di->flashmessage->error('Fel användare är inloggad.');
+			$content = '<p>Den gubben går inte! Fel användare är inloggad.</p>';
+
+		}
 
 		$this->di->theme->setTitle("Uppdatera användare");
 		$this->views->add('theme/index', [
 			'title' => 'Uppdatera användare',
-			'content' => '<h2>Uppdatera användare</h2>' . $form->getHTML()
+			'content' => '<h2>Uppdatera användare</h2>' . $content
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
 	}

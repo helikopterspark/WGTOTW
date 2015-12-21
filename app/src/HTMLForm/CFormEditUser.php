@@ -54,6 +54,12 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'validation'  => ['not_empty', 'email_adress'],
             'value'         => $user->getProperties()['email'],
             ],
+            'url' => [
+            'type'          => 'url',
+            'label'         => 'URL',
+            'required'      => false,
+            'value'         => $user->getProperties()['url'],
+            ],
             'active' => [
             'type'          => 'checkbox',
             'label'         => 'Aktivera',
@@ -136,6 +142,7 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'email' => $this->Value('email'),
             'name' => $this->Value('name'),
             'password' => $enc_password,
+            'url' => $this->Value('url'),
             'updated' => $now,
             'active' => $active,
             'deleted' => $deleted

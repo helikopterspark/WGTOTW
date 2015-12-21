@@ -42,6 +42,11 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'required'    => true,
             'validation'  => ['not_empty', 'email_adress'],
             ],
+            'url' => [
+            'type'          => 'url',
+            'label'         => 'URL',
+            'required'      => false,
+            ],
             'active' => [
             'type'          => 'checkbox',
             'label'         => 'Aktivera',
@@ -109,6 +114,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'email' => $this->Value('email'),
             'name' => $this->Value('name'),
             'password' => $enc_password,
+            'url' => $this->Value('url'),
             'created' => $now,
             'active' => $active,
             ]);
