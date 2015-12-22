@@ -1,4 +1,8 @@
+-- CREATE DATABASE IF NOT EXISTS WGTOTW;
+
 USE WGTOTW;
+
+SET NAMES 'utf8';
 
 DROP TABLE IF EXISTS wgtotw_comment2answer;
 DROP TABLE IF EXISTS wgtotw_comment2question;
@@ -23,7 +27,7 @@ CREATE TABLE wgtotw_user
 	updated datetime,
 	deleted datetime,
 	active datetime
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_question
 (
@@ -37,7 +41,7 @@ CREATE TABLE wgtotw_question
     downvotes integer,
     questionUserId integer not null,
     foreign key (questionUserId) references wgtotw_user(id)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_answer
 (
@@ -54,7 +58,7 @@ CREATE TABLE wgtotw_answer
     questionId integer not null,
     foreign key (answerUserId) references wgtotw_user(id),
     foreign key (questionId) references wgtotw_question(id)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_tag
 (
@@ -64,7 +68,7 @@ CREATE TABLE wgtotw_tag
 	created datetime,
 	updated datetime,
 	deleted datetime
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_tag2question
 (
@@ -73,7 +77,7 @@ CREATE TABLE wgtotw_tag2question
     foreign key (idQuestion) references wgtotw_question(id),
 	foreign key (idTag) references wgtotw_tag(id),
 	primary key (idQuestion, idTag)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_comment
 (
@@ -86,7 +90,7 @@ CREATE TABLE wgtotw_comment
     downvotes integer,
     userId integer not null,
     foreign key (userId) references wgtotw_user(id)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_comment2question
 (
@@ -95,7 +99,7 @@ CREATE TABLE wgtotw_comment2question
     foreign key (idQuestion) references wgtotw_question(id),
     foreign key (idComment) references wgtotw_comment(id),
     primary key (idQuestion, idComment)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_comment2answer
 (
@@ -104,4 +108,4 @@ CREATE TABLE wgtotw_comment2answer
     foreign key (idAnswer) references wgtotw_answer(id),
     foreign key (idComment) references wgtotw_comment(id),
     primary key (idAnswer, idComment)
-);
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
