@@ -41,6 +41,12 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             'value'     => 'Logga in',
             'callback'  => [$this, 'callbackSubmit'],
             ],
+            'submit-add' => [
+            'type'      => 'submit',
+            'value'     => 'Registrera ny användare',
+            'formnovalidate' => true,
+            'callback'  => [$this, 'callbackSubmit'],
+            ],
 
             ]);
 }
@@ -55,8 +61,8 @@ class CFormLogin extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-abort'])) {
-            $this->redirectTo('users');
+        if (isset($_POST['submit-add'])) {
+            $this->redirectTo('users/add');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
         }
