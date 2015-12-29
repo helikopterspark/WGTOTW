@@ -74,7 +74,7 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           return $userscontroller;
       });
 
-      // Users
+      // User login
       $this->set('UserloginController', function() {
         $userlogincontroller = new \CR\Users\UserloginController();
         $userlogincontroller->setDI($this);
