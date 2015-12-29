@@ -68,10 +68,12 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		if ($user) {
 			$this->theme->setTitle("Användare " . $user->acronym);
 			$this->views->add('users/view', [
-				'users' => [$user],
+				'users' => $user,
 				'title' => 'Användare ' . $user->acronym,
-				], 'main');
-			$this->views->add('users/users-sidebar', [], 'sidebar');
+				'flash' => $this->di->flashmessage->outputMsgs(),
+			], 'fullpage');
+			//$this->views->add('users/users-sidebar', [], 'sidebar');
+			$this->di->flashmessage->clearMessages();
 		} else {
 			$url = $this->url->create('users');
 			$this->response->redirect($url);
@@ -87,16 +89,19 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 */
 	public function addAction($acronym = null) {
 
-		$form = new \CR\HTMLForm\CFormAddUser();
+		$this->users = $this->di->session->get('tempuser');
+
+		$form = new \CR\HTMLForm\CFormAddUser($this->users);
 		$form->setDI($this->di);
 		$form->check();
 
 		$this->di->theme->setTitle("Registrera användare");
 		$this->views->add('theme/index', [
 			'title' => 'Registrera användare',
-			'content' => '<h2>Registrera användare</h2>' . $form->getHTML()
+			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML()
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
+		$this->di->flashmessage->clearMessages();
 	}
 
 	/**
@@ -110,11 +115,11 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$content = null;
 		if (!$this->di->session->has('acronym')) {
 			// Not logged in
-			$this->di->flashmessage->error('Logga in för att redigera.');
+			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att redigera.</p>');
 			$url = $this->url->create('login');
 			$this->response->redirect($url);
 
-		} elseif ($this->di->session->has('acronym') && ($this->di->session->get('id') === $id)) {
+		} elseif ($this->di->session->has('acronym') && ($this->di->session->get('id') === $id) || $this->di->session->get('isAdmin')) {
 			// User is logged in, show update form
 			$user = $this->users->find($id);
 			$form = new \CR\HTMLForm\CFormEditUser($user);
@@ -133,9 +138,10 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->di->theme->setTitle("Uppdatera användare");
 		$this->views->add('theme/index', [
 			'title' => 'Uppdatera användare',
-			'content' => '<h2>Uppdatera användare</h2>' . $content
-			], 'main');
-		$this->views->add('users/users-sidebar', [], 'sidebar');
+			'content' => '<h2>Uppdatera användare</h2>' . $this->di->flashmessage->outputMsgs() . $content
+		], 'fullpage');
+		//$this->views->add('users/users-sidebar', [], 'sidebar');
+		$this->di->flashmessage->clearMessages();
 	}
 
 	/**

@@ -68,7 +68,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             'formnovalidate' => true,
             'callback'  => [$this, 'callbackSubmitFail'],
             ],
-            
+
             ]);
         $this->commentUpd = $comment;
         $this->page = $params['page'];
@@ -85,12 +85,12 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-abort'])) {
+        if ($this->di->request->getPost('submit-abort')) {
             $this->redirectTo($this->redirect.'#comments');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
     }
-        
+
     }
 
 
@@ -118,7 +118,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             'redirect'  => $this->redirect,
             'page'      => $this->page
             ]);
-        
+
         return true;
     }
 

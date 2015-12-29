@@ -30,10 +30,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		$all = $this->questions->findAll();
 		$all = $this->getRelatedData($all);
 
-		$this->theme->setTitle('Frågor');
+		$this->theme->setTitle('Alla frågor');
 		$this->views->add('question/index', [
 			'content' => $all,
-			'title' => 'Frågor',
+			'title' => 'Alla frågor',
 		], 'main-extended');
 	}
 
@@ -135,19 +135,24 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function addAction() {
+	public function askAction() {
 		/*
-		$form = new \Anax\HTMLForm\CFormAddQuestion();
+		$form = new \Anax\HTMLForm\CFormAskQuestion();
 		$form->setDI($this->di);
 		$form->check();
 
-		$this->di->theme->setTitle('New');
-		$this->views->add('Question/add', [
-		'title' => 'New Question',
+		$this->di->theme->setTitle('Ny fråga');
+		$this->views->add('question/add', [
+		'title' => 'Ny fråga',
 		'content' => $form->getHTML()
-	], 'main');
+	], 'main-extended');
 	*/
-}
+		$this->di->theme->setTitle('Ny fråga');
+		$this->views->add('theme/index', [
+			'title' => 'Ny fråga',
+			'content' => '<h2>Ny fråga</h2>'
+		], 'main-extended');
+	}
 
 /**
 * Delete

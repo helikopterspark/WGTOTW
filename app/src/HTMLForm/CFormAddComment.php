@@ -76,7 +76,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-abort'])) {
+        if ($this->di->request->getPost('submit-abort')) {
             $this->redirectTo($this->redirect.'/id/'.$this->page.'#comments');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);

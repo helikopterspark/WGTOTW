@@ -48,3 +48,5 @@ INSERT INTO wgtotw_answer (title, data, created, upvotes, downvotes, answerUserI
 UPDATE wgtotw_answer SET accepted = 1 WHERE id = 1;
 
 UPDATE wgtotw_answer SET upvotes = 12 WHERE id = 1;
+
+UPDATE wgtotw_user SET isAdmin = 1 WHERE acronym = 'admin';

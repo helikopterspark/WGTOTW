@@ -2,7 +2,7 @@
 <article class='article1'>
 	<!-- <h2><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$title?></a></h2> -->
 	<div id='question-<?=$question->getProperties()['id']?>' class='question-container'>
-		<h3><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
+		<h3><i class="fa fa-question"></i> <a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
 		<p><?=$question->getProperties()['data']?></p>
 		<p class='tags'>
 			<?php foreach ($question->tags as $tag) : ?>

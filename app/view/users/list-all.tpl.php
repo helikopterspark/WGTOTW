@@ -26,13 +26,15 @@
 								</td>
 								<td>
 									<?=$user->getProperties()['name']?></td>
-									<td><a href="<?=$this->url->create('users/update').'/' . $user->getProperties()['id']?>"><i class="fa fa-pencil"></i></a></td>
-									<td class="centered">
-									<?php if (!$user->getProperties()['deleted']) : ?>
-										<a href="<?=$this->url->create('users/softdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-trash-o"></i></a>
-									<?php else : ?>
-										<a href="<?=$this->url->create('users/delete').'/'.$user->getProperties()['id']?>"><i class="fa fa-times"></i></a> | 
-										<a href="<?=$this->url->create('users/undosoftdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-check"></i></a>
+									<?php if ($this->di->session->has('acronym') && $this->di->session->get('acronym') === $user->getProperties()['acronym'] || $this->di->session->get('isAdmin')) : ?>
+										<td><a href="<?=$this->url->create('users/update').'/' . $user->getProperties()['id']?>"><i class="fa fa-pencil"></i></a></td>
+										<td class="centered">
+											<?php if (!$user->getProperties()['deleted']) : ?>
+												<a href="<?=$this->url->create('users/softdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-trash-o"></i></a>
+											<?php else : ?>
+												<a href="<?=$this->url->create('users/delete').'/'.$user->getProperties()['id']?>"><i class="fa fa-times"></i></a> |
+												<a href="<?=$this->url->create('users/undosoftdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-check"></i></a>
+											<?php endif; ?>
 									<?php endif; ?>
 								</td>
 								</tr>

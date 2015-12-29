@@ -40,13 +40,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'validation'  => ['not_empty'],
             'value'         => $user->getProperties()['name'],
             ],
-            'password' => [
-            'type'          => 'password',
-            'label'         => 'Lösenord',
-            'required'      => false,
-            //'validation'    => ['not_empty'],
-            //'value'         => $user->getProperties()['password'],
-            ],
             'email' => [
             'type'        => 'text',
             'label'         => 'Email:',
@@ -59,6 +52,11 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'label'         => 'URL',
             'required'      => false,
             'value'         => $user->getProperties()['url'],
+            ],
+            'password' => [
+            'type'          => 'password',
+            'label'         => 'Lösenord',
+            'required'      => false,
             ],
             'active' => [
             'type'          => 'checkbox',
@@ -94,8 +92,8 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-abort'])) {
-            $this->redirectTo('users');
+        if ($this->di->request->getPost('submit-abort')) {
+            $this->redirectTo('users/id/'.$this->userUpd->getProperties()['id']);
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
         }
@@ -110,13 +108,35 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
     public function callbackSubmit()
     {
 
+        // Check whether acronym already exists for another user
+        $userExists = $this->userUpd->query()
+            ->where('acronym = ?')
+            ->andWhere('id != ?')
+            ->execute([$this->Value('acronym'), $this->userUpd->getProperties()['id']]);
+
+        if ($userExists) {
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Användarnamnet '.$this->Value('acronym').' är upptaget!</p>');
+            $this->redirectTo('users/update/'.$this->userUpd->getProperties()['id']);
+        }
+
+        // Check whether email address already exists
+        $emailExists = $this->userUpd->query()
+            ->where('email = ?')
+            ->andWhere('id != ?')
+            ->execute([$this->Value('email'), $this->userUpd->getProperties()['id']]);
+
+        if ($emailExists) {
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Det finns redan en användare med mailadressen '.$this->Value('email').' registrerad!</p>');
+            $this->redirectTo('users/update/'.$this->userUpd->getProperties()['id']);
+        }
+
         $now = date('Y-m-d H:i:s');
         $deleted = $this->userUpd->getProperties()['deleted'];
 
-        if ($this->userUpd->getProperties()['active'] && !empty($_POST['active'])) {
+        if ($this->userUpd->getProperties()['active'] && $this->di->request->getPost('active')) {
             $active = $this->userUpd->getProperties()['active'];
         } else {
-            $active = !empty($_POST['active']) ? $now : null;
+            $active = $this->di->request->getPost('active') ? $now : null;
             if ($active) {
                 $deleted = null;
             }
@@ -134,8 +154,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             $enc_password = $this->userUpd->getProperties()['password'];
         }
 
-
-
         $this->userUpd->save([
             'id' => $this->userUpd->getProperties()['id'],
             'acronym' => $this->Value('acronym'),
@@ -148,7 +166,9 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'deleted' => $deleted
             ]);
 
-        //$this->saveInSession = true;
+        $this->di->session->set('acronym', $this->Value('acronym'));
+        $this->di->session->set('email', $this->Value('email'));
+        $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span>&nbsp;Användaren '.$this->Value('acronym').' uppdaterades!</p>');
         return true;
     }
 

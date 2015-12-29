@@ -61,7 +61,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-add'])) {
+        if ($this->di->request->getPost('submit-add')) {
             $this->redirectTo('users/add');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
@@ -151,6 +151,9 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             $this->di->session->set('acronym', $this->Value('acronym'));
             $this->di->session->set('id', $user->id);
             $this->di->session->set('email', $user->email);
+            if ($user->isAdmin) {
+                $this->di->session->set('isAdmin', 1);
+            }
             return true;
         } else {
             $this->error .= 'Felaktigt lösenord.';

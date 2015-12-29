@@ -10,7 +10,7 @@ if ($this->di->session->has('acronym')) {
     // show user gravatar and acronym in menu bar
     $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg';
     // if admin, show source code menu item
-    if ($this->di->session->get('acronym') == 'admin') {
+    if ($this->di->session->get('isAdmin')) {
         $login = [
             'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar" height="20" width="20"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
             'url'   => $this->di->get('url')->create('users/id/'.$this->di->session->get('id')),
@@ -105,13 +105,13 @@ return [
         ],
 
         $login,
-        /*
+
         // This is a menu item
-        'source' => [
-            'text'  =>'Source code',
-            'url'   => $this->di->get('url')->create('source'),
-            'title' => 'Source code'
-        ],*/
+        'ask' => [
+            'text'  =>'Ställ fråga',
+            'url'   => $this->di->get('url')->create('question/ask'),
+            'title' => 'Ställ en fråga'
+        ],
     ],
 /*
         // This is a menu item

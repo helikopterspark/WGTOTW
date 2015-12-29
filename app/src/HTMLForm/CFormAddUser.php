@@ -15,7 +15,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
      * Constructor
      *
      */
-    public function __construct()
+    public function __construct($tempuser = null)
     {
         parent::__construct([], [
             'acronym' => [
@@ -23,12 +23,27 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'label'         => 'Användarnamn:',
             'required'      => true,
             'validation'    => ['not_empty'],
+            'value'         => $tempuser['acronym'] ? $tempuser['acronym'] : null,
             ],
             'name' => [
             'type'        => 'text',
             'label'       => 'Namn:',
             'required'    => true,
             'validation'  => ['not_empty'],
+            'value'         => $tempuser['name'] ? $tempuser['name'] : null,
+            ],
+            'email' => [
+            'type'        => 'text',
+            'label'         => 'Email:',
+            'required'    => true,
+            'validation'  => ['not_empty', 'email_adress'],
+            'value'         => $tempuser['email'] ? $tempuser['email'] : null,
+            ],
+            'url' => [
+            'type'          => 'url',
+            'label'         => 'URL',
+            'required'      => false,
+            'value'         => $tempuser['url'] ? $tempuser['url'] : null,
             ],
             'password' => [
             'type'          => 'password',
@@ -36,16 +51,11 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'required'      => true,
             'validation'    => ['not_empty'],
             ],
-            'email' => [
-            'type'        => 'text',
-            'label'         => 'Email:',
-            'required'    => true,
-            'validation'  => ['not_empty', 'email_adress'],
-            ],
-            'url' => [
-            'type'          => 'url',
-            'label'         => 'URL',
-            'required'      => false,
+            'repeat_password' => [
+            'type'          => 'password',
+            'label'         => 'Upprepa lösenord',
+            'required'      => true,
+            'validation'    => ['not_empty'],
             ],
             'active' => [
             'type'          => 'checkbox',
@@ -69,6 +79,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             ],
 
             ]);
+
 }
 
 
@@ -81,7 +92,9 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
      */
     public function check($callIfSuccess = null, $callIfFail = null)
     {
-        if (isset($_POST['submit-abort'])) {
+
+        if ($this->di->request->getPost('submit-abort')) {
+            $this->di->session->set('tempuser', null);  // clear tempuser info
             $this->redirectTo('users');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
@@ -97,11 +110,47 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
     public function callbackSubmit()
     {
 
-        $now = date('Y-m-d H:i:s');
-        $active = !empty($_POST['active']) ? $now : null;
-
         $this->user = new \CR\Users\User();
         $this->user->setDI($this->di);
+
+        // Save temporary info in session in case registration validation fails
+        $tempuser = array('acronym' => $this->Value('acronym'),
+            'email' => $this->Value('email'),
+            'name' => $this->Value('name'),
+            'url' => $this->Value('url'),
+        );
+
+        // Check whether acronym already exists
+        $userExists = $this->user->query()
+            ->where('acronym = ?')
+            ->execute([$this->Value('acronym')]);
+
+        if ($userExists) {
+            $this->di->session->set('tempuser', $tempuser);
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Användarnamnet '.$this->Value('acronym').' är upptaget!</p>');
+            $this->redirectTo('users/add');
+        }
+
+        // Check whether email address already exists
+        $emailExists = $this->user->query()
+            ->where('email = ?')
+            ->execute([$this->Value('email')]);
+
+        if ($emailExists) {
+            $this->di->session->set('tempuser', $tempuser);
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Det finns redan en användare med mailadressen '.$this->Value('email').' registrerad!</p>');
+            $this->redirectTo('users/add');
+        }
+
+        // Check whether passwords match
+        if ($this->Value('password') !== $this->Value('repeat_password')) {
+            $this->di->session->set('tempuser', $tempuser);
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Lösenorden matchar inte.</p>');
+            $this->redirectTo('users/add');
+        }
+
+        $now = date('Y-m-d H:i:s');
+        $active = $this->di->request->getPost('active') ? $now : null;
 
         if (version_compare(phpversion(), '5.5.0', '<')) {
             $enc_password = md5($this->Value('password'));
@@ -119,7 +168,8 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'active' => $active,
             ]);
 
-        //$this->saveInSession = true;
+        $this->di->session->set('tempuser', null);  // clear tempuser info
+        $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span>&nbsp;Användaren '.$this->Value('acronym').' är registrerad!</p>');
         return true;
     }
 

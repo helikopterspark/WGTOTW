@@ -26,15 +26,22 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     * @return void
     */
     public function loginAction() {
-        $form = new \CR\HTMLForm\CFormLogin();
-		$form->setDI($this->di);
-		$form->check();
+        if ($this->di->session->has('acronym')) {
+            $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är redan inloggad.';
+            $this->di->flashmessage->info($info);
+            $loginform = null;
+        } else {
+            $form = new \CR\HTMLForm\CFormLogin();
+            $form->setDI($this->di);
+            $form->check();
+            $loginform = $form->getHTML();
+        }
 
         $this->views->add('theme/index', [
 			'title' => 'Logga in',
-			'content' => '<h2>Logga in</h2>' . $this->di->flashmessage->outputMsgs(). $form->getHTML()
-			], 'main');
-		$this->views->add('users/users-sidebar', [], 'sidebar');
+			'content' => '<h2>Logga in</h2>' . $this->di->flashmessage->outputMsgs(). $loginform
+        ], 'main-extended');
+		//$this->views->add('users/users-sidebar', [], 'sidebar');
         $this->di->flashmessage->clearMessages();
     }
 
@@ -50,6 +57,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
             $this->di->session->set('acronym', null);
             $this->di->session->set('id', null);
             $this->di->session->set('email', null);
+            $this->di->session->set('isAdmin', null);
 
             $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är utloggad.';
             $this->di->flashmessage->info($info);
