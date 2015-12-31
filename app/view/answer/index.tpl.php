@@ -7,7 +7,7 @@
 					<p><i class="fa fa-check fa-2x"></i></p>
 				<?php endif; ?>
 			</div>
-		<p><i class="fa fa-exclamation"></i> <?=$answer->getProperties()['data']?></p>
+		<p><i class="fa fa-exclamation"></i> <?=$answer->getProperties()['content']?></p>
 
 		<?php $timestamp = strtotime($answer->getProperties()['created']); ?>
 		<p class=smaller-text><a href='<?=$this->url->create('users/id').'/'.$answer->user->getProperties()['id']?>'>

@@ -33,7 +33,7 @@ CREATE TABLE wgtotw_question
 (
 	id integer primary key not null auto_increment,
     title varchar(80),
-    data text,
+    content text,
     created datetime,
     updated datetime,
     deleted datetime,
@@ -47,7 +47,7 @@ CREATE TABLE wgtotw_answer
 (
 	id integer primary key not null auto_increment,
     title varchar(80),
-    data text,
+    content text,
     created datetime,
     updated datetime,
     deleted datetime,

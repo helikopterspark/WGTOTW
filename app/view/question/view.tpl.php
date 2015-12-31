@@ -3,7 +3,7 @@
 	<!-- <h2><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$title?></a></h2> -->
 	<div id='question-<?=$question->getProperties()['id']?>' class='question-container'>
 		<h3><i class="fa fa-question"></i> <a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
-		<p><?=$question->getProperties()['data']?></p>
+		<p><?=$question->getProperties()['content']?></p>
 		<p class='tags'>
 			<?php foreach ($question->tags as $tag) : ?>
 				<a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a>&nbsp;
@@ -39,5 +39,8 @@
 				<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>
 					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$question->getProperties()['upvotes']?></span>
 					&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$question->getProperties()['downvotes']?></span></p>
+					<?php if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $question->user->getProperties()['id']) || $this->di->session->get('isAdmin')): ?>
+						<p><a class='edit-button' href='<?=$this->url->create("question/update/".$question->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera fråga</a></p>
+					<?php endif; ?>
 				</div> <!-- question-container -->
 			</article>

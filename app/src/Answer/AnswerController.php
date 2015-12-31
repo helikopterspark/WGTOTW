@@ -81,6 +81,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			]);
 		}
 		$this->views->add('answer/bottom', [
+			'questionId' => $questionId,
 		], 'main-extended');
 	}
 
@@ -98,7 +99,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			'answer',
 			[
 			'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
-			'data' => ['text'],
+			'content' => ['text'],
 			'created' => ['datetime'],
 			'updated' => ['datetime'],
 			'deleted' => ['datetime'],
@@ -136,22 +137,23 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	 * Add new
+	 * Add answer to Question
+	 *
+	 * @param int @questionId
 	 *
 	 * @return void
 	 */
-	public function addAction() {
-/*
-		$form = new \Anax\HTMLForm\CFormAddAnswer();
+	public function addAction($questionId = null) {
+
+		$form = new \CR\HTMLForm\CFormAddAnswer($questionId);
 		$form->setDI($this->di);
 		$form->check();
 
-		$this->di->theme->setTitle('New');
+		$this->di->theme->setTitle('Svara på fråga');
 		$this->views->add('Answer/add', [
-			'title' => 'New Answer',
+			'title' => 'Svara på fråga',
 			'content' => $form->getHTML()
 			], 'main');
-*/
 	}
 
 	/**
@@ -179,7 +181,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 		// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 		if (is_array($data)) {
 			foreach ($data as $id => &$answer) {
-				$answer->getProperties()['data'] = $this->textFilter->doFilter($answer->getProperties()['data'], 'shortcode, markdown');
+				$answer->getProperties()['content'] = $this->textFilter->doFilter($answer->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$answer->user = $users->find($answer->getProperties()['answerUserId']);

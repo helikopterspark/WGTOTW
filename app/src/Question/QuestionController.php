@@ -27,7 +27,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = null;
-		$all = $this->questions->findAll();
+		$all = $this->questions->query()
+			->orderBy('created DESC')
+			->execute();
 		$all = $this->getRelatedData($all);
 
 		$this->theme->setTitle('Alla frågor');
@@ -106,9 +108,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function idAction($id = null) {
 		$res = $this->questions->find($id);
-		$res = $this->getRelatedData([$res]);
 
 		if ($res) {
+			$res = $this->getRelatedData([$res]);
 			$this->theme->setTitle($res[0]->getProperties()['title']);
 			$this->views->add('question/view', [
 				'question' => $res[0],
@@ -131,27 +133,66 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	* Add new
+	* Add new question
 	*
 	* @return void
 	*/
-	public function askAction() {
-		/*
-		$form = new \Anax\HTMLForm\CFormAskQuestion();
-		$form->setDI($this->di);
-		$form->check();
+	public function addAction() {
 
-		$this->di->theme->setTitle('Ny fråga');
-		$this->views->add('question/add', [
-		'title' => 'Ny fråga',
-		'content' => $form->getHTML()
-	], 'main-extended');
+		if (!$this->di->session->has('acronym')) {
+			// Not logged in
+			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att ställa en fråga.</p>');
+			$url = $this->url->create('login');
+			$this->response->redirect($url);
+
+		} else {
+
+			$tag = new \CR\Tag\Tag();
+			$tag->setDI($this->di);
+	        $tags = $tag->findAll();
+
+			$form = new \CR\HTMLForm\CFormAddQuestion($tags);
+			$form->setDI($this->di);
+			$form->check();
+
+			$this->di->theme->setTitle('Ny fråga');
+			$this->views->add('theme/index', [
+				'title' => 'Ny fråga',
+				'content' => '<h2>Ny fråga</h2>' . $form->getHTML()
+			], 'main-extended');
+		}
+	}
+
+	/**
+	* Update question
+	*
+	* @return void
 	*/
-		$this->di->theme->setTitle('Ny fråga');
-		$this->views->add('theme/index', [
-			'title' => 'Ny fråga',
-			'content' => '<h2>Ny fråga</h2>'
-		], 'main-extended');
+	public function updateAction($id = null) {
+		$qstn = $this->questions->find($id);
+		$qstn = $this->getRelatedData([$qstn]);
+
+		if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $qstn[0]->user->getProperties()['id']) || $this->di->session->get('isAdmin')) {
+			$tag = new \CR\Tag\Tag();
+			$tag->setDI($this->di);
+	        $tags = $tag->findAll();
+
+			$form = new \CR\HTMLForm\CFormEditQuestion($qstn[0], $tags);
+			$form->setDI($this->di);
+			$form->check();
+
+			$this->di->theme->setTitle('Redigera fråga');
+			$this->views->add('theme/index', [
+				'title' => 'Redigera fråga',
+				'content' => '<h2>Redigera fråga</h2>' . $form->getHTML()
+			], 'main-extended');
+
+		} else {
+			// Not logged in
+			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att redigera fråga.</p>');
+			$url = $this->url->create('login');
+			$this->response->redirect($url);
+		}
 	}
 
 /**
@@ -180,17 +221,13 @@ private function getRelatedData($data) {
 	// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 	if (is_array($data)) {
 		foreach ($data as $id => &$question) {
-			$question->getProperties()['data'] = $this->textFilter->doFilter($question->getProperties()['data'], 'shortcode, markdown');
+			$question->getProperties()['content'] = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
 			$users = new \CR\Users\User();
 			$users->setDI($this->di);
 			$question->user = $users->find($question->getProperties()['questionUserId']);
 			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg';
 
-			$this->db->select("idTag")
-			->from('tag2question')
-			->where("idQuestion = ".$question->getProperties()['id'])
-			->execute();
-			$taglist = $this->db->fetchAll();
+			$taglist = $this->getSelectedTags($question->getProperties()['id']);
 
 			$question->tags = array();
 			foreach ($taglist as $value) {
@@ -208,5 +245,22 @@ private function getRelatedData($data) {
 		}
 	}
 	return $data;
+}
+
+/**
+* Get selected tags for a question
+*
+* @param integer $id, question ID
+*
+* @return array $taglist
+*/
+private function getSelectedTags($id) {
+	$this->db->select("idTag")
+		->from('tag2question')
+		->where("idQuestion = ?")
+		->execute([$id]);
+	$taglist = $this->db->fetchAll();
+
+	return $taglist;
 }
 }
