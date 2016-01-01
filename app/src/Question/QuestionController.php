@@ -57,6 +57,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		->join('tag2question AS t2q', 'q.id = t2q.idQuestion')
 		->where("t2q.idTag = " . $tag)
 		->groupBy('q.id')
+		->orderBy('q.created DESC')
 		->execute();
 		$all = $this->getRelatedData($all);
 
@@ -227,10 +228,10 @@ private function getRelatedData($data) {
 			$question->user = $users->find($question->getProperties()['questionUserId']);
 			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg';
 
-			$taglist = $this->getSelectedTags($question->getProperties()['id']);
+			$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
 
 			$question->tags = array();
-			foreach ($taglist as $value) {
+			foreach ($tagIDlist as $value) {
 				$tag = new \CR\Tag\Tag();
 				$tag->setDI($this->di);
 				$question->tags[] = $tag->find($value->idTag);
@@ -252,15 +253,15 @@ private function getRelatedData($data) {
 *
 * @param integer $id, question ID
 *
-* @return array $taglist
+* @return array $tagIDlist
 */
-private function getSelectedTags($id) {
+private function getSelectedTagIDs($id) {
 	$this->db->select("idTag")
 		->from('tag2question')
 		->where("idQuestion = ?")
 		->execute([$id]);
-	$taglist = $this->db->fetchAll();
+	$tagIDlist = $this->db->fetchAll();
 
-	return $taglist;
+	return $tagIDlist;
 }
 }

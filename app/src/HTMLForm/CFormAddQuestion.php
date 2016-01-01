@@ -11,7 +11,6 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
     use \Anax\DI\TInjectionaware,
     \Anax\MVC\TRedirectHelpers;
 
-    private $error;
     private $tags;
     private $lastID;
 
@@ -19,10 +18,8 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
      * Constructor
      *
      */
-    public function __construct($tags = null)
-    {
-        $this->error = '<span class="flashmsgicon"><i class="fa fa-times-circle fa-2x"></i></span>&nbsp;';
-
+    public function __construct($tags = null) {
+        
         $this->tags = $tags;
 
         foreach ($this->tags as $value) {
@@ -150,8 +147,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
      */
     public function callbackFail()
     {
-        $this->di->flashmessage->error($this->error);
-        //$this->AddOutput("<p><i>Det gick inte att spara. Kontrollera fälten.</i></p>");
+        $this->AddOutput("<p><i>Det gick inte att spara. Kontrollera fälten.</i></p>");
         $this->redirectTo();
     }
 

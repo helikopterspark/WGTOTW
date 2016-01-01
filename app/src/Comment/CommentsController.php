@@ -103,7 +103,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	 * Edit comment
+	 * Add comment
 	 *
 	 * @param array $param with page and redirect
 	 *

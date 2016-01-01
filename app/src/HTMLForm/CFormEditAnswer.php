@@ -6,21 +6,20 @@ namespace CR\HTMLForm;
  * Anax base class for wrapping sessions.
  *
  */
-class CFormAddAnswer extends \Mos\HTMLForm\CForm
+class CFormEditAnswer extends \Mos\HTMLForm\CForm
 {
     use \Anax\DI\TInjectionaware,
     \Anax\MVC\TRedirectHelpers;
 
-    private $questionId;
-    private $lastID;
+    private $answerUpd;
 
     /**
      * Constructor
      *
      */
-    public function __construct($questionId = null) {
-        
-        $this->questionId = $questionId;
+    public function __construct($answer = null) {
+
+        $this->answerUpd = $answer;
 
         parent::__construct([], [
             'title' => [
@@ -28,22 +27,24 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
             'label'         => 'Titel:',
             'required'      => true,
             'validation'    => ['not_empty'],
+            'value'         => $this->answerUpd->getProperties()['title'],
             ],
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Svar (använd Markdown):',
             'required'      => true,
             'validation'    => ['not_empty'],
+            'value'         => $this->answerUpd->getProperties()['content'],
             ],
 
             'submit' => [
             'type'      => 'submit',
-            'value'     => 'Posta svar',
+            'value'     => 'Uppdatera svar',
             'callback'  => [$this, 'callbackSubmit'],
             ],
             'reset' => [
             'type'      => 'reset',
-            'value'     => 'Rensa',
+            'value'     => 'Återställ',
             ],
             'submit-abort' => [
             'type'      => 'submit',
@@ -64,7 +65,7 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
-            $this->redirectTo('question/id/'.$this->questionId);
+            $this->redirectTo('question/id/'.$this->answerUpd->getProperties()['questionId']);
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
         }
@@ -85,13 +86,11 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
         $this->answer->setDI($this->di);
         // Save answer
         $this->answer->save([
+            'id'        => $this->answerUpd->getProperties()['id'],
             'title'      => strip_tags($this->Value('title')),
             'content'      => strip_tags($this->Value('content')),
-            'created'   => $now,
-            'answerUserId'  => $this->di->session->get('id'),
-            'questionId'    => $this->questionId,
+            'updated'   => $now,
             ]);
-        $this->lastID = $this->answer->db->lastInsertId();
 
         return true;
     }
@@ -116,7 +115,7 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
      */
     public function callbackSuccess()
     {
-        $this->redirectTo('question/id/' . $this->questionId . '#answer-' . $this->lastID);
+        $this->redirectTo('question/id/' . $this->answerUpd->getProperties()['questionId'] . '#answer-' . $this->answerUpd->getProperties()['id']);
     }
 
 

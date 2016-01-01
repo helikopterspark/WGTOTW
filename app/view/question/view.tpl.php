@@ -1,6 +1,5 @@
 <!-- Detail view for question -->
 <article class='article1'>
-	<!-- <h2><a href='<?=$this->url->create("{$this->request->getRoute()}/id/".$question->getProperties()['id'])?>'><?=$title?></a></h2> -->
 	<div id='question-<?=$question->getProperties()['id']?>' class='question-container'>
 		<h3><i class="fa fa-question"></i> <a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
 		<p><?=$question->getProperties()['content']?></p>
@@ -34,6 +33,35 @@
 				<?=round($timeinterval/(60*60*24*7))?> månad sedan
 			<?php else : ?>
 				<?=round($timeinterval/(60*60*24*30))?> månader sedan
+			<?php endif; ?>
+
+			<?php if (isset($question->getProperties()['updated'])) : ?>
+				| <span class='italics'> Uppdaterad för
+				<?php $timestamp = strtotime($question->getProperties()['updated']); ?>
+
+				<?php $timeinterval = time() - $timestamp; ?>
+				<?php if (($timeinterval) < 60): ?>
+					<?=round($timeinterval)?> sekunder sedan
+				<?php elseif (($timeinterval/60) < 1.5): ?>
+					<?=round($timeinterval/60)?> minut sedan
+				<?php elseif (($timeinterval/60) < 60): ?>
+					<?=round($timeinterval/60)?> minuter sedan
+				<?php elseif (($timeinterval/(60*60)) < 1.5): ?>
+					<?=round($timeinterval/(60*60))?> timme sedan
+				<?php elseif (($timeinterval/(60*60)) < 24): ?>
+					<?=round($timeinterval/(60*60))?> timmar sedan
+				<?php elseif (($timeinterval/(60*60*24)) < 7): ?>
+					<?=round($timeinterval/(60*60*24))?> dygn sedan
+				<?php elseif (($timeinterval/(60*60*24)) < 10.5) : ?>
+					<?=round($timeinterval/(60*60*24*7))?> vecka sedan
+				<?php elseif (($timeinterval/(60*60*24)) < 30) : ?>
+					<?=round($timeinterval/(60*60*24*7))?> veckor sedan
+				<?php elseif (($timeinterval/(60*60*24)) < 45) : ?>
+					<?=round($timeinterval/(60*60*24*7))?> månad sedan
+				<?php else : ?>
+					<?=round($timeinterval/(60*60*24*30))?> månader sedan
+				<?php endif; ?>
+				</span>
 			<?php endif; ?>
 			</p>
 				<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>

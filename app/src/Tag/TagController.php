@@ -32,6 +32,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 		->from('tag AS t')
 		->join('tag2question AS t2q', 't.id = t2q.idTag')
 		->groupBy('t.id')
+		->orderBy('t.name ASC')
 		->execute();
 
 		$this->theme->setTitle('Taggar');
