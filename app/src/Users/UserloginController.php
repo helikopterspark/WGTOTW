@@ -26,7 +26,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     * @return void
     */
     public function loginAction() {
-        if ($this->di->session->has('acronym')) {
+        if ($this->checkLoginSimple()) {
             $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är redan inloggad.';
             $this->di->flashmessage->info($info);
             $loginform = null;
@@ -53,7 +53,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     * @return void
     */
     public function logoutAction() {
-        if ($this->di->session->has('acronym')) {
+        if ($this->checkLoginSimple()) {
             $this->di->session->set('acronym', null);
             $this->di->session->set('id', null);
             $this->di->session->set('email', null);
@@ -71,5 +71,42 @@ class UserloginController implements \Anax\DI\IInjectionAware {
 
             $this->di->flashmessage->clearMessages();
         }
+    }
+
+    /**
+    * Check login simple
+    *
+    * @return boolean
+    */
+    public function checkLoginSimple() {
+        return $this->di->session->has('acronym');
+    }
+
+    /**
+    * Check correct user login
+    *
+    * @param int $userId
+    *
+    * @return boolean
+    */
+    public function checkLoginCorrectUser($userId = null) {
+        if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $userId) || $this->di->session->get('isAdmin')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+    * Redirect to login
+    *
+    * @param string $message, error message
+    *
+    * @return void
+    */
+    public function redirectToLogin($message = "Åtgärden kräver inloggning") {
+        $this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;'.$message.'</p>');
+        $url = $this->url->create('login');
+        $this->response->redirect($url);
     }
 }

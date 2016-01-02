@@ -26,7 +26,7 @@
 								</td>
 								<td>
 									<?=$user->getProperties()['name']?></td>
-									<?php if ($this->di->session->has('acronym') && $this->di->session->get('acronym') === $user->getProperties()['acronym'] || $this->di->session->get('isAdmin')) : ?>
+									<?php if ($this->di->UserloginController->checkLoginCorrectUser($user->getProperties()['id'])) : ?>
 										<td><a href="<?=$this->url->create('users/update').'/' . $user->getProperties()['id']?>"><i class="fa fa-pencil"></i></a></td>
 										<td class="centered">
 											<?php if (!$user->getProperties()['deleted']) : ?>

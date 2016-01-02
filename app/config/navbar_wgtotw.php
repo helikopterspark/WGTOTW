@@ -37,7 +37,7 @@ if ($this->di->session->has('acronym')) {
         $login = [
             'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar" height="20" width="20"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
             'url'   => $this->di->get('url')->create('users/id/'.$this->di->session->get('id')),
-            'title' => 'Översikt över användare',
+            'title' => 'Inloggad som ' . $this->di->session->get('acronym'),
             //'mark-if-parent-of' => 'users',
             'submenu' => [
                 'items' => [

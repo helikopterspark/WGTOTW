@@ -113,13 +113,11 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 */
 	public function updateAction($id = null) {
 		$content = null;
-		if (!$this->di->session->has('acronym')) {
+		if (!$this->di->UserloginController->checkLoginSimple()) {
 			// Not logged in
-			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att redigera.</p>');
-			$url = $this->url->create('login');
-			$this->response->redirect($url);
+			$this->di->UserloginController->redirectToLogin('Logga in för att redigera användare');
 
-		} elseif ($this->di->session->has('acronym') && ($this->di->session->get('id') === $id) || $this->di->session->get('isAdmin')) {
+		} elseif ($this->di->UserloginController->checkLoginCorrectUser($id)) {
 			// User is logged in, show update form
 			$user = $this->users->find($id);
 			$form = new \CR\HTMLForm\CFormEditUser($user);

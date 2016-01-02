@@ -2,9 +2,12 @@
 <article class='article1'>
 	<?php foreach ($content as $answer) : ?>
 		<div id='answer-<?=$answer->getProperties()['id']?>' class='answer-shortlist-container'>
-			<div class='answer-accepted'>
+			<div class='answer-accepted-section'>
 				<?php if ($answer->getProperties()['accepted']) : ?>
-					<p><i class="fa fa-check fa-2x"></i></p>
+					<p class='answer-accepted'><a href='<?=$this->url->create("answer/unaccept/".$answer->getProperties()['id'])?>' title='Ta bort acceptera'><i class="fa fa-check fa-2x"></i></a></p>
+				<?php endif; ?>
+				<?php if ($questionuserid == $this->di->session->get('id') && !$answer->getProperties()['accepted']) : ?>
+					<p class='answer-not-accepted'><a href='<?=$this->url->create("answer/accept/".$answer->getProperties()['id'])?>' title='Acceptera svar'><i class="fa fa-check fa-2x"></i></a></p>
 				<?php endif; ?>
 			</div>
 		<p><i class="fa fa-exclamation"></i> <?=$answer->getProperties()['content']?></p>
@@ -69,7 +72,7 @@
 		<p>Rank&nbsp;<?=$answer->getProperties()['upvotes'] - $answer->getProperties()['downvotes']?>
 			&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$answer->getProperties()['upvotes']?></span>
 		&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$answer->getProperties()['downvotes']?></span></p>
-		<?php if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $answer->user->getProperties()['id']) || $this->di->session->get('isAdmin')): ?>
+		<?php if ($this->di->UserloginController->checkLoginCorrectUser($answer->user->getProperties()['id'])) : ?>
 			<p><a class='edit-button' href='<?=$this->url->create("question/id/".$answer->getProperties()['questionId'] . "?editanswer=yes&answerid=" . $answer->getProperties()['id']."#answer-".$answer->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera svar</a></p>
 		<?php endif; ?>
 	</div> <!-- answer-shortlist-container -->

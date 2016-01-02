@@ -53,7 +53,7 @@ CREATE TABLE wgtotw_answer
     deleted datetime,
     upvotes integer,
     downvotes integer,
-    accepted bit,
+    accepted datetime,
     answerUserId integer not null,
     questionId integer not null,
     foreign key (answerUserId) references wgtotw_user(id),

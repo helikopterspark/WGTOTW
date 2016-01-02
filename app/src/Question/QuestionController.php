@@ -71,35 +71,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		], 'sidebar-reduced');
 	}
 
-	/**
-	* Setup database
-	*
-	* @return void
-	*/
-	public function setupAction() {
-		//$this->db->setVerbose();
 
-		$this->db->dropTableIfExists('question')->execute();
-
-		$this->db->createTable(
-		'question',
-		[
-			'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
-			'title' => ['varchar(80)'],
-			'data' => ['text'],
-			'created' => ['datetime'],
-			'updated' => ['datetime'],
-			'deleted' => ['datetime'],
-			'upvotes' => ['integer'],
-			'downvotes' => ['integer'],
-			'questionUserId' => ['integer', 'not null'],
-			'foreign key' => ['(questionUserId)', 'references', 'wgtotw_user(id)'],
-		]
-		)->execute();
-
-		$url = $this->url->create('answer/setup');
-		$this->response->redirect($url);
-	}
 	/**
 	* Find with id.
 	*
@@ -114,9 +86,11 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$res = $this->getRelatedData([$res]);
 			$this->theme->setTitle($res[0]->getProperties()['title']);
 			$this->views->add('question/view', [
+				'flash' => $this->di->flashmessage->outputMsgs(),
 				'question' => $res[0],
 				'title' => $res[0]->getProperties()['title'],
 			], 'main-extended');
+			$this->di->flashmessage->clearMessages();
 			$this->dispatcher->forward([
      			'controller' => 'comments',
      			'action'     => 'viewComments',
@@ -125,7 +99,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->dispatcher->forward([
 				'controller' => 'answer',
 				'action'	=> 'index',
-				'params'	=> [$id],
+				'params'	=> [$res[0]],
 			]);
 		} else {
 			$url = $this->url->create('question');
@@ -140,11 +114,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function addAction() {
 
-		if (!$this->di->session->has('acronym')) {
+		if (!$this->di->UserloginController->checkLoginSimple()) {
 			// Not logged in
-			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att ställa en fråga.</p>');
-			$url = $this->url->create('login');
-			$this->response->redirect($url);
+			$this->di->UserloginController->redirectToLogin('Logga in för att ställa en fråga');
 
 		} else {
 
@@ -173,7 +145,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		$qstn = $this->questions->find($id);
 		$qstn = $this->getRelatedData([$qstn]);
 
-		if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $qstn[0]->user->getProperties()['id']) || $this->di->session->get('isAdmin')) {
+		if ($this->di->UserloginController->checkLoginCorrectUser($qstn[0]->user->getProperties()['id'])) {
 			$tag = new \CR\Tag\Tag();
 			$tag->setDI($this->di);
 	        $tags = $tag->findAll();
@@ -190,9 +162,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 		} else {
 			// Not logged in
-			$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att redigera fråga.</p>');
-			$url = $this->url->create('login');
-			$this->response->redirect($url);
+			$this->di->UserloginController->redirectToLogin('Logga in som '. $qstn[0]->user->getProperties()['acronym'] . ' för att redigera fråga');
 		}
 	}
 
@@ -263,5 +233,36 @@ private function getSelectedTagIDs($id) {
 	$tagIDlist = $this->db->fetchAll();
 
 	return $tagIDlist;
+}
+
+/**
+* Setup database
+*
+* @return void
+*/
+public function setupAction() {
+	//$this->db->setVerbose();
+/*
+	$this->db->dropTableIfExists('question')->execute();
+
+	$this->db->createTable(
+	'question',
+	[
+		'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
+		'title' => ['varchar(80)'],
+		'data' => ['text'],
+		'created' => ['datetime'],
+		'updated' => ['datetime'],
+		'deleted' => ['datetime'],
+		'upvotes' => ['integer'],
+		'downvotes' => ['integer'],
+		'questionUserId' => ['integer', 'not null'],
+		'foreign key' => ['(questionUserId)', 'references', 'wgtotw_user(id)'],
+	]
+	)->execute();
+
+	$url = $this->url->create('answer/setup');
+	$this->response->redirect($url);
+	*/
 }
 }

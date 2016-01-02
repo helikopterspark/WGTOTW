@@ -83,7 +83,9 @@
 					</span>
 				</p>
 				<p><?=$comment->getProperties()['content']?></p>
-				<p><a class='edit-button' href='<?=$this->url->create("{$this->request->getRoute()}?edit=yes&amp;id=".$comment->getProperties()['id']."#comment-form")?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera</a></p>
+				<?php if ($this->di->session->has('acronym') && ($this->di->session->get('id') === $comment->user->getProperties()['id']) || $this->di->session->get('isAdmin')): ?>
+					<p><a class='edit-button' href='<?=$this->url->create("{$this->request->getRoute()}?edit=yes&amp;id=".$comment->getProperties()['id']."#comment-form")?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera</a></p>
+				<?php endif; ?>
 				<p>Rank&nbsp;<?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?>
 					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$comment->getProperties()['upvotes']?></span>
 				&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$comment->getProperties()['downvotes']?></span></p>

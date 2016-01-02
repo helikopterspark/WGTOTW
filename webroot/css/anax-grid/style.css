@@ -195,6 +195,15 @@ html.red-theme .left-calendar-link a,
 html.red-theme .right-calendar-link a {
   color: #cb151c;
 }
+html.red-theme .answer-accepted a {
+  color: #339933;
+}
+html.red-theme .answer-not-accepted a {
+  color: #ccc;
+}
+html.red-theme .answer-not-accepted a:hover {
+  color: #339933;
+}
 html.red-theme .navbar li.selected-parent,
 html.red-theme .navbar li.is-parent,
 html.red-theme .navbar li.selected {
@@ -2864,9 +2873,6 @@ body {
   border-right: 1px solid #ccc;
   padding-right: 1em;
 }
-.answer-accepted {
-  color: green;
-}
 .lowered-letter {
   vertical-align: -6px;
 }
@@ -3378,6 +3384,12 @@ input.text {
 }
 .centered {
   text-align: center;
+}
+.answer-accepted {
+  color: #339933;
+}
+.answer-not-accepted a {
+  color: #ccc;
 }
 @media (max-width: 767px) {
   #wrapper {

@@ -9,6 +9,8 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
+	private $question;
+
 	/**
 	 * Initialize the controller.
 	 *
@@ -22,11 +24,14 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 	/**
 	 * List all answers for questionId
 	 *
-	 * @param integer $questionId
+	 * @param Question object $question
 	 *
 	 * @return void
 	 */
-	public function indexAction($questionId) {
+	public function indexAction($question) {
+
+		$this->question = $question;
+
 		// Get sort order
 		if (null == ($this->session->get('answersorting'))) {
 			$this->session->set('answersorting', 'rank');
@@ -60,7 +65,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 		// Get all answers to questionId
 		$all = null;
 		$all = $this->answer->query()
-			->where("questionId = " . $questionId)
+			->where("questionId = " . $this->question->getProperties()['id'])
 			->groupBy("id")
 			->orderBy($sorting)
 			->execute();
@@ -87,7 +92,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			// Display answer
 			$this->views->add('answer/index', [
 				'content' => [$answer_post],
-				'title' => 'svar',
+				'questionuserid' => $this->question->user->getProperties()['id'],
 			], 'main-extended');
 		}
 			// Get comments to answer
@@ -100,21 +105,19 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 		// Insert form for new answer if button is clicked and user is logged in
 		if ($this->request->getGet('newanswer')) {
-			if ($this->di->session->has('acronym')) {
+			if ($this->di->UserloginController->checkLoginSimple()) {
 				$answerform = true;
-				$this->add($questionId);
+				$this->add($this->question->getProperties()['id']);
 			} else {
 				// Not logged in
-				$this->di->flashmessage->error('<p><span class="flashmsgicon"><i class="fa fa-exclamation-triangle fa-2x"></i></span>&nbsp;Logga in för att svara.</p>');
-				$url = $this->url->create('login');
-				$this->response->redirect($url);
+				$this->di->UserloginController->redirectToLogin();
 			}
 
 		} else {
 
 		// Bottom view
 		$this->views->add('answer/bottom', [
-			'questionId' => $questionId,
+			'questionId' => $this->question->getProperties()['id'],
 			'answerform' => $answerform,
 		], 'main-extended');
 	}
@@ -201,6 +204,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 		$res = $this->answer->delete($id);
 	}
+
 	/**
 	* Get user data
 	*
@@ -217,10 +221,85 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 				$users->setDI($this->di);
 				$answer->user = $users->find($answer->getProperties()['answerUserId']);
 				$answer->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($answer->user->getProperties()['email']))) . '.jpg';
+
 			}
 		}
 		return $data;
 	}
+
+
+	/**
+	 * Accept answer
+	 *
+	 * @param
+	 *
+	 * @return void
+	 */
+	 public function acceptAction($answerId) {
+
+		 $now = date('Y-m-d H:i:s');
+		 $ans = $this->answer->find($answerId);
+
+		 // Check login for safety
+		 $this->db->select("questionUserId")
+		 	->from('question')
+			->where("id = ?")
+			->execute([$ans->questionId]);
+		$checkuser = $this->db->fetchAll();
+
+		if (!$this->di->UserloginController->checkLoginCorrectUser($checkuser[0]->questionUserId)) {
+			// Not logged in
+		   $this->di->UserloginController->redirectToLogin('Logga in som rätt användare');
+		}
+
+		// reset any previously accepted answer
+		 $unaccept = $this->answer->query()
+		 	->where('questionId = ?')
+			->andWhere('accepted IS NOT NULL')
+			->execute([$ans->questionId]);
+
+		if ($unaccept) {
+			$this->unaccept($unaccept[0]->getProperties()['id']);
+		}
+		// Accept answer
+		$ans = $this->answer->find($answerId);
+		$ans->accepted = $now;
+		$ans->save();
+
+		 $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span> Accepterat svar</p>');
+		 $url = $this->url->create('question/id/' . $ans->questionId);
+		 $this->response->redirect($url);
+	 }
+
+	 /**
+ 	 * Unaccept answer
+ 	 *
+ 	 * @param int @answerId
+ 	 *
+ 	 * @return void
+ 	 */
+ 	 public function unacceptAction($answerId) {
+
+ 		 $this->unaccept($answerId);
+		 $ans = $this->answer->find($answerId);
+
+		 $this->di->flashmessage->info('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span> Ta bort acceptera</p>');
+		 $url = $this->url->create('question/id/'.$ans->questionId);
+		 $this->response->redirect($url);
+ 	 }
+
+	 /**
+ 	 * Unaccept answer
+ 	 *
+ 	 * @param int @answerId
+ 	 *
+ 	 * @return void
+ 	 */
+ 	 private function unaccept($answerId) {
+		 $ans = $this->answer->find($answerId);
+		 $ans->accepted = null;
+ 		 $ans->save();
+ 	 }
 
 
 	/**
