@@ -27,7 +27,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     */
     public function loginAction() {
         if ($this->checkLoginSimple()) {
-            $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är redan inloggad.';
+            $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är redan inloggad som '.$this->di->session->get('acronym');
             $this->di->flashmessage->info($info);
             $loginform = null;
         } else {

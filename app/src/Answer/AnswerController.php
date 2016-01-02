@@ -72,7 +72,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 		$all = $this->getRelatedData($all);
 
-		$this->views->add('answer/heading', [
+		$this->views->add('answer/header', [
 			'content' => count($all),
 			'title' => 'svar',
 			'answersorting' => $change_answer_sorting,
@@ -85,6 +85,10 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			$editform = false;
 			// Insert edit form at answer position, if edit is clicked and author is logged in
 			if ($this->request->getGet('editanswer') && $this->request->getGet('answerid') === $answer_post->getProperties()['id']) {
+				if (!$this->di->UserloginController->checkLoginCorrectUser($answer_post->getProperties()['answerUserId'])) {
+					// Not logged in
+					$this->di->UserloginController->redirectToLogin('Endast '.$answer_post->user->getProperties()['acronym'].' kan redigera svaret');
+				}
 				$editform = true;
 				$answerform = false;
 				$this->edit($answer_post);
@@ -99,7 +103,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			$this->dispatcher->forward([
 				'controller' => 'comments',
 				'action'     => 'viewComments',
-				'params'	=> [$answer_post->getProperties()['id'], 'answer', 'question'],
+				'params'	=> [$answer_post->getProperties()['id'], 'answer', $this->question->getProperties()['id']],
 			]);
 		}
 
@@ -242,29 +246,29 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 
 		 // Check login for safety
 		 $this->db->select("questionUserId")
-		 	->from('question')
-			->where("id = ?")
-			->execute([$ans->questionId]);
-		$checkuser = $this->db->fetchAll();
+			 ->from('question')
+			 ->where("id = ?")
+			 ->execute([$ans->questionId]);
+		 $checkuser = $this->db->fetchAll();
 
-		if (!$this->di->UserloginController->checkLoginCorrectUser($checkuser[0]->questionUserId)) {
-			// Not logged in
-		   $this->di->UserloginController->redirectToLogin('Logga in som rätt användare');
-		}
+		 if (!$this->di->UserloginController->checkLoginCorrectUser($checkuser[0]->questionUserId)) {
+			 // Not logged in
+			 $this->di->UserloginController->redirectToLogin('Logga in som rätt användare');
+		 }
 
-		// reset any previously accepted answer
+		 // reset any previously accepted answer
 		 $unaccept = $this->answer->query()
-		 	->where('questionId = ?')
-			->andWhere('accepted IS NOT NULL')
-			->execute([$ans->questionId]);
+			 ->where('questionId = ?')
+			 ->andWhere('accepted IS NOT NULL')
+			 ->execute([$ans->questionId]);
 
-		if ($unaccept) {
-			$this->unaccept($unaccept[0]->getProperties()['id']);
-		}
-		// Accept answer
-		$ans = $this->answer->find($answerId);
-		$ans->accepted = $now;
-		$ans->save();
+		 if ($unaccept) {
+			 $this->unaccept($unaccept[0]->getProperties()['id']);
+		 }
+		 // Accept answer
+		 $ans = $this->answer->find($answerId);
+		 $ans->accepted = $now;
+		 $ans->save();
 
 		 $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span> Accepterat svar</p>');
 		 $url = $this->url->create('question/id/' . $ans->questionId);
@@ -280,10 +284,23 @@ class AnswerController implements \Anax\DI\IInjectionAware {
  	 */
  	 public function unacceptAction($answerId) {
 
- 		 $this->unaccept($answerId);
 		 $ans = $this->answer->find($answerId);
 
-		 $this->di->flashmessage->info('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span> Ta bort acceptera</p>');
+		 // Check login for safety
+		 $this->db->select("questionUserId")
+			 ->from('question')
+			 ->where("id = ?")
+			 ->execute([$ans->questionId]);
+		 $checkuser = $this->db->fetchAll();
+
+		 if (!$this->di->UserloginController->checkLoginCorrectUser($checkuser[0]->questionUserId)) {
+			 // Not logged in
+			 $this->di->UserloginController->redirectToLogin('Logga in som rätt användare');
+		 }
+
+		 $this->unaccept($answerId);
+
+		 $this->di->flashmessage->info('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span> Ångrade accepterat svar</p>');
 		 $url = $this->url->create('question/id/'.$ans->questionId);
 		 $this->response->redirect($url);
  	 }

@@ -11,43 +11,29 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
     use \Anax\DI\TInjectionaware,
     \Anax\MVC\TRedirectHelpers;
 
-    private $page;
-    private $redirect;
+    private $type;
+    private $pageId;
 
     /**
      * Constructor
      *
      */
-    public function __construct($comment = null, $params = null)
+    public function __construct($params = null)
     {
+
+        $this->commentUpd = $params['comment'];
+        $this->type = $params['type'];
+        $this->pageId = $params['pageId'];
+
         parent::__construct([], [
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Kommentar (använd gärna Markdown):',
             'required'      => true,
             'validation'    => ['not_empty'],
-            'value'         => $comment->getProperties()['content'],
+            'value'         => $this->commentUpd->getProperties()['content'],
             ],
-            'name' => [
-            'type'        => 'text',
-            'label'       => 'Namn:',
-            'required'    => true,
-            'validation'  => ['not_empty'],
-            'value'         => $comment->getProperties()['name'],
-            ],
-            'email' => [
-            'type'        => 'text',
-            'label'         => 'Email:',
-            'required'    => true,
-            'validation'  => ['not_empty', 'email_adress'],
-            'value'         => $comment->getProperties()['email'],
-            ],
-            'url' => [
-            'type'      => 'url',
-            'label'     => 'Hemsida:',
-            'required'  => false,
-            'value'         => $comment->getProperties()['url'],
-            ],
+
             'submit' => [
             'type'      => 'submit',
             'value'     => 'Spara',
@@ -70,9 +56,6 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             ],
 
             ]);
-        $this->commentUpd = $comment;
-        $this->page = $params['page'];
-        $this->redirect = $params['redirect'];
 }
 
 
@@ -86,7 +69,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
-            $this->redirectTo($this->redirect.'#comments');
+            $this->redirectTo('question/id/'.$this->pageId.'#comment-'.$this->commentUpd->getProperties()['id']);
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
     }
@@ -110,13 +93,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
         $this->comment->save([
             'id'        => $this->commentUpd->getProperties()['id'],
             'content'   => strip_tags($this->Value('content')),
-            'name'      => $this->Value('name'),
-            'email'     => $this->Value('email'),
-            'url'       => $this->Value('url'),
-            'ip'        => $this->di->request->getServer('REMOTE_ADDR'),
             'updated'   => $now,
-            'redirect'  => $this->redirect,
-            'page'      => $this->page
             ]);
 
         return true;
@@ -142,23 +119,32 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
      */
     public function callbackSuccess()
     {
-        $this->redirectTo($this->redirect.'#comment-'.$this->commentUpd->getProperties()['id']);
+        $this->redirectTo('question/id/'.$this->pageId.'#comment-'.$this->commentUpd->getProperties()['id']);
     }
 
     /**
      * Callback What to do if the form was submitted?
+     * Delete comment. NOTE: soft delete
      *
      */
     public function callbackDelete()
     {
         $id = $this->commentUpd->getProperties()['id'];
-        $deleted = $this->commentUpd->delete($id);
+
+        $now = date('Y-m-d H:i:s');
+        $this->commentUpd->deleted = $now;
+		$this->commentUpd->save();
+
+        return true;
+
+        /*$deleted = $this->commentUpd->delete($id);
 
         if ($deleted) {
             return true;
         } else {
             return false;
         }
+        */
     }
 
 

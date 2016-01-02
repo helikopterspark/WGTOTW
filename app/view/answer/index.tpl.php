@@ -3,8 +3,10 @@
 	<?php foreach ($content as $answer) : ?>
 		<div id='answer-<?=$answer->getProperties()['id']?>' class='answer-shortlist-container'>
 			<div class='answer-accepted-section'>
-				<?php if ($answer->getProperties()['accepted']) : ?>
-					<p class='answer-accepted'><a href='<?=$this->url->create("answer/unaccept/".$answer->getProperties()['id'])?>' title='Ta bort acceptera'><i class="fa fa-check fa-2x"></i></a></p>
+				<?php if ($questionuserid == $this->di->session->get('id') && $answer->getProperties()['accepted']) : ?>
+					<p class='answer-accepted'><a href='<?=$this->url->create("answer/unaccept/".$answer->getProperties()['id'])?>' title='Ångra acceptera svar'><i class="fa fa-check fa-2x"></i></a></p>
+				<?php elseif ($answer->getProperties()['accepted']) : ?>
+					<p class='answer-accepted'><i class="fa fa-check fa-2x"></i></p>
 				<?php endif; ?>
 				<?php if ($questionuserid == $this->di->session->get('id') && !$answer->getProperties()['accepted']) : ?>
 					<p class='answer-not-accepted'><a href='<?=$this->url->create("answer/accept/".$answer->getProperties()['id'])?>' title='Acceptera svar'><i class="fa fa-check fa-2x"></i></a></p>

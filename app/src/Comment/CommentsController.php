@@ -40,7 +40,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
      *
      * @return void
      */
-	public function viewCommentsAction($id, $type, $redirect) {
+	public function viewCommentsAction($id, $type, $pageId) {
 		if (null == ($this->session->get('sorting'))) {
 			$this->session->set('sorting', 'ASC');
 			$change_sorting = 'DESC';
@@ -72,34 +72,64 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 			->orderBy("c.".$sorting)
 			->execute([$id]);
 
-		// Get form view if add/edit is clicked
+		$this->views->add('comment/comment-container-top', [], 'main-extended');
 		$noForm = false;
-		if ($this->request->getGet('edit')) {
-			$noForm = true;
-			$id = $this->request->getGet('id');
-			$this->edit($id, array('id' => $id, 'redirect' => $redirect ));
-		} elseif ($this->request->getGet('comment')) {
-			$noForm = true;
-			$this->add(array('id' => $id, 'redirect' => $redirect ));
-		}
-
-		// If $all array not empty, convert comment content from markdown to html, and get user object and Gravatar
+		// If $all array not empty, get info and list comments
 		if (is_array($all)) {
-			foreach ($all as $id => &$comment) {
+			// convert comment content from markdown to html, and get user object and Gravatar
+			foreach ($all as $xid => &$comment) {
 				$comment->getProperties()['content'] = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$comment->user = $users->find($comment->getProperties()['userId']);
 				$comment->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($comment->user->getProperties()['email']))) . '.jpg';
 			}
+
+			if (count($all) > 0) {
+
+				$this->views->add('comment/header', [
+					'comments' => $all,
+					'sorting' => $change_sorting,
+				], 'main-extended');
+
+				foreach ($all as $comment_post) {
+					// Get form view if add/edit is clicked
+					$noForm = false;
+					if ($this->request->getGet('editcomment') && $comment_post->getProperties()['id'] == $this->request->getGet('commentid')) {
+						if (!$this->di->UserloginController->checkLoginCorrectUser($comment_post->getProperties()['userId'])) {
+							// Not logged in
+							$this->di->UserloginController->redirectToLogin('Endast '.$comment_post->user->getProperties()['acronym'].' kan redigera kommentaren');
+						}
+						$noForm = true;
+						$this->edit(array('comment' => $comment_post, 'type' => $type, 'pageId' => $pageId));
+					} else {
+						$this->views->add('comment/view', [
+							'comment' => $comment_post,
+						], 'main-extended');
+					}
+				}
+			}
+		}
+		// Insert form for new comment if button is clicked and user is logged in
+		if ($this->request->getGet($type.'comment') && $id == $this->request->getGet('postid')) {
+			if ($this->di->UserloginController->checkLoginSimple()) {
+				$noForm = true;
+				$this->add(array('postId' => $id, 'type' => $type, 'pageId' => $pageId));
+			} else {
+				// Not logged in
+				$this->di->UserloginController->redirectToLogin('Logga in för att kommentera');
+			}
+
+		} else {
+
+			$this->views->add('comment/bottom', [
+				'noForm' => $noForm,
+				'type' => $type,
+				'postId' => $id,
+			], 'main-extended');
 		}
 
-		$this->views->add('comment/comments', [
-			'noForm' => $noForm,
-			'comments' => $all,
-			'redirect' => $redirect,
-			'sorting' => $change_sorting
-		], 'main-extended');
+		$this->views->add('comment/comment-container-bottom', [], 'main-extended');
 	}
 
 	/**
@@ -119,34 +149,36 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 
 		$this->views->add('comment/comment-form-container', [
 			'content'	=> $form->getHTML(),
-			'questionId' => $params['questionId'],
-			'redirect'	=> $params['redirect'],
+			'postId' => $params['postId'],
+			'type'	=> $params['type'],
+			'pageId'	=> $params['pageId'],
 			'noForm'	=> $noForm,
-			], 'fullpage');
+		], 'main-extended');
 	}
 
 	/**
 	 * Edit comment
 	 *
-	 * @param int $id of comment, array $param with page and redirect
+	 * @param int $id of comment, array $param with parameters
 	 *
 	 * @return void
 	 */
-	private function edit($id, $params) {
+	private function edit($params) {
 
-		$comment = $this->comments->find($id);
-		$form = new \CR\HTMLForm\CFormEditComment($comment, $params);
+		//$comment = $this->comments->find($params['commentId']);
+		$form = new \CR\HTMLForm\CFormEditComment($params);
 		$form->setDI($this->di);
 		$form->check();
 
+		$comment = $params['comment'];
 		$noForm = true;
 
-		$this->views->add('comment/comment-form-container', [
+		$this->views->add('comment/comment-editform-container', [
 			'content'	=> $form->getHTML(),
-			'questionId' => $params['questionId'],
-			'redirect'	=> $params['redirect'],
+			'pageId' => $params['pageId'],
+			'comment' => $comment,
 			'noForm'	=> $noForm,
-			], 'fullpage');
+		], 'main-extended');
 	}
 
 	/**

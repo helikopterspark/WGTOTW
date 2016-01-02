@@ -11,8 +11,9 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
     use \Anax\DI\TInjectionaware,
     \Anax\MVC\TRedirectHelpers;
 
-    private $page;
-    private $redirect;
+    private $postId;
+    private $type;
+    private $pageId;
 
     /**
      * Constructor
@@ -20,30 +21,18 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
      */
     public function __construct($params = null)
     {
+        $this->postId = $params['postId'];
+        $this->type = $params['type'];
+        $this->pageId = $params['pageId'];
+
         parent::__construct([], [
             'content' => [
             'type'          => 'textarea',
-            'label'         => 'Kommentar (använd gärna Markdown):',
+            'label'         => $this->type .' Kommentar (använd gärna Markdown):',
             'required'      => true,
             'validation'    => ['not_empty'],
             ],
-            'name' => [
-            'type'        => 'text',
-            'label'       => 'Namn:',
-            'required'    => true,
-            'validation'  => ['not_empty'],
-            ],
-            'email' => [
-            'type'        => 'text',
-            'label'         => 'Email:',
-            'required'    => true,
-            'validation'  => ['not_empty', 'email_adress'],
-            ],
-            'url' => [
-            'type'      => 'url',
-            'label'     => 'Hemsida:',
-            'required'  => false,
-            ],
+
             'submit' => [
             'type'      => 'submit',
             'value'     => 'Spara',
@@ -60,10 +49,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
             'callback'  => [$this, 'callbackSubmitFail'],
             ],
 
-            ]);
-
-        $this->page = $params['id'];
-        $this->redirect = $params['redirect'];
+        ]);
 }
 
 
@@ -77,7 +63,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
-            $this->redirectTo($this->redirect.'/id/'.$this->page.'#comments');
+            $this->redirectTo('question/id/'.$this->pageId.'#comments');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
     }
@@ -92,7 +78,6 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
      */
     public function callbackSubmit()
     {
-
         $now = date('Y-m-d H:i:s');
 
         $this->comment = new \CR\Comment\Comment();
@@ -100,16 +85,20 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
 
         $this->comment->save([
             'content'   => strip_tags($this->Value('content')),
-            'name'      => $this->Value('name'),
-            'email'     => $this->Value('email'),
-            'url'       => $this->Value('url'),
-            'ip'        => $this->di->request->getServer('REMOTE_ADDR'),
             'created'   => $now,
-            'redirect'  => $this->redirect,
-            'page'      => $this->page
+            'userId'    => $this->di->session->get('id'),
             ]);
 
-        //$this->saveInSession = true;
+        // Save comment2 . $this->type
+        $this->lastID = $this->comment->db->lastInsertId();
+
+        $tablename = 'comment2'.$this->type;
+        $this->di->db->insert(
+            $tablename,
+            ['id'.ucfirst($this->type), 'idComment']
+        );
+        $this->di->db->execute(array($this->postId, $this->lastID));
+
         return true;
     }
 
@@ -136,7 +125,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
         $this->comment = new \CR\Comment\Comment();
         $this->comment->setDI($this->di);
 
-        $this->redirectTo($this->redirect .'#comment-' . $this->comment->db->lastInsertId());
+        $this->redirectTo('question/id/'.$this->pageId . '#comment-' . $this->lastID);
     }
 
 

@@ -94,7 +94,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->dispatcher->forward([
      			'controller' => 'comments',
      			'action'     => 'viewComments',
-     			'params'	=> [$id, 'question', 'question'],
+     			'params'	=> [$id, 'question', $id],
 			]);
 			$this->dispatcher->forward([
 				'controller' => 'answer',
@@ -193,19 +193,24 @@ private function getRelatedData($data) {
 	if (is_array($data)) {
 		foreach ($data as $id => &$question) {
 			$question->getProperties()['content'] = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
+			// Get user info
 			$users = new \CR\Users\User();
 			$users->setDI($this->di);
 			$question->user = $users->find($question->getProperties()['questionUserId']);
 			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg';
-
+			// Get associated tags
 			$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
-
 			$question->tags = array();
 			foreach ($tagIDlist as $value) {
 				$tag = new \CR\Tag\Tag();
 				$tag->setDI($this->di);
 				$question->tags[] = $tag->find($value->idTag);
 			}
+			// Sort tags in alphabetical order by name
+			usort($question->tags, function($a, $b) {
+				return strcmp($a->name, $b->name);
+			});
+			// Get no of answers to question
 			$this->db->select("COUNT(*) AS noOfAnswers")
 			->from('answer')
 			->where("questionId = ".$question->getProperties()['id'])
