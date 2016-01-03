@@ -6,7 +6,10 @@
 	<table>
 		<thead>
 			<tr>
-				<td>ID</td><td>Akronym</td><td>Namn</td><td><i class="fa fa-pencil"></i></td><td style='text-align: center;'><i class="fa fa-trash-o"></i> / <i class="fa fa-times"></i> / <i class="fa fa-check"></i></td>
+				<td>ID</td>
+				<td>Akronym</td>
+				<td>Namn</td>
+				<td><i class="fa fa-pencil"></i></td><td style='text-align: center;'><i class="fa fa-trash-o"></i> / <i class="fa fa-times"></i> / <i class="fa fa-check"></i></td>
 			</tr>
 		</thead>
 		<tbody>

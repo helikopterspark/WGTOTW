@@ -216,10 +216,11 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 	*
 	* @return array $data questions with user data, answers and comments
 	*/
-	private function getRelatedData($data) {
+	public function getRelatedData($data) {
 		// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 		if (is_array($data)) {
 			foreach ($data as $id => &$answer) {
+				$answer->getProperties()['title'] = $this->textFilter->doFilter($answer->getProperties()['title'], 'shortcode, markdown');
 				$answer->getProperties()['content'] = $this->textFilter->doFilter($answer->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);

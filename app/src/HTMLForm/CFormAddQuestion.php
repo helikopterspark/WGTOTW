@@ -19,7 +19,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
      *
      */
     public function __construct($tags = null) {
-        
+
         $this->tags = $tags;
 
         foreach ($this->tags as $value) {
@@ -99,6 +99,8 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
             'title'      => strip_tags($this->Value('title')),
             'content'      => strip_tags($this->Value('content')),
             'created'   => $now,
+            'upvotes'   => 0,
+            'downvotes' => 0,
             'questionUserId'  => $this->di->session->get('id')
             ]);
         // Save tag2question

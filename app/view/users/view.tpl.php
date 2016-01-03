@@ -1,28 +1,31 @@
 <article class='article1'>
 	<?=$flash?>
-	<h4>Användarnamn: <a href="<?=$this->url->create('users/id').'/'.$users->getProperties()['id']?>"><?=$users->getProperties()['acronym']?></a></h4>
-		<p>Namn: <?=$users->getProperties()['name']?><br/>
-			ID: <?=$users->getProperties()['id']?><br/>
-			Email: <?=$users->getProperties()['email']?><br/>
-			Lösenord: <?=$users->getProperties()['password']?><br/>
-			Skapad: <?=$users->getProperties()['created']?><br/>
-			Aktiverad: <?=$users->getProperties()['active']?><br/>
-			<?php if ($users->getProperties()['updated']) : ?>
-				Uppdaterad: <?=$users->getProperties()['updated']?><br/>
+	<h4>Användarnamn: <a href="<?=$this->url->create('users/id').'/'.$user->getProperties()['id']?>"><?=$user->getProperties()['acronym']?></a></h4>
+	<div class="right_float_with_margin">
+		<h4>Karma: <?=$rank?></h4>
+		<p><img src='<?=$user->gravatar?>' alt='Gravatar'></p>
+	</div>
+		<p>Namn: <?=$user->getProperties()['name']?><br/>
+			Email: <a href="mailto:<?=$user->getProperties()['email']?>"><?=$user->getProperties()['email']?></a><br/>
+			Webbsida: <?=$user->getProperties()['url']?><br/>
+			Skapad: <?=$user->getProperties()['created']?><br/>
+			Aktiverad: <?=$user->getProperties()['active']?><br/>
+			<?php if ($user->getProperties()['updated']) : ?>
+				Uppdaterad: <?=$user->getProperties()['updated']?><br/>
 			<?php endif; ?>
-			<?php if ($users->getProperties()['deleted']) : ?>
-				Borttagen: <?=$users->getProperties()['deleted']?><br/>
+			<?php if ($user->getProperties()['deleted']) : ?>
+				Borttagen: <?=$user->getProperties()['deleted']?><br/>
 			<?php endif; ?>
 
-			<?php if ($this->di->session->has('acronym') && $this->di->session->get('acronym') === $users->getProperties()['acronym'] || $this->di->session->get('isAdmin')) : ?>
-				<a href="<?=$this->url->create('users/update').'/' . $users->getProperties()['id']?>">Redigera <i class="fa fa-pencil"></i></a>
-				<?php if (!$users->getProperties()['deleted']) : ?>
-					| <a href="<?=$this->url->create('users/softdelete').'/'.$users->getProperties()['id']?>">Släng <i class="fa fa-trash-o"></i></a></p>
+			<?php if ($this->di->UserloginController->checkLoginCorrectUser($user->getProperties()['id'])) : ?>
+				<a href="<?=$this->url->create('users/update').'/' . $user->getProperties()['id']?>">Redigera <i class="fa fa-pencil"></i></a>
+				<?php if (!$user->getProperties()['deleted']) : ?>
+					| <a href="<?=$this->url->create('users/softdelete').'/'.$user->getProperties()['id']?>">Släng <i class="fa fa-trash-o"></i></a></p>
 				<?php else : ?>
-					| <a href="<?=$this->url->create('users/delete').'/'.$users->getProperties()['id']?>">Radera <i class="fa fa-times"></i></a>
-					| <a href="<?=$this->url->create('users/undosoftdelete').'/'.$users->getProperties()['id']?>">Hämta från papperskorg <i class="fa fa-check"></i></a></p>
+					| <a href="<?=$this->url->create('users/delete').'/'.$user->getProperties()['id']?>">Radera <i class="fa fa-times"></i></a>
+					| <a href="<?=$this->url->create('users/undosoftdelete').'/'.$user->getProperties()['id']?>">Hämta från papperskorg <i class="fa fa-check"></i></a></p>
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<p><a href='<?=$this->url->create('users')?>'>Översikt</a></p>
-</article>
+			<hr>
+			<h3>Aktivitet</h3>

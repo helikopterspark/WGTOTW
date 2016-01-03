@@ -12,6 +12,9 @@
 					<p class='answer-not-accepted'><a href='<?=$this->url->create("answer/accept/".$answer->getProperties()['id'])?>' title='Acceptera svar'><i class="fa fa-check fa-2x"></i></a></p>
 				<?php endif; ?>
 			</div>
+			<?php if ($answer->getProperties()['title']): ?>
+				<h4><?=$answer->getProperties()['title']?></h4>
+			<?php endif; ?>
 		<p><i class="fa fa-exclamation"></i> <?=$answer->getProperties()['content']?></p>
 
 		<?php $timestamp = strtotime($answer->getProperties()['created']); ?>

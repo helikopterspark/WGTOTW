@@ -21,7 +21,6 @@ CREATE TABLE wgtotw_user
 	name varchar(80),
 	password char(255),
     url varchar(80),
-    activityPoints integer,
     isAdmin bit,
 	created datetime,
 	updated datetime,

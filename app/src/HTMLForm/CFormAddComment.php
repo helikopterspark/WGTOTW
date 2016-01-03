@@ -86,6 +86,8 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
         $this->comment->save([
             'content'   => strip_tags($this->Value('content')),
             'created'   => $now,
+            'upvotes'   => 0,
+            'downvotes' => 0,
             'userId'    => $this->di->session->get('id'),
             ]);
 

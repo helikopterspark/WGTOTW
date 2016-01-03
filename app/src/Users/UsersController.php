@@ -62,15 +62,49 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function idAction($id = null) {
-
+		// Get user
 		$user = $this->users->find($id);
 
 		if ($user) {
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg';
+			// Get user answers
+			$uAnswers = $this->getUserAnswers($id);
+			// Get user comments
+			$uComments = $this->getUserComments($id);
+			// Get user questions
+			$uQuestions = $this->getUserQuestions($id);
+			$uQuestions = $this->di->QuestionController->getRelatedData($uQuestions);
+
+			$rank = $this->getUserStats($id);
+			// Check Activity tab
+			$tab = $this->di->request->getGet('tab') ? $this->di->request->getGet('tab') : 'questions';
+			switch ($tab) {
+				case 'answers':
+					$tabContent = $uAnswers;
+					break;
+				case 'comments':
+					$tabContent = $uComments;
+					break;
+				default:
+				// questions as default
+					$tabContent = $uQuestions;
+					break;
+			}
+
 			$this->theme->setTitle("Användare " . $user->acronym);
 			$this->views->add('users/view', [
-				'users' => $user,
+				'user' => $user,
+				'rank' => $rank,
 				'title' => 'Användare ' . $user->acronym,
 				'flash' => $this->di->flashmessage->outputMsgs(),
+			], 'fullpage');
+
+			$this->views->add('users/tab-'.$tab, [
+				'qCount' => count($uQuestions),
+				'aCount' => count($uAnswers),
+				'cCount' => count($uComments['questioncomments']) + count($uComments['answercomments']),
+				'user' => $user,
+				'content' => $tabContent,
 			], 'fullpage');
 			//$this->views->add('users/users-sidebar', [], 'sidebar');
 			$this->di->flashmessage->clearMessages();
@@ -78,6 +112,116 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$url = $this->url->create('users');
 			$this->response->redirect($url);
 		}
+	}
+
+	/**
+	* Get user stats
+	*
+	* @param int $id, user ID
+	*
+	* @return int $stats, sum of activity and rank of posts made
+	*/
+	public function getUserStats($id) {
+
+		// Get no of answers and sum of upvotes and downvotes for user
+		$this->db->select("COUNT(*) AS noOfAnswers, COUNT(accepted) AS accAns, SUM(upvotes) AS aUpvotes, SUM(downvotes) AS aDownvotes")
+			->from('answer')
+			->where("answerUserId = ?")
+			->andWhere("deleted IS NULL")
+			->execute([$id]);
+		$aStats = $this->db->fetchAll();
+		$stats = $aStats[0]->noOfAnswers + $aStats[0]->accAns + $aStats[0]->aUpvotes - $aStats[0]->aDownvotes;
+
+		// Get no of comments and sum of upvotes and downvotes for user
+		$this->db->select("COUNT(*) AS noOfComments, SUM(upvotes) AS cUpvotes, SUM(downvotes) AS cDownvotes")
+			->from('comment')
+			->where("userId = ?")
+			->andWhere("deleted IS NULL")
+			->execute([$id]);
+		$cStats = $this->db->fetchAll();
+		$stats += $cStats[0]->noOfComments + $cStats[0]->cUpvotes - $cStats[0]->cDownvotes;
+
+		// Get no of questions and sum of upvotes and downvotes for user
+		$this->db->select("COUNT(*) AS noOfQuestions, SUM(upvotes) AS qUpvotes, SUM(downvotes) AS qDownvotes")
+			->from('question')
+			->where("questionUserId = ?")
+			->andWhere("deleted IS NULL")
+			->execute([$id]);
+		$qStats = $this->db->fetchAll();
+		$stats += $qStats[0]->noOfQuestions + $qStats[0]->qUpvotes - $qStats[0]->qDownvotes;
+
+		return $stats;
+	}
+
+	/**
+	* Get user answers
+	*
+	* @param int $id, user ID
+	*
+	* @return array $answers, array with Answer objects plus question title
+	*/
+	private function getUserAnswers($id) {
+		$userA = new \CR\Answer\Answer();
+		$userA->setDI($this->di);
+		$answers = $userA->query("a.*, q.title AS qtitle")
+			->from('answer AS a')
+			->join('question AS q', 'a.questionId = q.id')
+			->where("a.answerUserId = ?")
+			->andWhere("a.deleted IS NULL")
+			->orderBy("a.upvotes - a.downvotes DESC")
+			->execute([$id]);
+
+		return $answers;
+	}
+
+	/**
+	* Get user comments
+	*
+	* @param int $id, user ID
+	*
+	* @return array $comments, array with 2 arrays of Comment objects
+	*/
+	private function getUserComments($id) {
+		$userC = new \CR\Comment\Comment();
+		$userC->setDI($this->di);
+		$comments['questioncomments'] = $userC->query("c.*, q.id AS qID, q.title AS qtitle")
+			->from('comment AS c')
+			->join('comment2question AS c2q', 'c.id = c2q.idComment')
+			->join('question AS q', 'c2q.idQuestion = q.id')
+			->where("c.userId = ?")
+			->andWhere("c.deleted IS NULL")
+			->orderBy("c.upvotes - c.downvotes DESC")
+			->execute([$id]);
+
+		$comments['answercomments'] = $userC->query("c.*, a.questionID AS qID, a.id AS aID, a.title AS atitle")
+			->from('comment AS c')
+			->join('comment2answer AS c2a', 'c.id = c2a.idComment')
+			->join('answer AS a', 'c2a.idAnswer = a.id')
+			->where("c.userId = ?")
+			->andWhere("c.deleted IS NULL")
+			->orderBy("c.upvotes - c.downvotes DESC")
+			->execute([$id]);
+
+		return $comments;
+	}
+
+	/**
+	* Get user questions
+	*
+	* @param int $id, user ID
+	*
+	* @return array $questions, array with Question objects
+	*/
+	private function getUserQuestions($id) {
+		$userQ = new \CR\Question\Question();
+		$userQ->setDI($this->di);
+		$questions = $userQ->query()
+			->where("questionUserId = ?")
+			->andWhere("deleted IS NULL")
+			->orderBy("upvotes - downvotes DESC")
+			->execute([$id]);
+
+		return $questions;
 	}
 
 	/**

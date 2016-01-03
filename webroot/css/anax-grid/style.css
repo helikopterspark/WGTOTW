@@ -195,6 +195,7 @@ html.red-theme .left-calendar-link a,
 html.red-theme .right-calendar-link a {
   color: #cb151c;
 }
+html.red-theme .answer-accepted,
 html.red-theme .answer-accepted a {
   color: #339933;
 }
@@ -2874,7 +2875,10 @@ body {
   padding-right: 1em;
 }
 .lowered-letter {
-  vertical-align: -6px;
+  vertical-align: -4px;
+}
+.right-align {
+  text-align: right;
 }
 .byline {
   height: 66px;

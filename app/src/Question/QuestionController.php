@@ -188,10 +188,11 @@ public function deleteAction($id = null) {
 *
 * @return array $data questions with user data, answers and comments
 */
-private function getRelatedData($data) {
+public function getRelatedData($data) {
 	// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 	if (is_array($data)) {
 		foreach ($data as $id => &$question) {
+			$question->getProperties()['title'] = $this->textFilter->doFilter($question->getProperties()['title'], 'shortcode, markdown');
 			$question->getProperties()['content'] = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
 			// Get user info
 			$users = new \CR\Users\User();

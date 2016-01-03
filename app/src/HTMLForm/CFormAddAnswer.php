@@ -19,15 +19,14 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
      *
      */
     public function __construct($questionId = null) {
-        
+
         $this->questionId = $questionId;
 
         parent::__construct([], [
             'title' => [
             'type'          => 'text',
             'label'         => 'Titel:',
-            'required'      => true,
-            'validation'    => ['not_empty'],
+            'required'      => false,
             ],
             'content' => [
             'type'          => 'textarea',
@@ -88,6 +87,8 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
             'title'      => strip_tags($this->Value('title')),
             'content'      => strip_tags($this->Value('content')),
             'created'   => $now,
+            'upvotes'   => 0,
+            'downvotes' => 0,
             'answerUserId'  => $this->di->session->get('id'),
             'questionId'    => $this->questionId,
             ]);

@@ -1,7 +1,7 @@
 <div id='comment-<?=$comment->getProperties()['id']?>' class='comment-container'>
     <img src='<?=$comment->user->getProperties()['gravatar']?>' alt='Gravatar'>
     <div class="comment-section">
-        <p><span class='comments-name'><a href="mailto:<?=$comment->user->getProperties()['email']?>"><?=$comment->user->getProperties()['name']?></a></span>
+        <p><span class='comments-name'><a href='<?=$this->url->create('users/id').'/'.$comment->user->getProperties()['id']?>'><?=$comment->user->getProperties()['name']?></a></span>
             <span class='comments-id-time'>|
                 <?php $timestamp = strtotime($comment->getProperties()['created']); ?>
 
