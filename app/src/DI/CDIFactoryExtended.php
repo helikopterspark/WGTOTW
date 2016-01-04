@@ -53,7 +53,7 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           return $answers;
         });
 
-        // Answers
+        // Tags
         $this->setShared('TagController', function() {
           $tags = new \CR\Tag\TagController();
           $tags->setDI($this);
@@ -76,10 +76,18 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
 
       // User login
       $this->set('UserloginController', function() {
-        $userlogincontroller = new \CR\Users\UserloginController();
-        $userlogincontroller->setDI($this);
-        return $userlogincontroller;
-    });
+          $userlogincontroller = new \CR\Users\UserloginController();
+          $userlogincontroller->setDI($this);
+          return $userlogincontroller;
+      });
+
+      // Vote service
+      $this->setShared('vote', function() {
+          $votes = new \CR\Vote\Vote();
+          $votes->setDI($this);
+          return $votes;
+      });
+
       }
 
     }

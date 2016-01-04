@@ -3175,8 +3175,6 @@ fieldset {
 .comments img {
   position: absolute;
   left: 0px;
-  max-width: 50px;
-  max-height: 50px;
 }
 .comment-section {
   color: #777;

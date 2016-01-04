@@ -8,11 +8,11 @@
  $source = null;
 if ($this->di->session->has('acronym')) {
     // show user gravatar and acronym in menu bar
-    $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg';
+    $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg?s=20&d=identicon';
     // if admin, show source code menu item
     if ($this->di->session->get('isAdmin')) {
         $login = [
-            'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar" height="20" width="20"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
+            'text'  => '<span class="navbar-img"><img src="'.$gravatar . '" alt="gravatar"></span>&nbsp;' . $this->di->session->get('acronym').'&nbsp;&#9662;',
             'url'   => $this->di->get('url')->create('users/id/'.$this->di->session->get('id')),
             'title' => 'Översikt över användare',
             //'mark-if-parent-of' => 'users',

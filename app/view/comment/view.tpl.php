@@ -68,7 +68,13 @@
             <p><a class='edit-button' href='<?=$this->url->create("{$this->request->getRoute()}?editcomment=yes&amp;commentid=".$comment->getProperties()['id']."#comment-editform-container")?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera</a></p>
         <?php endif; ?>
         <p>Rank&nbsp;<?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?>
-            &nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$comment->getProperties()['upvotes']?></span>
-        &nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$comment->getProperties()['downvotes']?></span></p>
+            <?php if (!$vote): ?>
+                &nbsp;<a class='upvote-active' href='<?=$this->url->create("comments/upvote/".$comment->getProperties()['id'].'?qid='.$qid)?>' title='Bra kommentar'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$comment->getProperties()['upvotes']?></a>
+                &nbsp;<a class='downvote-active' href='<?=$this->url->create("comments/downvote/".$comment->getProperties()['id'].'?qid='.$qid)?>' title='Mindre bra kommentar'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$comment->getProperties()['downvotes']?></a>
+            <?php else : ?>
+                &nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i></span>&nbsp;<?=$comment->getProperties()['upvotes']?>
+                &nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i></span>&nbsp;<?=$comment->getProperties()['downvotes']?>
+            <?php endif; ?>
+        </p>
     </div> <!-- comment-section -->
 </div> <!-- comment-container -->

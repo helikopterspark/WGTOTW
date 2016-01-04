@@ -65,9 +65,15 @@
 				</span>
 			<?php endif; ?>
 			</p>
-				<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>
-					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$question->getProperties()['upvotes']?></span>
-					&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$question->getProperties()['downvotes']?></span></p>
+			<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>
+				<?php if (!$vote): ?>
+					&nbsp;<a class='upvote-active' href='<?=$this->url->create("question/upvote/".$question->getProperties()['id'])?>' title='Bra fråga'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$question->getProperties()['upvotes']?></a>
+					&nbsp;<a class='downvote-active' href='<?=$this->url->create("question/downvote/".$question->getProperties()['id'])?>' title='Mindre bra fråga'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$question->getProperties()['downvotes']?></a>
+				<?php else : ?>
+					&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i></span>&nbsp;<?=$question->getProperties()['upvotes']?>
+					&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i></span>&nbsp;<?=$question->getProperties()['downvotes']?>
+				<?php endif; ?>
+			</p>
 					<?php if ($this->di->UserloginController->checkLoginCorrectUser($question->user->getProperties()['id'])): ?>
 						<p><a class='edit-button' href='<?=$this->url->create("question/update/".$question->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera fråga</a></p>
 					<?php endif; ?>

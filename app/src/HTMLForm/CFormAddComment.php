@@ -28,7 +28,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
         parent::__construct([], [
             'content' => [
             'type'          => 'textarea',
-            'label'         => $this->type .' Kommentar (använd gärna Markdown):',
+            'label'         => 'Kommentar (använd gärna Markdown):',
             'required'      => true,
             'validation'    => ['not_empty'],
             ],
@@ -88,7 +88,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
             'created'   => $now,
             'upvotes'   => 0,
             'downvotes' => 0,
-            'userId'    => $this->di->session->get('id'),
+            'commentUserId'    => $this->di->session->get('id'),
             ]);
 
         // Save comment2 . $this->type

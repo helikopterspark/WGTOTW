@@ -6,7 +6,8 @@
 	<table>
 		<thead>
 			<tr>
-				<td>ID</td>
+				<!-- <td>ID</td> -->
+				<td>Gravatar</td>
 				<td>Akronym</td>
 				<td>Namn</td>
 				<td><i class="fa fa-pencil"></i></td><td style='text-align: center;'><i class="fa fa-trash-o"></i> / <i class="fa fa-times"></i> / <i class="fa fa-check"></i></td>
@@ -15,7 +16,8 @@
 		<tbody>
 			<?php foreach ($users as $user) : ?>
 				<tr>
-					<td><?=$user->getProperties()['id']?></td>
+					<!-- <td><?=$user->getProperties()['id']?></td> -->
+					<td><img src='<?=$user->gravatar?>' alt='Gravatar'></td>
 					<td>
 						<?php if ($user->getProperties()['deleted']) : ?>
 							<span class='deleted'>

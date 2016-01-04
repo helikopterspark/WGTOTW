@@ -80,15 +80,17 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function idAction($id = null) {
+		
 		$res = $this->questions->find($id);
-
 		if ($res) {
 			$res = $this->getRelatedData([$res]);
+			$vote = $this->vote->checkVote($res[0], 'question');
 			$this->theme->setTitle($res[0]->getProperties()['title']);
 			$this->views->add('question/view', [
 				'flash' => $this->di->flashmessage->outputMsgs(),
 				'question' => $res[0],
 				'title' => $res[0]->getProperties()['title'],
+				'vote' => $vote,
 			], 'main-extended');
 			$this->di->flashmessage->clearMessages();
 			$this->dispatcher->forward([
@@ -105,6 +107,32 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$url = $this->url->create('question');
 			$this->response->redirect($url);
 		}
+	}
+
+	/**
+	* Upvote action
+	*
+	* @param string $id, question ID
+	*
+	* @return void
+	*/
+	public function upvoteAction($id) {
+
+		$res = $this->questions->find($id);
+		$this->vote->castVote($res, 'question', 'upvotes', $id);
+	}
+
+	/**
+	* Downvote action
+	*
+	* @param string $id, question ID
+	*
+	* @return void
+	*/
+	public function downvoteAction($id) {
+
+		$res = $this->questions->find($id);
+		$this->vote->castVote($res, 'question', 'downvotes', $id);
 	}
 
 	/**
@@ -198,7 +226,7 @@ public function getRelatedData($data) {
 			$users = new \CR\Users\User();
 			$users->setDI($this->di);
 			$question->user = $users->find($question->getProperties()['questionUserId']);
-			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg';
+			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg?d=identicon';
 			// Get associated tags
 			$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
 			$question->tags = array();

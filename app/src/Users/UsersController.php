@@ -27,6 +27,9 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = $this->users->findAll();
+		foreach ($all as $user) {
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=20&d=identicon';
+		}
 
 		$this->theme->setTitle("Alla användare");
 		$this->views->add('users/list-all', [
@@ -66,7 +69,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$user = $this->users->find($id);
 
 		if ($user) {
-			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg';
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?d=identicon';
 			// Get user answers
 			$uAnswers = $this->getUserAnswers($id);
 			// Get user comments
@@ -135,7 +138,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		// Get no of comments and sum of upvotes and downvotes for user
 		$this->db->select("COUNT(*) AS noOfComments, SUM(upvotes) AS cUpvotes, SUM(downvotes) AS cDownvotes")
 			->from('comment')
-			->where("userId = ?")
+			->where("commentUserId = ?")
 			->andWhere("deleted IS NULL")
 			->execute([$id]);
 		$cStats = $this->db->fetchAll();
@@ -188,7 +191,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			->from('comment AS c')
 			->join('comment2question AS c2q', 'c.id = c2q.idComment')
 			->join('question AS q', 'c2q.idQuestion = q.id')
-			->where("c.userId = ?")
+			->where("c.commentUserId = ?")
 			->andWhere("c.deleted IS NULL")
 			->orderBy("c.upvotes - c.downvotes DESC")
 			->execute([$id]);
@@ -197,7 +200,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			->from('comment AS c')
 			->join('comment2answer AS c2a', 'c.id = c2a.idComment')
 			->join('answer AS a', 'c2a.idAnswer = a.id')
-			->where("c.userId = ?")
+			->where("c.commentUserId = ?")
 			->andWhere("c.deleted IS NULL")
 			->orderBy("c.upvotes - c.downvotes DESC")
 			->execute([$id]);

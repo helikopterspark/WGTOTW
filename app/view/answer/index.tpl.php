@@ -75,8 +75,14 @@
 		</p>
 
 		<p>Rank&nbsp;<?=$answer->getProperties()['upvotes'] - $answer->getProperties()['downvotes']?>
-			&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$answer->getProperties()['upvotes']?></span>
-		&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$answer->getProperties()['downvotes']?></span></p>
+			<?php if (!$vote): ?>
+				&nbsp;<a class='upvote-active' href='<?=$this->url->create("answer/upvote/".$answer->getProperties()['id'])?>' title='Bra svar'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$answer->getProperties()['upvotes']?></a>
+				&nbsp;<a class='downvote-active' href='<?=$this->url->create("answer/downvote/".$answer->getProperties()['id'])?>' title='Mindre bra svar'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$answer->getProperties()['downvotes']?></a>
+			<?php else : ?>
+				&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i></span>&nbsp;<?=$answer->getProperties()['upvotes']?>
+				&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i></span>&nbsp;<?=$answer->getProperties()['downvotes']?>
+			<?php endif; ?>
+		</p>
 		<?php if ($this->di->UserloginController->checkLoginCorrectUser($answer->user->getProperties()['id'])) : ?>
 			<p><a class='edit-button' href='<?=$this->url->create("question/id/".$answer->getProperties()['questionId'] . "?editanswer=yes&answerid=" . $answer->getProperties()['id']."#answer-".$answer->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera svar</a></p>
 		<?php endif; ?>

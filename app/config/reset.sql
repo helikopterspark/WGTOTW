@@ -4,6 +4,9 @@ USE WGTOTW;
 
 SET NAMES 'utf8';
 
+DROP TABLE IF EXISTS wgtotw_vote2question;
+DROP TABLE IF EXISTS wgtotw_vote2comment;
+DROP TABLE IF EXISTS wgtotw_vote2answer;
 DROP TABLE IF EXISTS wgtotw_comment2answer;
 DROP TABLE IF EXISTS wgtotw_comment2question;
 DROP TABLE IF EXISTS wgtotw_comment;
@@ -87,8 +90,8 @@ CREATE TABLE wgtotw_comment
     deleted datetime,
     upvotes integer,
     downvotes integer,
-    userId integer not null,
-    foreign key (userId) references wgtotw_user(id)
+    commentUserId integer not null,
+    foreign key (commentUserId) references wgtotw_user(id)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE TABLE wgtotw_comment2question
@@ -107,4 +110,31 @@ CREATE TABLE wgtotw_comment2answer
     foreign key (idAnswer) references wgtotw_answer(id),
     foreign key (idComment) references wgtotw_comment(id),
     primary key (idAnswer, idComment)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+CREATE TABLE wgtotw_vote2answer
+(
+	idAnswer integer not null,
+    idUser integer not null,
+    foreign key (idAnswer) references wgtotw_answer(id),
+    foreign key (idUser) references wgtotw_user(id),
+    primary key (idAnswer, idUser)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+CREATE TABLE wgtotw_vote2comment
+(
+	idComment integer not null,
+    idUser integer not null,
+    foreign key (idComment) references wgtotw_comment(id),
+    foreign key (idUser) references wgtotw_user(id),
+    primary key (idComment, idUser)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+CREATE TABLE wgtotw_vote2question
+(
+	idQuestion integer not null,
+    idUser integer not null,
+    foreign key (idQuestion) references wgtotw_question(id),
+    foreign key (idUser) references wgtotw_user(id),
+    primary key (idQuestion, idUser)
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;

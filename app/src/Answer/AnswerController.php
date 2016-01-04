@@ -93,10 +93,12 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 				$answerform = false;
 				$this->edit($answer_post);
 			} else {
+				$vote = $this->vote->checkVote($answer_post, 'answer');
 			// Display answer
 			$this->views->add('answer/index', [
 				'content' => [$answer_post],
 				'questionuserid' => $this->question->user->getProperties()['id'],
+				'vote' => $vote,
 			], 'main-extended');
 		}
 			// Get comments to answer
@@ -225,11 +227,38 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$answer->user = $users->find($answer->getProperties()['answerUserId']);
-				$answer->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($answer->user->getProperties()['email']))) . '.jpg';
+				$answer->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($answer->user->getProperties()['email']))) . '.jpg?d=identicon';
 
 			}
 		}
 		return $data;
+	}
+
+
+	/**
+	* Upvote action
+	*
+	* @param string $id, answer ID
+	*
+	* @return void
+	*/
+	public function upvoteAction($id) {
+
+		$res = $this->answer->find($id);
+		$this->vote->castVote($res, 'answer', 'upvotes', $res->getProperties()['questionId']);
+	}
+
+	/**
+	* Downvote action
+	*
+	* @param string $id, answer ID
+	*
+	* @return void
+	*/
+	public function downvoteAction($id) {
+
+		$res = $this->answer->find($id);
+		$this->vote->castVote($res, 'answer', 'downvotes', $res->getProperties()['questionId']);
 	}
 
 

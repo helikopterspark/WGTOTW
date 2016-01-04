@@ -29,7 +29,7 @@
                         <a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a>&nbsp;
                     <?php endforeach; ?>
                 </span></td>
-                <td><?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?></td>
+                <td><?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?> (<?=$question->getProperties()['upvotes'] + $question->getProperties()['downvotes']?> röster)</td>
                 <td><?=$question->noOfAnswers?></td>
                 <td class="right-align"><?=$question->getProperties()['created']?></td>
             </tr>

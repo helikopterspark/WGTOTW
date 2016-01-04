@@ -36,7 +36,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	/**
      * View all comments for a page.
      *
-     * @param $id integer with question/answer id, $type string with type (question or answer), $redirect string with redirect page
+     * @param $id integer with question/answer id, $type string with type (question or answer), $pageId int for redirect to question page
      *
      * @return void
      */
@@ -81,8 +81,8 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 				$comment->getProperties()['content'] = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
-				$comment->user = $users->find($comment->getProperties()['userId']);
-				$comment->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($comment->user->getProperties()['email']))) . '.jpg';
+				$comment->user = $users->find($comment->getProperties()['commentUserId']);
+				$comment->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($comment->user->getProperties()['email']))) . '.jpg?s=50&d=identicon';
 			}
 
 			if (count($all) > 0) {
@@ -103,8 +103,11 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 						$noForm = true;
 						$this->edit(array('comment' => $comment_post, 'type' => $type, 'pageId' => $pageId));
 					} else {
+						$vote = $this->vote->checkVote($comment_post, 'comment');
 						$this->views->add('comment/view', [
 							'comment' => $comment_post,
+							'vote' => $vote,
+							'qid' => $pageId,
 						], 'main-extended');
 					}
 				}
@@ -182,6 +185,34 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
+	* Upvote action
+	*
+	* @param string $id, comment ID
+	*
+	* @return void
+	*/
+	public function upvoteAction($id) {
+
+		$res = $this->comments->find($id);
+		$q = $this->request->getGet('qid');
+		$this->vote->castVote($res, 'comment', 'upvotes', $q);
+	}
+
+	/**
+	* Downvote action
+	*
+	* @param string $id, comment ID
+	*
+	* @return void
+	*/
+	public function downvoteAction($id) {
+
+		$res = $this->comments->find($id);
+		$q = $this->request->getGet('qid');
+		$this->vote->castVote($res, 'comment', 'downvotes', $q);
+	}
+
+	/**
 	 * Delete all comments for a specified page
 	 *
 	 * @param string $page with name of page
@@ -229,7 +260,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	 */
 	public function setupAction() {
 		//$this->db->setVerbose();
-
+		/*
 		$this->db->dropTableIfExists('comment')->execute();
 
 		$this->db->createTable(
@@ -381,5 +412,6 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 		$this->indexAction();
         $this->views->add('theme/index', [
         	'content' => '<h2>Resultat</h2><p>Databasen återställdes.</p>'], 'sidebar-reduced');
+			*/
 	}
 }
