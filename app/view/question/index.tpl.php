@@ -3,16 +3,26 @@
 	<h2><?=$title?></h2>
 	<?php foreach ($content as $question) : ?>
 		<div id='question-<?=$question->getProperties()['id']?>' class='question-shortlist-container'>
-			<div class='question-stats'><p><?=$question->getProperties()['noOfAnswers']?>&nbsp;svar</p></div>
-		<h3><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h3>
+			<div class='question-stats'>
+				<p class="stats-box"><?=$question->getProperties()['upvotes'] + $question->getProperties()['downvotes']?><br>röster</p>
+				<?php if ($question->getProperties()['noOfAnswers'] > 0): ?>
+					<p class="answers-exist"><?=$question->getProperties()['noOfAnswers']?><br>svar</p>
+					<?php else : ?>
+						<p class="stats-box"><?=$question->getProperties()['noOfAnswers']?><br>svar</p>
+				<?php endif; ?>
+
+			</div>
+			<div class="question-shortlist-content">
+		<h4 class="question-title-heading"><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h4>
 		<p><?=substr($question->getProperties()['content'], 0, 160)?>...</p>
-		<p class='tags'>
+
 		<?php foreach ($question->tags as $tag) : ?>
-			<a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a>&nbsp;
+			<span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></span>
 		<?php endforeach; ?>
-	</p>
+
+<div class="question-shortlist-userinfo">
 		<?php $timestamp = strtotime($question->getProperties()['created']); ?>
-		<p class=smaller-text>Frågan ställdes för
+		<p class=smaller-text><img src='<?=$question->user->gravatar?>' alt='Gravatar'>
 			<?php $timeinterval = time() - $timestamp; ?>
 			<?php if (($timeinterval) < 60): ?>
 				<?=round($timeinterval)?> sekunder sedan
@@ -35,11 +45,11 @@
 			<?php else : ?>
 				<?=round($timeinterval/(60*60*24*30))?> månader sedan
 			<?php endif; ?>
-		&nbsp;av <a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'>
-			<?=$question->user->getProperties()['name']?>&nbsp;<img src='<?=$question->user->gravatar?>' alt='Gravatar'></a></p>
-		<p>Rank&nbsp;<?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?>
-			&nbsp;<span class='upvote'><i class="fa fa-thumbs-o-up"></i>&nbsp;<?=$question->getProperties()['upvotes']?></span>
-		&nbsp;<span class='downvote'><i class="fa fa-thumbs-o-down"></i>&nbsp;<?=$question->getProperties()['downvotes']?></span></p>
+			<br><a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'>
+			<?=$question->user->getProperties()['name']?></a><br>
+			Karma: <?=$question->user->stats?></p>
+		</div> <!-- question-shortlist-userinfo -->
+		</div> <!-- question-shortlist-content -->
 	</div> <!-- question-shortlist-container -->
 	<?php endforeach; ?>
 </article>

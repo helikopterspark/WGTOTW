@@ -24,11 +24,10 @@
     <?php foreach ($content as $question): ?>
         <tr>
             <td><a href='<?=$this->url->create('question/id').'/'.$question->getProperties()['id']?>'><?=$question->getProperties()['title']?></a><br>
-                <span class='tags'>
                     <?php foreach ($question->tags as $tag) : ?>
-                        <a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a>&nbsp;
+                        <span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></span>
                     <?php endforeach; ?>
-                </span></td>
+                </td>
                 <td><?=$question->getProperties()['upvotes'] - $question->getProperties()['downvotes']?> (<?=$question->getProperties()['upvotes'] + $question->getProperties()['downvotes']?> röster)</td>
                 <td><?=$question->noOfAnswers?></td>
                 <td class="right-align"><?=$question->getProperties()['created']?></td>

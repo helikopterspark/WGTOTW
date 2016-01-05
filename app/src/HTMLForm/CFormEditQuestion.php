@@ -155,7 +155,7 @@ class CFormEditQuestion extends \Mos\HTMLForm\CForm
      */
     public function callbackSuccess()
     {
-        $this->redirectTo('question/id/' . $this->lastID);
+        $this->redirectTo('question/id/' . $this->questionUpd->getProperties()['id']);
     }
 
 

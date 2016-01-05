@@ -33,7 +33,14 @@ class Vote implements \Anax\DI\IInjectionAware {
 	}
 
     /**
+    * Update the upvotes or downvotes column in the database tablr for object
     *
+    * @param object $object, type of object to vote for
+    * @param string $objecttype, string with name of object type
+    * @param string $votetype, upvote or downvote
+    * @param int @questionId, questionId for redirecting to correct page
+    *
+    * @return void
     */
     public function castVote($object, $objecttype, $votetype, $questionId) {
 

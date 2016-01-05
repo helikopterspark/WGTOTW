@@ -29,16 +29,16 @@ INSERT INTO wgtotw_answer (title, content, created, upvotes, downvotes, answerUs
 ('Svar på första frågan', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW() - INTERVAL 1 DAY, 3, 1, 3, 1);
 
 DELETE FROM wgtotw_comment2question;
-INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, userId) VALUES
+INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, commentUserId) VALUES
 ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', NOW(), 1, 0, 3);
 INSERT INTO wgtotw_comment2question (idQuestion, idComment) VALUES (1, 1);
 
 DELETE FROM wgtotw_comment2answer;
-INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, userId) VALUES
+INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, commentUserId) VALUES
 ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', NOW() - INTERVAL 2 DAY, 1, 0, 2);
 INSERT INTO wgtotw_comment2answer (idAnswer, idComment) VALUES (1, 2);
 
-INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, userId) VALUES
+INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, commentUserId) VALUES
 ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', NOW() - INTERVAL 1 DAY, 1, 2, 4);
 INSERT INTO wgtotw_comment2question (idQuestion, idComment) VALUES (1, 3);
 

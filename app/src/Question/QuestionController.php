@@ -80,7 +80,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function idAction($id = null) {
-		
+
 		$res = $this->questions->find($id);
 		if ($res) {
 			$res = $this->getRelatedData([$res]);
@@ -227,6 +227,7 @@ public function getRelatedData($data) {
 			$users->setDI($this->di);
 			$question->user = $users->find($question->getProperties()['questionUserId']);
 			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg?d=identicon';
+			$question->user->stats = $this->UsersController->getUserStats($question->getProperties()['questionUserId']);
 			// Get associated tags
 			$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
 			$question->tags = array();
