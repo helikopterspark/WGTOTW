@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:59552:"@charset "utf-8";
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:61608:"@charset "utf-8";
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 @import url(http://fonts.googleapis.com/css?family=Roboto:300);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,500);
@@ -2888,6 +2888,10 @@ body {
 .smaller-text {
   color: #666;
 }
+.bigger-text {
+  font-size: 1.25em;
+  font-weight: bold;
+}
 .right_float_with_margin {
   float: right;
   margin-left: 5px;
@@ -3138,10 +3142,27 @@ fieldset {
   border-style: none;
 }
 .comments {
+  *zoom: 1;
   width: 75%;
 }
+.comments:before,
+.comments:after {
+  content: "";
+  display: table;
+}
+.comments:after {
+  clear: both;
+}
+.comments:before,
+.comments:after {
+  content: "";
+  display: table;
+}
+.comments:after {
+  clear: both;
+}
 .comments-hr {
-  color: #eee;
+  color: #ffffff;
 }
 .comments-heading-container {
   position: relative;
@@ -3370,9 +3391,14 @@ input.text {
   padding: 0.5em 0.5em 0.5em 0.5em;
   overflow: auto;
 }
+.tag-box {
+  font-size: 0.75em;
+}
 .tag-badge {
+  display: inline-block;
   background: #e2ecf4;
-  margin: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
   padding: 5px;
   font-size: 0.875em;
 }
@@ -3414,6 +3440,7 @@ input.text {
 }
 .question-stats {
   float: left;
+  font-size: 0.875em;
   text-align: center;
   width: 10%;
 }
@@ -3431,9 +3458,10 @@ input.text {
   margin-left: 10%;
   padding-left: 10px;
   width: 90%;
-  font-size: 0.875em;
+  font-size: 0.75em;
 }
 .question-shortlist-userinfo {
+  *zoom: 1;
   position: relative;
   float: right;
   padding: 5px;
@@ -3442,17 +3470,108 @@ input.text {
   max-height: 50px;
   background: #eaebec;
 }
+.question-shortlist-userinfo:before,
+.question-shortlist-userinfo:after {
+  content: "";
+  display: table;
+}
+.question-shortlist-userinfo:after {
+  clear: both;
+}
+.question-shortlist-userinfo:before,
+.question-shortlist-userinfo:after {
+  content: "";
+  display: table;
+}
+.question-shortlist-userinfo:after {
+  clear: both;
+}
+.question-shortlist-userinfo a {
+  color: #cb151c;
+}
 .question-shortlist-userinfo img {
   float: left;
   margin-right: 6px;
-  margin-top: 4px;
+  margin-top: 3px;
   margin-left: 4px;
   width: 35px;
   height: 35px;
-  box-shadow: 0 2px 2px #999;
+  box-shadow: 2px 2px 2px #999;
 }
 .question-title-heading a {
   color: #cb151c;
+}
+.question-detail-stats {
+  float: left;
+  line-height: 5.5px;
+  text-align: center;
+  width: 10%;
+}
+.question-detail-content {
+  *zoom: 1;
+  margin-left: 10%;
+  padding-left: 10px;
+  width: 90%;
+}
+.question-detail-content:before,
+.question-detail-content:after {
+  content: "";
+  display: table;
+}
+.question-detail-content:after {
+  clear: both;
+}
+.question-detail-content:before,
+.question-detail-content:after {
+  content: "";
+  display: table;
+}
+.question-detail-content:after {
+  clear: both;
+}
+.question-detail-userinfo {
+  *zoom: 1;
+  position: relative;
+  float: right;
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  min-height: 70px;
+  background: #eaebec;
+}
+.question-detail-userinfo:before,
+.question-detail-userinfo:after {
+  content: "";
+  display: table;
+}
+.question-detail-userinfo:after {
+  clear: both;
+}
+.question-detail-userinfo:before,
+.question-detail-userinfo:after {
+  content: "";
+  display: table;
+}
+.question-detail-userinfo:after {
+  clear: both;
+}
+.question-detail-userinfo a {
+  color: #cb151c;
+}
+.question-detail-userinfo img {
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-left: 5px;
+  width: 60px;
+  height: 60px;
+  box-shadow: 3px 3px 3px #999;
+}
+.upvote {
+  color: #999;
+}
+.downvote {
+  color: #999;
 }
 .answer-accepted {
   color: #339933;
@@ -3628,4 +3747,4 @@ input.text {
     margin-bottom: 22px;
   }
 }
-";s:5:"files";a:33:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452018790;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1445037336;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452023089;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1445079901;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452028954;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1450639558;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1446320182;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1451917942;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452026955;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1446287306;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452030620;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1451682293;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1447710347;}s:7:"updated";i:1452030622;}
+";s:5:"files";a:33:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452018790;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1452112663;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452023089;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1445079901;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452112697;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1450639558;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1446320182;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1452111085;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452108079;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1446287306;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452112567;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1451682293;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1447710347;}s:7:"updated";i:1452112699;}

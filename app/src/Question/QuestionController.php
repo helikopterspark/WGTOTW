@@ -37,6 +37,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			'content' => $all,
 			'title' => 'Alla frågor',
 		], 'main-extended');
+		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
+		$this->views->add('theme/index', [
+			'content' => '<h3>'.$title.'</h3>',
+		], 'sidebar-reduced');
 	}
 
 	/**
@@ -61,13 +65,15 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		->execute();
 		$all = $this->getRelatedData($all);
 
-		$this->theme->setTitle($tagname->name);
+		$this->theme->setTitle($tagname->getProperties()['name']);
 		$this->views->add('question/index', [
 			'content' => $all,
-			'title' => 'Frågor om ' . $tagname->name,
+			'title' => 'Frågor om ' . $tagname->getProperties()['name'],
 		], 'main-extended');
-		$this->views->add('theme/index', [
-			'content' => '<h3>'.$tagname->name.'</h3><p>'.$tagname->description .'</p>',
+		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
+		$this->views->add('tag/view', [
+			'title' => $title,
+			'tag' => $tagname,
 		], 'sidebar-reduced');
 	}
 

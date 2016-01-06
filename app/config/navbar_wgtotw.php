@@ -104,14 +104,14 @@ return [
             'title' => 'Om webbplatsen'
         ],
 
-        $login,
-
         // This is a menu item
         'ask' => [
             'text'  =>'Ställ fråga',
             'url'   => $this->di->get('url')->create('question/add'),
             'title' => 'Ställ en fråga'
         ],
+        
+        $login,
     ],
 /*
         // This is a menu item

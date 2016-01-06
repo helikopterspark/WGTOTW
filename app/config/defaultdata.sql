@@ -50,3 +50,30 @@ UPDATE wgtotw_answer SET accepted = NOW() WHERE id = 1;
 UPDATE wgtotw_answer SET upvotes = 12 WHERE id = 1;
 
 UPDATE wgtotw_user SET isAdmin = 1 WHERE acronym = 'admin';
+
+UPDATE wgtotw_tag SET description = 'Första taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+WHERE id = 1;
+
+UPDATE wgtotw_tag SET description = 'Andra taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+WHERE id = 2;
+
+UPDATE wgtotw_tag SET description = 'Tredje taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+WHERE id = 3;
+
+UPDATE wgtotw_tag SET description = 'Fjärde taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+WHERE id = 4;
+
+INSERT INTO wgtotw_tag (name, description, created) VALUES
+('femte taggen', 'Femte taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW());
+
+INSERT INTO wgtotw_tag (name, description, created) VALUES
+('sjätte taggen', 'Sjätte taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW());
+
+INSERT INTO wgtotw_tag (name, description, created) VALUES
+('sjunde taggen', 'Sjunde taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW());
+
+INSERT INTO wgtotw_tag (name, description, created) VALUES
+('åttonde taggen', 'Åttonde taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW());
+
+INSERT INTO wgtotw_tag (name, description, created) VALUES
+('nionde-taggen', 'Nionde taggen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW());
