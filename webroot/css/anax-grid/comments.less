@@ -4,7 +4,10 @@
 
  .comments {
      .clearfix();
- 	width: 75%;
+     margin-top: @magicNumber;
+     //margin-left: 10%;
+     margin-right: 15px;
+     width: 90%;
  }
 
  .comments-hr {
@@ -22,18 +25,19 @@
  	font-weight: bold;
  	width: 150px;
  	line-height: 0.5em;
- 	//border-bottom: 2px solid @theme-color;
  }
 
  .comments-heading-side {
  	height: @magicNumber;
- 	margin-left: 150px;
+ 	margin-left: 10%;
  	line-height: 0.5em;
  	border-bottom: 2px solid #eee;
  }
 
  .comment-container {
+     .clearfix();
  	position: relative;
+    margin-left: 10%;
  	margin-top: 11px;
  	padding-bottom: 7px;
  	border-bottom: 1px dotted #ddd;
@@ -44,19 +48,34 @@
  	left: 0px;
  }
 
+ .comment-detail-stats {
+     float: left;
+     line-height: @magicNumber / 5;
+     text-align: center;
+     width: 5%;
+ }
+
  .comment-section {
  	color: #777;
- 	font-size: @fontSizeSmall;
- 	margin-left: 60px;
+ 	font-size: @fontSizeSmaller;
+ 	//margin-left: 5%;
+    //width: 95%;
+ }
+
+ .comment-section p {
+     margin-bottom: 5px;
+ }
+
+ .comment-userinfo {
+     text-align: right;
  }
 
  .comments-name {
- 	font-weight: bold;
- 	font-size: @fontSizeSmall;
+ 	//font-size: @fontSizeSmall;
  }
 
  .comments-id-time {
- 	font-size: @fontSizeSmall;
+ 	//font-size: @fontSizeSmall;
  }
 
  .comments-id-time a {
@@ -73,6 +92,7 @@
  }
 
  .comment-button-container {
+     margin-left: 10%;
  	line-height: @magicNumber * 2;
  }
 
@@ -89,17 +109,17 @@
  	transition: all 0.2s ease-in-out;
  }
 
- input.buttons:hover, a.comment-button:hover, a.sort-button:hover {
+ input.buttons:hover, a.comment-button:hover {
  	color: #fff;
  	border-color: #666;
  	background-color: #666;
  }
 
- a.comment-button:hover, a.sort-button:hover {
+ a.comment-button:hover {
  	text-decoration: none;
  }
 
- a.comment-button:active, a.sort-button:active {
+ a.comment-button:active {
  	top: 0px;
  }
 
@@ -149,7 +169,8 @@
  }
 
  .comment-form {
- 	width: 100%;
+     margin-left: 10%;
+ 	max-width: 90%;
  	background-color: #F5F5F5;
  }
 
@@ -164,15 +185,3 @@
  	box-shadow: 1px 1px 1px #999;
  	font-size: 14px;
  }
-/*
- .error,
- .alert,
- .notice,
- .success,
- .info       { display: inline-block; padding: 0.8em; margin-bottom: 1em; border: 1px solid #ddd; font-size: 12px;}
-
- .error, .alert { background: #fbe3e4; color: #8a1f11; border-color: #fbc2c4; }
- .notice     { background: #fff6bf; color: #514721; border-color: #ffd324; }
- .success    { background: #e6efc2; color: #264409; border-color: #c6d880; }
- .info       { background: #d5edf8; color: #205791; border-color: #92cae4; }
-*/

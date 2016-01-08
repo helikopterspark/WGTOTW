@@ -43,40 +43,6 @@ class TagController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	* Setup database
-	*
-	* @return void
-	*/
-	public function setupAction() {
-		//$this->db->setVerbose();
-
-		$this->db->dropTableIfExists('tag2question')->execute();
-		$this->db->dropTableIfExists('tag')->execute();
-
-		$this->db->createTable(
-		'tag',
-		[
-			'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
-			'name' => ['varchar(80)'],
-			'description' => ['varchar(255)'],
-			'created' => ['datetime'],
-			'updated' => ['datetime'],
-			'deleted' => ['datetime'],
-		]
-		)->execute();
-
-		$this->db->createTable(
-		'tag2question',
-		[
-			'idQuestion' => ['integer', 'not null'],
-			'idTag' => ['integer', 'not null'],
-			'foreign key' => ['(idQuestion)', 'references', 'wgtotw_question(id)'],
-			'foreign key' => ['(idTag)', 'references', 'wgtotw_tag(id)'],
-			'primary key' => ['(idQuestion, idTag)'],
-		]
-		)->execute();
-	}
-	/**
 	* Find with id.
 	*
 	* @param int $id
@@ -130,6 +96,43 @@ public function deleteAction($id = null) {
 		die('Missing id');
 	}
 
-	$res = $this->tag->delete($id);
+	//$res = $this->tag->delete($id);
+}
+
+
+/**
+* Setup database
+*
+* @return void
+*/
+public function setupAction() {
+	//$this->db->setVerbose();
+	/*
+	$this->db->dropTableIfExists('tag2question')->execute();
+	$this->db->dropTableIfExists('tag')->execute();
+
+	$this->db->createTable(
+	'tag',
+	[
+		'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
+		'name' => ['varchar(80)'],
+		'description' => ['varchar(255)'],
+		'created' => ['datetime'],
+		'updated' => ['datetime'],
+		'deleted' => ['datetime'],
+	]
+	)->execute();
+
+	$this->db->createTable(
+	'tag2question',
+	[
+		'idQuestion' => ['integer', 'not null'],
+		'idTag' => ['integer', 'not null'],
+		'foreign key' => ['(idQuestion)', 'references', 'wgtotw_question(id)'],
+		'foreign key' => ['(idTag)', 'references', 'wgtotw_tag(id)'],
+		'primary key' => ['(idQuestion, idTag)'],
+	]
+	)->execute();
+	*/
 }
 }

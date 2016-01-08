@@ -1,3 +1,40 @@
+.answers {
+    margin-top: @magicNumber;
+}
+
+.answers-no-of {
+    float: left;
+    width: 10%;
+}
+
+.answers-one {
+    width: 100%;
+    border-bottom: 3px solid #ddd;
+}
+
+.answers-heading {
+   height: @magicNumber;
+   float: left;
+   font-weight: bold;
+   width: 150px;
+   line-height: 0.5em;
+}
+
+.answers-heading-container {
+    width: 100%;
+}
+
+.answers-heading-side {
+   height: @magicNumber;
+   margin-left: 12%;
+   line-height: 0.5em;
+   border-bottom: 3px solid #ddd;
+}
+
+.answer-shortlist-container {
+    margin-top: @magicNumber;
+}
+
 /*
 * Accepted answer
 */
@@ -10,4 +47,52 @@
 */
 .answer-not-accepted a {
     color: @grey;
+}
+
+/**
+*
+*/
+.answer-detail-stats {
+    float: left;
+    //font-size: @fontSizeSmall;
+    padding-top: @magicNumber / 3;
+    line-height: @magicNumber / 4;
+    text-align: center;
+    width: 10%;
+}
+
+.answer-detail-content {
+    .clearfix();
+    margin-left: 10%;
+    padding-left: 10px;
+    width: 90%;
+}
+
+.answer-detail-bottom {
+    .clearfix();
+    margin-top: 10px;
+}
+
+.answer-detail-userinfo {
+    float: right;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    min-height: 70px;
+    //background: rgb(234, 235, 236);
+    border: 1px solid rgb(234, 235, 236);
+}
+
+.answer-detail-userinfo a {
+    color: @candyRed;
+}
+
+.answer-detail-userinfo img {
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 60px;
+    height: 60px;
+    box-shadow: 3px 3px 3px #999;
 }

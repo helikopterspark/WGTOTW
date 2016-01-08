@@ -1,9 +1,9 @@
 <article class='article1'>
 	<h2><?=$title?></h2>
-	<table>
+	<table class="tag-table">
 		<?php $rowcounter = 1; ?>
 		<?php foreach ($content as $tag) : ?>
-			<?php if ($rowcounter == 6): ?>
+			<?php if ($rowcounter == 5): ?>
 				<?php $rowcounter = 1; ?>
 				<tr>
 				<?php endif; ?>
@@ -15,7 +15,7 @@
 						<p><?=$tag->getProperties()['description']?></p>
 					</td>
 				</span>
-					<?php if ($rowcounter == 6): ?>
+					<?php if ($rowcounter == 5): ?>
 					</tr>
 				<?php endif; ?>
 				<?php $rowcounter++; ?>

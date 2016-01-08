@@ -31,7 +31,7 @@
     margin-left: 10%;
     padding-left: 10px;
     width: 90%;
-    font-size: @fontSizeSmaller;
+    font-size: @fontSizeSmall;
 }
 
 .question-shortlist-userinfo {
@@ -61,12 +61,22 @@
 }
 
 .question-title-heading a {
-    color: @theme-color;
+    color: #000;
+}
+
+/**
+* Question detail view
+*
+*/
+.question-detail-title-heading a {
+    //margin-left: 10%;
+    color: #000;
 }
 
 .question-detail-stats {
     float: left;
     //font-size: @fontSizeSmall;
+    padding-top: @magicNumber / 3;
     line-height: @magicNumber / 4;
     text-align: center;
     width: 10%;
@@ -75,13 +85,16 @@
 .question-detail-content {
     .clearfix();
     margin-left: 10%;
-    padding-left: 10px;
+    //padding-left: 10px;
     width: 90%;
 }
 
-.question-detail-userinfo {
+.question-detail-bottom {
     .clearfix();
-    position: relative;
+    margin-top: 10px;
+}
+
+.question-detail-userinfo {
     float: right;
     padding: 5px;
     margin-right: 10px;
@@ -104,10 +117,6 @@
     box-shadow: 3px 3px 3px #999;
 }
 
-.upvote {
-    color: #999;
-}
-
-.downvote {
-    color: #999;
+.userinfo-text {
+    margin-left: 70px;
 }

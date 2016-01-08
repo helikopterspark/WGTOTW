@@ -1,6 +1,11 @@
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
 
+	html {
+		background-color: #fff;
+		background-image: none;
+	}
+
 	#wrapper {
 		min-width: 320px;
 	}
@@ -13,11 +18,9 @@
 	#navbar {
 		.column(@columns);
 		margin-bottom: @magicNumber * 3.5;
-		font-size: @fontSizeSmaller;
 	}
 
 	.siteslogan {
-		font-size: @fontSizeSmaller;
 		top: 65px;
 	}
 
@@ -49,38 +52,7 @@
 		.column(@columns);
 		margin-bottom: @magicNumber;
 	}
-	/* Calendar */
 	
-	div.weeks-in-month {
-		//background: yellow;
-	}
-
-	div.week-row-0,
-	div.week-row-1,
-	div.week-row-2,
-	div.week-row-3,
-	div.week-row-4,
-	div.week-row-5,
-	div.week-row-6 {
-		margin-left: 5%;
-	}
-
-	div.weekdays, div.day, div.today {
-		min-width: 9.5%;
-	}
-
-	h1.calendar-heading {
-		font-size: @fontSizeH3;
-	}
-
-	div.weekdays {
-		font-size: 0.5em;
-	}
-
-	img.cal_pic {
-		width: 100%;
-		height: 100%;
-	}
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -102,7 +74,7 @@
 		margin-bottom: @magicNumber;
 	}
 
-	
+
 	#featured-1,
 	#featured-2,
 	#featured-3,
@@ -135,7 +107,7 @@
 
 	.comments,
 	.comment-form {
-		width: 75%;
+		width: 100%;
 	}
 
 	#main-extended {
@@ -174,5 +146,5 @@
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
 
-	
+
 }

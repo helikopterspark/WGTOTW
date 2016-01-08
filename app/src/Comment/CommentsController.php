@@ -78,7 +78,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 		if (is_array($all)) {
 			// convert comment content from markdown to html, and get user object and Gravatar
 			foreach ($all as $xid => &$comment) {
-				$comment->getProperties()['content'] = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
+				$comment->filteredcontent = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$comment->user = $users->find($comment->getProperties()['commentUserId']);
@@ -96,7 +96,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 					// Get form view if add/edit is clicked
 					$noForm = false;
 					if ($this->request->getGet('editcomment') && $comment_post->getProperties()['id'] == $this->request->getGet('commentid')) {
-						if (!$this->di->UserloginController->checkLoginCorrectUser($comment_post->getProperties()['userId'])) {
+						if (!$this->di->UserloginController->checkLoginCorrectUser($comment_post->getProperties()['commentUserId'])) {
 							// Not logged in
 							$this->di->UserloginController->redirectToLogin('Endast '.$comment_post->user->getProperties()['acronym'].' kan redigera kommentaren');
 						}

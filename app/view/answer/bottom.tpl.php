@@ -1,4 +1,5 @@
 <!-- Bottom of question section -->
+<article class="article1">
 <?php if ($answerform): ?>
     <div id='answer-form' class='answer-form'>
         <h3>Svara på frågan:</h3>
@@ -11,3 +12,4 @@
 </div>
 <?php endif; ?>
 <p class='uplink'><a href="#">Upp</a></p>
+</article>

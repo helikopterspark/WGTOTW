@@ -1,16 +1,19 @@
-<p>
-    <a class='comment-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=questions")?>' title='Frågor'>
+<div class="tab-section">
+    <h4><?=$cCount?> <?php $word = $cCount == 1 ? 'Kommentar' : 'Kommentarer'; echo $word; ?></h4>
+<p class="button-right">
+    <a class='tab-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=questions")?>' title='Frågor'>
         <span class='lowered-letter'><i class="fa fa-question fa-2x"></i></span> <?=$qCount?> <?php $word = $qCount == 1 ? 'Fråga' : 'Frågor'; echo $word; ?>
     </a>
-    <a class='comment-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=answers")?>' title='Svar'>
+    <a class='tab-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=answers")?>' title='Svar'>
         <span class='lowered-letter'><i class="fa fa-exclamation fa-2x"></i></span> <?=$aCount?> Svar
     </a>
-    <a class='edit-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=comments")?>' title='Kommentarer'>
+    <a class='tab-button-selected' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=comments")?>' title='Kommentarer'>
         <span class='lowered-letter'><i class="fa fa-comments fa-2x"></i></span> <?=$cCount?> <?php $word = $cCount == 1 ? 'Kommentar' : 'Kommentarer'; echo $word; ?>
     </a>
 </p>
+</div>
 
-<h4><?=$cCount?> <?php $word = $cCount == 1 ? 'Kommentar' : 'Kommentarer'; echo $word; ?></h4>
+
 <?php if (count($content['questioncomments']) > 0): ?>
 <table>
     <thead>
@@ -22,7 +25,8 @@
     </thead>
     <?php foreach ($content['questioncomments'] as $comment): ?>
         <tr>
-            <td><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'><?=$comment->getProperties()['qtitle']?></a></td>
+            <td><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
+                <?=$comment->getProperties()['qtitle']?></a></td>
             <td><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?></td>
             <td class="right-align"><?=$comment->getProperties()['created']?></td>
         </tr>
@@ -40,7 +44,8 @@
     </thead>
     <?php foreach ($content['answercomments'] as $comment): ?>
         <tr>
-            <td><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'><?=$comment->getProperties()['atitle']?></a></td>
+            <td><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
+                <?=$comment->getProperties()['atitle']?></a></td>
             <td><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?></td>
             <td class="right-align"><?=$comment->getProperties()['created']?></td>
         </tr>

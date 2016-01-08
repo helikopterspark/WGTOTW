@@ -1,16 +1,18 @@
-<p>
-    <a class='edit-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=questions")?>' title='Frågor'>
+<div class="tab-section">
+    <h4><?=$qCount?> <?php $word = $qCount == 1 ? 'Fråga' : 'Frågor'; echo $word; ?></h4>
+<p class="button-right">
+    <a class='tab-button-selected' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=questions")?>' title='Frågor'>
         <span class='lowered-letter'><i class="fa fa-question fa-2x"></i></span> <?=$qCount?> <?php $word = $qCount == 1 ? 'Fråga' : 'Frågor'; echo $word; ?>
     </a>
-    <a class='comment-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=answers")?>' title='Svar'>
+    <a class='tab-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=answers")?>' title='Svar'>
         <span class='lowered-letter'><i class="fa fa-exclamation fa-2x"></i></span> <?=$aCount?> Svar
     </a>
-    <a class='comment-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=comments")?>' title='Kommentarer'>
+    <a class='tab-button' href='<?=$this->url->create("users/id/".$user->getProperties()['id']."?tab=comments")?>' title='Kommentarer'>
         <span class='lowered-letter'><i class="fa fa-comments fa-2x"></i></span> <?=$cCount?> <?php $word = $cCount == 1 ? 'Kommentar' : 'Kommentarer'; echo $word; ?>
     </a>
 </p>
+</div>
 
-<h4><?=$qCount?> <?php $word = $qCount == 1 ? 'Fråga' : 'Frågor'; echo $word; ?></h4>
 <?php if ($qCount > 0): ?>
 <table>
     <thead>

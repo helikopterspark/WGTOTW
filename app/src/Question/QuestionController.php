@@ -91,6 +91,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		if ($res) {
 			$res = $this->getRelatedData([$res]);
 			$vote = $this->vote->checkVote($res[0], 'question');
+
 			$this->theme->setTitle($res[0]->getProperties()['title']);
 			$this->views->add('question/view', [
 				'flash' => $this->di->flashmessage->outputMsgs(),
@@ -109,6 +110,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 				'action'	=> 'index',
 				'params'	=> [$res[0]],
 			]);
+			$this->views->add('tag/side-view', [
+				'content' => $res[0]->tags,
+			], 'sidebar-reduced');
 		} else {
 			$url = $this->url->create('question');
 			$this->response->redirect($url);
@@ -212,7 +216,7 @@ public function deleteAction($id = null) {
 		die('Missing id');
 	}
 
-	$res = $this->questions->delete($id);
+	//$res = $this->questions->delete($id);
 }
 
 /**
@@ -226,8 +230,8 @@ public function getRelatedData($data) {
 	// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 	if (is_array($data)) {
 		foreach ($data as $id => &$question) {
-			$question->getProperties()['title'] = $this->textFilter->doFilter($question->getProperties()['title'], 'shortcode, markdown');
-			$question->getProperties()['content'] = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
+
+			$question->filteredcontent = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
 			// Get user info
 			$users = new \CR\Users\User();
 			$users->setDI($this->di);

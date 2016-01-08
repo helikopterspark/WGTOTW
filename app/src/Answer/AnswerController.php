@@ -222,8 +222,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 		// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
 		if (is_array($data)) {
 			foreach ($data as $id => &$answer) {
-				$answer->getProperties()['title'] = $this->textFilter->doFilter($answer->getProperties()['title'], 'shortcode, markdown');
-				$answer->getProperties()['content'] = $this->textFilter->doFilter($answer->getProperties()['content'], 'shortcode, markdown');
+				$answer->filteredcontent = $this->textFilter->doFilter($answer->getProperties()['content'], 'shortcode, markdown');
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$answer->user = $users->find($answer->getProperties()['answerUserId']);
