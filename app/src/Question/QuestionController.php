@@ -38,8 +38,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			'title' => 'Alla frågor',
 		], 'main-extended');
 		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
-		$this->views->add('theme/index', [
-			'content' => '<h3>'.$title.'</h3>',
+		$this->views->add('tag/view', [
+			'title' => $title,
+			'tag' => null,
 		], 'sidebar-reduced');
 	}
 

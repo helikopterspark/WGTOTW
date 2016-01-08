@@ -1,4 +1,4 @@
-<article class='article1'>
+<article class='article2'>
 	<h3>Relaterade taggar</h3>
     <?php foreach ($content as $tag): ?>
 	<div class="tag-box">

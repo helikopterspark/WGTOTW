@@ -17,8 +17,9 @@ body {
 }
 
 html, body {
-    height: 100%;
+    //height: 100%;
     display: flex;
+    min-height: 100vh;
   flex-direction: column;
 }
 
@@ -31,11 +32,12 @@ body > * {
 * Layout of the main page elements
 */
 #wrapper {
-    margin: 8px auto;
+    margin: auto;
+    //margin-top: 8px;
     max-width: 960px;
     background-color: #ffffff;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    //border-top-left-radius: 5px;
+    //border-top-right-radius: 5px;
     flex-grow: 1;
     .clearfix();
 }
@@ -116,12 +118,16 @@ body > * {
 */
 #footer {
     margin-top: 2 * @magicNumber;
-    border-top: 1px solid #ccc;
+    //border-top: 1px solid #ccc;
     padding-top: @magicNumber;
+    background-color: rgb(234, 234, 234);
+    text-align: center;
+    height: 120px;
 }
 
 .sitefooter {
     color: #666;
+    //background-color: rgb(234, 234, 234);
 }
 
 
@@ -131,6 +137,9 @@ body > * {
 .article1 {
     //border-right: 1px solid #ccc;
     padding-left: 1em;
+}
+
+.article1, .article2 {
     padding-right: 1em;
 }
 
@@ -193,8 +202,8 @@ a:focus {
 #header,
 #navbar,
 #flash,
-#fullpage,
-#footer {
+#fullpage {
+//#footer {
     .column(@columns);
 }
 
@@ -247,10 +256,16 @@ a:focus {
 #footer-col-1,
 #footer-col-2,
 #footer-col-3,
-#footer-col-4,
-#footer {
+#footer-col-4 {
+//#footer {
     min-height: 3 * @magicNumber;
     margin-bottom: @magicNumber;
+}
+
+#footer {
+    //width: 960px;
+    margin: auto;
+    .clearfix();
 }
 
 // Tabs

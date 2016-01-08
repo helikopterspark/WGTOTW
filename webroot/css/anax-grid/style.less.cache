@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:65048:"@charset "utf-8";
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:66214:"@charset "utf-8";
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 @import url(http://fonts.googleapis.com/css?family=Roboto:300);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,500);
@@ -19,6 +19,8 @@ html.blue-theme #flash-ad {
 }
 html.blue-theme .article1 h1,
 html.blue-theme .article1 h2,
+html.blue-theme .article2 h1,
+html.blue-theme .article2 h2,
 html.blue-theme .calendar-heading {
   font-family: Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
   border-bottom: 1px solid #3333ff;
@@ -73,6 +75,8 @@ html.green-theme #flash-ad {
 }
 html.green-theme .article1 h1,
 html.green-theme .article1 h2,
+html.green-theme .article2 h1,
+html.green-theme .article2 h2,
 html.green-theme .calendar-heading {
   font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', Helvetica, Arial, sans-serif;
   border-bottom: 1px solid #339933;
@@ -127,6 +131,8 @@ html.purple-theme #flash-ad {
 }
 html.purple-theme .article1 h1,
 html.purple-theme .article1 h2,
+html.purple-theme .article2 h1,
+html.purple-theme .article2 h2,
 html.purple-theme .calendar-heading {
   font-family: Orbitron;
   border-bottom: 1px solid #6633cc;
@@ -181,6 +187,8 @@ html.red-theme #flash-ad {
 }
 html.red-theme .article1 h1,
 html.red-theme .article1 h2,
+html.red-theme .article2 h1,
+html.red-theme .article2 h2,
 html.red-theme .calendar-heading {
   border-bottom: 1px solid #cb151c;
 }
@@ -2765,19 +2773,17 @@ body {
 }
 html,
 body {
-  height: 100%;
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
 }
 body > * {
   flex-shrink: 0;
 }
 #wrapper {
-  margin: 8px auto;
+  margin: auto;
   max-width: 960px;
   background-color: #ffffff;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
   flex-grow: 1;
   *zoom: 1;
 }
@@ -2878,14 +2884,19 @@ body > * {
 }
 #footer {
   margin-top: 44px;
-  border-top: 1px solid #ccc;
   padding-top: 22px;
+  background-color: #eaeaea;
+  text-align: center;
+  height: 120px;
 }
 .sitefooter {
   color: #666;
 }
 .article1 {
   padding-left: 1em;
+}
+.article1,
+.article2 {
   padding-right: 1em;
 }
 .lowered-letter {
@@ -2935,8 +2946,7 @@ a:focus {
 #header,
 #navbar,
 #flash,
-#fullpage,
-#footer {
+#fullpage {
   display: inline;
   float: left;
   width: 940px;
@@ -3003,10 +3013,29 @@ a:focus {
 #footer-col-1,
 #footer-col-2,
 #footer-col-3,
-#footer-col-4,
-#footer {
+#footer-col-4 {
   min-height: 66px;
   margin-bottom: 22px;
+}
+#footer {
+  margin: auto;
+  *zoom: 1;
+}
+#footer:before,
+#footer:after {
+  content: "";
+  display: table;
+}
+#footer:after {
+  clear: both;
+}
+#footer:before,
+#footer:after {
+  content: "";
+  display: table;
+}
+#footer:after {
+  clear: both;
 }
 .tab-button-container {
   margin-left: 10%;
@@ -3312,12 +3341,13 @@ fieldset {
   line-height: 44px;
 }
 input.buttons,
-a.comment-button {
-  color: #333;
+a.comment-button,
+a.up-button {
+  color: #333 !important;
   font: 80% 'Roboto', sans-serif;
   padding: 7px;
   background-color: #ddd;
-  border-color: #ddd;
+  border-color: #999;
   border-style: solid;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
@@ -3325,12 +3355,14 @@ a.comment-button {
   transition: all 0.2s ease-in-out;
 }
 input.buttons:hover,
-a.comment-button:hover {
-  color: #fff;
+a.comment-button:hover,
+a.up-button:hover {
+  color: #fff !important;
   border-color: #666;
   background-color: #666;
 }
-a.comment-button:hover {
+a.comment-button:hover,
+a.up-button:hover {
   text-decoration: none;
 }
 a.comment-button:active {
@@ -3785,6 +3817,34 @@ input.text {
   height: 60px;
   box-shadow: 3px 3px 3px #999;
 }
+.answer-button-container {
+  margin-left: 10%;
+  margin-top: 44px;
+  line-height: 44px;
+}
+a.answer-button {
+  color: #333 !important;
+  font: 120% 'Roboto', sans-serif;
+  padding: 12px;
+  background-color: #ddd;
+  border-color: #ddd;
+  border-style: solid;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+a.answer-button:hover {
+  color: #fff !important;
+  border-color: #666;
+  background-color: #666;
+}
+a.answer-button:hover {
+  text-decoration: none;
+}
+a.answer-button:active {
+  top: 0px;
+}
 @media (max-width: 767px) {
   html {
     background-color: #fff;
@@ -3876,9 +3936,8 @@ input.text {
     margin: 0 10px;
     margin-bottom: 22px;
   }
-  img.cal_pic {
-    width: 100%;
-    height: 100%;
+  #footer {
+    min-width: 640px;
   }
 }
 @media (min-width: 992px) {
@@ -3930,5 +3989,8 @@ input.text {
     margin: 0 10px;
     margin-bottom: 22px;
   }
+  #footer {
+    width: 960px;
+  }
 }
-";s:5:"files";a:33:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452018790;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1452257902;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452023089;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1452254971;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452277294;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1452257008;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1446320182;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1452275264;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452254108;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1452272847;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452276110;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1452277209;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1452258246;}s:7:"updated";i:1452277296;}
+";s:5:"files";a:33:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452018790;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1452257902;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452278551;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1452254971;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452295310;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1452257008;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1446320182;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1452283986;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452254108;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1452272847;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452276110;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1452284980;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1452283702;}s:7:"updated";i:1452295312;}

@@ -78,13 +78,24 @@
 	<div id='footer-col-4'><?php $this->views->render('footer-col-4')?></div>
 </div>
 <?php endif; ?>
+<!--
+<div id='footer' <?=$this->theme->getClassAttributeFor("footer")?>>
+<?php if(isset($footer)) echo $footer?>
+<?php $this->views->render('footer')?>
+</div>
+-->
+</div>
 
 <div id='footer' <?=$this->theme->getClassAttributeFor("footer")?>>
 <?php if(isset($footer)) echo $footer?>
 <?php $this->views->render('footer')?>
 </div>
 
+<?php if ($this->views->hasContent('stickyfooter')) : ?>
+<div id='stickyfooter' <?=$this->theme->getClassAttributeFor("stickyfooter")?>>
+	<?php $this->views->render('fullpage')?>
 </div>
+<?php endif; ?>
 
 <?php if(isset($jquery)):?><script src='<?=$this->url->asset($jquery)?>'></script><?php endif; ?>
 
