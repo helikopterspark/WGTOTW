@@ -22,7 +22,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
     {
         $this->error = '<span class="flashmsgicon"><i class="fa fa-times-circle fa-2x"></i></span>&nbsp;';
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'login-form', 'class' => 'login-form'], [
             'acronym' => [
             'type'          => 'text',
             'label'         => 'Användarnamn:',

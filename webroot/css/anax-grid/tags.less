@@ -7,16 +7,27 @@
 
 .tag-badge {
     display: inline-block;
-    background: rgb(226, 236, 244);
+    border-radius: 2px 2px 2px;
+    background: rgb(135, 135, 135);
     margin-right: 5px;
     margin-bottom: 5px;
     padding: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
     font-size: @fontSizeSmall;
 }
 
 .tag-badge a {
     text-decoration: none;
-    color: rgb(35, 115, 204);
+    color: #fff;
+}
+
+.tag-badge a:hover {
+    text-decoration: none;
+}
+
+.tag-badge:hover {
+    background: rgb(54, 54, 54);
 }
 
 .tag-table td {

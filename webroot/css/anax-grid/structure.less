@@ -3,8 +3,7 @@
 */
 
 html {
-    //background-color: rgb(50, 54, 60);
-    background-color: #26282e;
+    background-color: rgb(50, 54, 60);
     background-image: url("../../img/3px-tile.png");
 
 }
@@ -19,7 +18,7 @@ body {
 html, body {
     //height: 100%;
     display: flex;
-    min-height: 100vh;
+    min-height: 98.5vh;
   flex-direction: column;
 }
 
@@ -33,7 +32,7 @@ body > * {
 */
 #wrapper {
     margin: auto;
-    //margin-top: 8px;
+    margin-top: 1px;
     max-width: 960px;
     background-color: #ffffff;
     //border-top-left-radius: 5px;
@@ -117,16 +116,39 @@ body > * {
 * Layout for footer
 */
 #footer {
-    margin-top: 2 * @magicNumber;
+    margin-top: @magicNumber * 2;
     //border-top: 1px solid #ccc;
     padding-top: @magicNumber;
     background-color: rgb(234, 234, 234);
     text-align: center;
-    height: 120px;
+    height: @magicNumber * 7;
+}
+
+.upper-footer {
+    height: @magicNumber * 2;
+    color: #999;
+    background-color: rgb(234, 234, 234);
+}
+
+.lower-footer {
+    padding-top: @magicNumber;
+    height: @magicNumber * 5;
+    color: rgb(93, 93, 93);
+    background-color: rgb(37, 37, 37);
+}
+
+.lower-footer a {
+    color: rgb(93, 93, 93);
+    text-decoration: none;
+}
+
+.lower-footer a:hover {
+    color: #fff;
+    text-decoration: none;
 }
 
 .sitefooter {
-    color: #666;
+    //color: #666;
     //background-color: rgb(234, 234, 234);
 }
 
@@ -275,12 +297,21 @@ a:focus {
    line-height: @magicNumber * 2;
 }
 
-a.tab-button, a.tab-button-selected {
-    height: @magicNumber * 1.20;
-   color:#333;
+.tab-sidebar {
+    display: inline-block;
+    min-width: 496px;
+    color: #fff;
+    min-height: 32px;
+    border-bottom: 3px solid #ddd;
+}
+
+.tab-button, .tab-button-selected, {
+    display: inline-block;
+    float: right;
    font: 80% 'Roboto', sans-serif;
-   padding: 7px;
-   margin-left: 2px;
+   margin: 0;
+   min-width: 130px;
+   text-align: center;
    border-style: solid;
    border-bottom-color: #fff;
    -webkit-transition: all 0.2s ease-in-out;
@@ -289,36 +320,63 @@ a.tab-button, a.tab-button-selected {
    transition: all 0.2s ease-in-out;
 }
 
-a.tab-button {
-    border-color: #ddd;
+.tab-button {
+    border-bottom: 3px solid #ddd;
+    border-top: none;
+    border-left: none;
+    border-right: none;
     background-color: #ddd;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 9px;
+    padding-bottom: 7px;
 }
 
-a.tab-button-selected {
+.tab-button a, .tab-button-selected a {
+    color: #000;
+}
+
+.tab-button-selected {
+    padding-top: 6px;
+    padding-bottom: 7px;
     border-top-color: #000;
     border-left-color: #ddd;
     border-right-color: #ddd;
     background-color: #fff;
 }
 
-a.tab-button:hover {
-   //color: #fff;
-   //border-color: #666;
-   border-top-color: #000;
-   border-left-color: #666;
-   border-right-color: #666;
-   border-bottom-color: #fff;
-   background-color: #fff;
+.tab-button:hover {
+   box-shadow: 0 0 4px #999 inset;
 }
 
-a.tab-button:hover, a.tab-button-selected:hover{
+.tab-button:hover a, .tab-button-selected:hover a, a.up-button:hover {
    text-decoration: none;
 }
 
-a.tab-button:active{
+.tab-button:active{
    top: 0px;
 }
 
+a.up-button {
+   color:#bbb !important;
+   font: 80% 'Roboto', sans-serif;
+   padding: 7px;
+   padding-left: 12px;
+   padding-right: 12px;
+   background-color: rgb(50, 54, 60);
+   border-color: #999;
+   border-style: solid;
+   -webkit-transition: all 0.2s ease-in-out;
+   -moz-transition: all 0.2s ease-in-out;
+   -o-transition: all 0.2s ease-in-out;
+   transition: all 0.2s ease-in-out;
+}
+
+a.up-button:hover {
+   color: #fff !important;
+   border-color: #666;
+   background-color: #666;
+}
 /**
 * Vote buttons
 */

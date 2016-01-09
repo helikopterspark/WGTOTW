@@ -196,7 +196,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			->orderBy("c.upvotes - c.downvotes DESC")
 			->execute([$id]);
 
-		$comments['answercomments'] = $userC->query("c.*, a.questionID AS qID, a.id AS aID, a.title AS atitle")
+		$comments['answercomments'] = $userC->query("c.*, a.questionID AS qID, a.id AS aID, a.content AS acontent")
 			->from('comment AS c')
 			->join('comment2answer AS c2a', 'c.id = c2a.idComment')
 			->join('answer AS a', 'c2a.idAnswer = a.id')
@@ -204,6 +204,11 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			->andWhere("c.deleted IS NULL")
 			->orderBy("c.upvotes - c.downvotes DESC")
 			->execute([$id]);
+		// Clean answer content from markdown and html-tags
+		foreach ($comments['answercomments'] as $comment) {
+			$md2html = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
+			$comment->filteredcontent = strip_tags($md2html);
+		}
 
 		return $comments;
 	}
@@ -245,9 +250,10 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->di->theme->setTitle("Registrera användare");
 		$this->views->add('theme/index', [
 			'title' => 'Registrera användare',
-			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML()
+			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML() .
+			'<script type="text/javascript" language="JavaScript"> document.forms["user-form"].elements["acronym"].focus();</script>',
 			], 'main');
-		$this->views->add('users/users-sidebar', [], 'sidebar');
+		//$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->di->flashmessage->clearMessages();
 	}
 
@@ -271,7 +277,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$form->setDI($this->di);
 			$form->check();
 
-			$content = $form->getHTML();
+			$content = $form->getHTML() . '<script type="text/javascript" language="JavaScript"> document.forms["user-editform"].elements["acronym"].focus();</script>';
 
 		} else {
 			// Wrong user is logged in
@@ -284,7 +290,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->views->add('theme/index', [
 			'title' => 'Uppdatera användare',
 			'content' => '<h2>Uppdatera användare</h2>' . $this->di->flashmessage->outputMsgs() . $content
-		], 'fullpage');
+		], 'main-extended');
 		//$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->di->flashmessage->clearMessages();
 	}

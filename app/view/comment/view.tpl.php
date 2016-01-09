@@ -1,18 +1,4 @@
 <div id='comment-<?=$comment->getProperties()['id']?>' class='comment-container'>
-    <!--
-    <div class="comment-detail-stats">
-        <p>
-            <?php if (!$vote): ?>
-                <a class='upvote-active' href='<?=$this->url->create("comments/upvote/".$comment->getProperties()['id'].'?qid='.$qid)?>' title='Bra kommentar'><i class="fa fa-caret-up fa-2x"></i></a><br>
-                <span class="smaller-text"><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?><br>
-                <a class='downvote-active' href='<?=$this->url->create("comments/downvote/".$comment->getProperties()['id'].'?qid='.$qid)?>' title='Mindre bra kommentar'><i class="fa fa-caret-down fa-2x"></i></a></span>
-                <?php else : ?>
-                    <span class='upvote'><i class="fa fa-caret-up fa-2x"></i></span><br>
-                    <span class="smaller-text"><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?></span><br>
-                    <span class='downvote'><i class="fa fa-caret-down fa-2x"></i></span>
-                <?php endif; ?>
-            </p>
-        </div> --> <!-- question-detail-stats -->
 
     <div class="comment-section">
         <?=$comment->filteredcontent?>

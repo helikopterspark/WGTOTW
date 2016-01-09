@@ -26,7 +26,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
             $tagTitles[$value->getProperties()['id']] = $value->getProperties()['name'];
         }
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'question-form', 'class' => 'question-form'], [
             'title' => [
             'type'          => 'text',
             'label'         => 'Titel:',
@@ -44,7 +44,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
             'options'       => $tagTitles,
             'label'         => 'Ämnestaggar',
             'required'       => true,
-            'size'          => 8,
+            'size'          => 10,
             ],
 
             'submit' => [

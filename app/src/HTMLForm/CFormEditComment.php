@@ -25,7 +25,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
         $this->type = $params['type'];
         $this->pageId = $params['pageId'];
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'comment-form', 'class' => 'comment-form'], [
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Kommentar (använd gärna Markdown):',
@@ -129,22 +129,19 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
      */
     public function callbackDelete()
     {
-        $id = $this->commentUpd->getProperties()['id'];
-
         $now = date('Y-m-d H:i:s');
-        $this->commentUpd->deleted = $now;
-		$this->commentUpd->save();
 
+        $this->comment = new \CR\Comment\Comment();
+        $this->comment->setDI($this->di);
+
+        $this->comment->save([
+            'id'        => $this->commentUpd->getProperties()['id'],
+            'deleted'   => $now,
+            ]);
+
+        $this->di->flashmessage->info('<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Kommentaren togs bort.');
         return true;
 
-        /*$deleted = $this->commentUpd->delete($id);
-
-        if ($deleted) {
-            return true;
-        } else {
-            return false;
-        }
-        */
     }
 
 

@@ -35,7 +35,7 @@ class CFormEditQuestion extends \Mos\HTMLForm\CForm
             $tagTitles[$value->getProperties()['id']] = $value->getProperties()['name'];
         }
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'question-editform', 'class' => 'question-editform'], [
             'title' => [
             'type'          => 'text',
             'label'         => 'Titel:',
@@ -56,7 +56,7 @@ class CFormEditQuestion extends \Mos\HTMLForm\CForm
             'values'      => $preselected,
             'label'         => 'Ämnestaggar',
             'required'       => true,
-            'size'          => 8,
+            'size'          => 10,
             ],
 
             'submit' => [

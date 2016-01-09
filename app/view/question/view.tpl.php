@@ -36,6 +36,10 @@
 				<?php $timestamp = strtotime($question->getProperties()['created']); ?>
 				<div class="question-detail-userinfo smaller-text">
 					<div><img src='<?=$question->user->gravatar?>' alt='Gravatar'></div>
+					<div class="smaller-text">
+						<a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'><?=$question->user->getProperties()['acronym']?></a>
+						&nbsp;&#8226;&nbsp;<?=$question->user->stats?>
+					</div>
 					<div class="userinfo-text"><span class="smaller-text">
 						<div>
 							<?php $timeinterval = time() - $timestamp; ?>
@@ -62,8 +66,6 @@
 							<?php endif; ?>
 						</div>
 					</span>
-
-					<div class="smaller-text"><a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'><?=$question->user->getProperties()['acronym']?></a></div>
 
 					<?php if (isset($question->getProperties()['updated'])) : ?>
 						<div class="smaller-text">

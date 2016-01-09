@@ -1,5 +1,5 @@
 <article class='article2'>
-	<h3>Relaterade taggar</h3>
+	<h3>Relaterade ämnen</h3>
     <?php foreach ($content as $tag): ?>
 	<div class="tag-box">
 	<p>

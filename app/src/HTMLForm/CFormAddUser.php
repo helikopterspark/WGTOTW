@@ -17,7 +17,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
      */
     public function __construct($tempuser = null)
     {
-        parent::__construct([], [
+        parent::__construct(['id' => 'user-form', 'class' => 'user-form'], [
             'acronym' => [
             'type'          => 'text',
             'label'         => 'Användarnamn:',

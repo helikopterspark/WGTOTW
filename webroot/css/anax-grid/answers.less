@@ -31,6 +31,13 @@
    border-bottom: 3px solid #ddd;
 }
 
+.tab-sidebar-answers {
+    display: inline-block;
+    min-width: 327px;
+    min-height: 32px;
+    border-bottom: 3px solid #ddd;
+}
+
 .answer-shortlist-container {
     margin-top: @magicNumber;
 }
@@ -66,6 +73,14 @@
     margin-left: 10%;
     padding-left: 10px;
     width: 90%;
+}
+
+.answer-detail-content h1, .answer-detail-content h2, .answer-detail-content h3 {
+    .font-size(@fontSizeH3);
+    font-family: @fontFamilyHeadings;
+    font-weight: normal;
+    line-height: 1em;
+    border-bottom: none !important;
 }
 
 .answer-detail-bottom {
@@ -106,7 +121,7 @@
 
 a.answer-button {
    color:#333 !important;
-   font: 120% 'Roboto', sans-serif;
+   font: 90% 'Roboto', sans-serif;
    padding: 12px;
    background-color: #ddd;
    border-color: #ddd;
@@ -129,4 +144,48 @@ a.answer-button:hover {
 
 a.answer-button:active {
    top: 0px;
+}
+
+/**
+* Forms
+*
+*/
+.answer-form-container h4, .answer-editform-container h4 {
+    margin-left: 10%;
+    padding-top: @magicNumber;
+}
+
+.answer-form-userinfo {
+    margin-top: @magicNumber;
+    text-align: right;
+    border-bottom: 1px dotted #ddd;
+}
+
+.answer-form-userinfo a {
+    color: @candyRed;
+}
+
+input.text {
+   width: 100%;
+   border-style: none;
+   box-shadow: 1px 1px 1px #999;
+   font-size: 14px;
+}
+
+.answer-editform, .answer-form {
+    margin-left: 10%;
+   max-width: 90%;
+   background-color: #F5F5F5;
+}
+
+.answer-form fieldset, .answer-editform fieldset {
+   border-style: none;
+}
+
+.answer-form textarea, .answer-editform textarea {
+   width: 100%;
+   height: 150px;
+   border-style: none;
+   box-shadow: 1px 1px 1px #999;
+   font-size: 14px;
 }

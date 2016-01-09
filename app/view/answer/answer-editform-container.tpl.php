@@ -1,12 +1,11 @@
 
 <div class='answer-editform-container' id='answer-<?=$answer->getProperties()['id']?>'>
-    <hr>
-    <h3>Redigera svar:</h3>
+    <h4>Redigera svar:</h4>
     <?=$content?>
+    <div class="answer-form-userinfo">
     <?php $timestamp = strtotime($answer->getProperties()['created']); ?>
     <p class=smaller-text><a href='<?=$this->url->create('users/id').'/'.$answer->user->getProperties()['id']?>'>
-        <img src='<?=$answer->user->gravatar?>' alt='Gravatar'>
-        &nbsp;<?=$answer->user->getProperties()['name']?></a> svarade för
+        &nbsp;<?=$answer->user->getProperties()['acronym']?></a> svarade för
         <?php $timeinterval = time() - $timestamp; ?>
         <?php if (($timeinterval) < 60): ?>
             <?=round($timeinterval)?> sekunder sedan
@@ -59,4 +58,8 @@
         </span>
     <?php endif; ?>
     </p>
+</div> <!-- answer-form-userinfo -->
+<script type="text/javascript" language="JavaScript">
+document.forms['answer-editform'].elements['content'].focus();
+</script>
 </div>

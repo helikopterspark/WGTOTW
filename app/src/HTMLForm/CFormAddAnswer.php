@@ -22,12 +22,7 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
 
         $this->questionId = $questionId;
 
-        parent::__construct([], [
-            'title' => [
-            'type'          => 'text',
-            'label'         => 'Titel:',
-            'required'      => false,
-            ],
+        parent::__construct(['id' => 'answer-form', 'class' => 'answer-form'], [
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Svar (använd Markdown):',
@@ -84,7 +79,6 @@ class CFormAddAnswer extends \Mos\HTMLForm\CForm
         $this->answer->setDI($this->di);
         // Save answer
         $this->answer->save([
-            'title'      => strip_tags($this->Value('title')),
             'content'      => strip_tags($this->Value('content')),
             'created'   => $now,
             'upvotes'   => 0,

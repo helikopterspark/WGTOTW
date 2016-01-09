@@ -25,7 +25,7 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             $active = true;
         }
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'user-editform', 'class' => 'user-editform'], [
             'acronym' => [
             'type'          => 'text',
             'label'         => 'Användarnamn:',

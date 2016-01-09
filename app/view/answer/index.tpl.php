@@ -31,10 +31,9 @@
 			</div> <!-- answer-detail-stats -->
 
 			<div class="answer-detail-content">
-				<?php if ($answer->getProperties()['title']): ?>
-					<h3><?=$answer->getProperties()['title']?></h3>
-				<?php endif; ?>
+
 				<?=$answer->filteredcontent?>
+				
 				<div class="answer-detail-bottom">
 					<?php if ($this->di->UserloginController->checkLoginCorrectUser($answer->user->getProperties()['id'])) : ?>
 						<a class='edit-button' href='<?=$this->url->create("question/id/".$answer->getProperties()['questionId'] . "?editanswer=yes&answerid=" . $answer->getProperties()['id']."#answer-".$answer->getProperties()['id'])?>' title='Redigera'>
@@ -48,7 +47,9 @@
 								<div>
 									<span class=smaller-text>
 										<a href='<?=$this->url->create('users/id').'/'.$answer->user->getProperties()['id']?>'>
-											<?=$answer->user->getProperties()['acronym']?></a></span></div>
+											<?=$answer->user->getProperties()['acronym']?></a>
+											&nbsp;&#8226;&nbsp;<?=$answer->user->stats?>
+										</span></div>
 											<div><span class=smaller-text>svarade för
 												<?php $timeinterval = time() - $timestamp; ?>
 												<?php if (($timeinterval) < 60): ?>

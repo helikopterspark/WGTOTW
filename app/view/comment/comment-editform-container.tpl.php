@@ -1,12 +1,11 @@
 
 <div class='comment-form-container' id='comment-editform-container'>
-    <hr>
     <h4>Redigera kommentar:</h4>
     <?=$content?>
     <?php $timestamp = strtotime($comment->getProperties()['created']); ?>
+    <div class="comment-form-userinfo">
     <p class=smaller-text><a href='<?=$this->url->create('users/id').'/'.$comment->user->getProperties()['id']?>'>
-        <img src='<?=$comment->user->gravatar?>' alt='Gravatar'>
-        &nbsp;<?=$comment->user->getProperties()['name']?></a> kommenterade för
+        &nbsp;<?=$comment->user->getProperties()['acronym']?></a> kommenterade för
         <?php $timeinterval = time() - $timestamp; ?>
         <?php if (($timeinterval) < 60): ?>
             <?=round($timeinterval)?> sekunder sedan
@@ -59,4 +58,8 @@
         </span>
     <?php endif; ?>
     </p>
+</div> <!-- comment-form-userinfo -->
+    <script type="text/javascript" language="JavaScript">
+    document.forms['comment-form'].elements['content'].focus();
+    </script>
 </div>

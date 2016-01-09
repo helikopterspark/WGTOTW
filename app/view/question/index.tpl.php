@@ -15,8 +15,8 @@
 			<div class="question-shortlist-content">
 		<h4 class="question-title-heading"><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h4>
 		<?php if (strlen($question->filteredcontent) > 160): ?>
-			<?=substr($question->filteredcontent, 0, 160)?>
-			<a href="<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>"> mer <i class="fa fa-angle-double-right"></i></a>
+			<?=mb_substr($question->filteredcontent, 0, 160)?> ...
+			<a class="readmore-link" href="<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>"> mer <i class="fa fa-angle-double-right"></i></a>
 		<?php else : ?>
 			<?=$question->filteredcontent?>
 		<?php endif; ?>

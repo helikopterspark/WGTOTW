@@ -25,7 +25,7 @@ class CFormAddComment extends \Mos\HTMLForm\CForm
         $this->type = $params['type'];
         $this->pageId = $params['pageId'];
 
-        parent::__construct([], [
+        parent::__construct(['id' => 'comment-form', 'class' => 'comment-form'], [
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Kommentar (använd gärna Markdown):',

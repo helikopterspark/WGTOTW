@@ -170,7 +170,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->di->theme->setTitle('Ny fråga');
 			$this->views->add('theme/index', [
 				'title' => 'Ny fråga',
-				'content' => '<h2>Ny fråga</h2>' . $form->getHTML()
+				'content' => '<h2>Ny fråga</h2>' . $form->getHTML() . '<script type="text/javascript" language="JavaScript">
+			    document.forms["question-form"].elements["title"].focus();
+			    </script>',
 			], 'main-extended');
 		}
 	}
@@ -196,7 +198,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->di->theme->setTitle('Redigera fråga');
 			$this->views->add('theme/index', [
 				'title' => 'Redigera fråga',
-				'content' => '<h2>Redigera fråga</h2>' . $form->getHTML()
+				'content' => '<h2>Redigera fråga</h2>' . $form->getHTML() . '<script type="text/javascript" language="JavaScript">
+			    document.forms["question-editform"].elements["title"].focus();
+				</script>',
 			], 'main-extended');
 
 		} else {

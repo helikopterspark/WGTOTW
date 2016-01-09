@@ -48,7 +48,6 @@ CREATE TABLE wgtotw_question
 CREATE TABLE wgtotw_answer
 (
 	id integer primary key not null auto_increment,
-    title varchar(80),
     content text,
     created datetime,
     updated datetime,

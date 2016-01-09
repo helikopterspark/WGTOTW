@@ -96,7 +96,7 @@
  	line-height: @magicNumber * 2;
  }
 
- input.buttons, a.comment-button, a.up-button {
+ input.buttons, a.comment-button {
  	color:#333 !important;
  	font: 80% 'Roboto', sans-serif;
  	padding: 7px;
@@ -109,13 +109,13 @@
  	transition: all 0.2s ease-in-out;
  }
 
- input.buttons:hover, a.comment-button:hover, a.up-button:hover {
+ input.buttons:hover, a.comment-button:hover {
  	color: #fff !important;
  	border-color: #666;
  	background-color: #666;
  }
 
- a.comment-button:hover, a.up-button:hover {
+ a.comment-button:hover {
  	text-decoration: none;
  }
 
@@ -161,6 +161,24 @@
  	text-align: right;
  }
 
+ .comment-form-container {
+     margin-left: 10%;
+ }
+
+ .comment-form-container h4, .comment-form-userinfo {
+     margin-top: @magicNumber;
+     //margin-left: 10%;
+ }
+
+ .comment-form-userinfo {
+     text-align: right;
+     border-bottom: 1px dotted #ddd;
+ }
+
+ .comment-form-userinfo a {
+     color: @candyRed;
+ }
+
  input.text {
  	width: 75%;
  	border-style: none;
@@ -169,8 +187,8 @@
  }
 
  .comment-form {
-     margin-left: 10%;
- 	max-width: 90%;
+    //margin-left: 10%;
+ 	max-width: 100%;
  	background-color: #F5F5F5;
  }
 

@@ -53,7 +53,7 @@ if ($this->di->session->has('acronym')) {
 } else {
     // Not logged in, show Login menu item
     $login = [
-        'text'  =>'Logga in',
+        'text'  =>'LOGGA IN',
         'url'   => $this->di->get('url')->create('login'),
         'title' => 'Logga in'
     ];
@@ -69,14 +69,14 @@ return [
 
         // This is a menu item
         'home'  => [
-            'text'  => 'Hem',
+            'text'  => 'HEM',
             'url'   => $this->di->get('url')->create(''),
             'title' => 'Startsidan'
         ],
 
         // This is a menu item
         'questions'  => [
-            'text'  => 'Frågor',
+            'text'  => 'FRÅGOR',
             'url'   => $this->di->get('url')->create('question'),
             'title' => 'Frågor och svar',
             'mark-if-parent-of' => 'question',
@@ -84,14 +84,14 @@ return [
 
         // This is a menu item
         'tags'  => [
-            'text'  => 'Taggar',
+            'text'  => 'ÄMNEN',
             'url'   => $this->di->get('url')->create('tag'),
             'title' => 'Ämnestaggar'
         ],
 
         // This is a menu item
         'users'  => [
-            'text'  => 'Användare',
+            'text'  => 'ANVÄNDARE',
             'url'   => $this->di->get('url')->create('users'),
             'title' => 'Översikt över användare',
             'mark-if-parent-of' => 'users',
@@ -99,18 +99,18 @@ return [
 
         // This is a menu item
         'about' => [
-            'text'  =>'Om',
+            'text'  =>'OM',
             'url'   => $this->di->get('url')->create('about'),
             'title' => 'Om webbplatsen'
         ],
 
         // This is a menu item
         'ask' => [
-            'text'  =>'Ställ fråga',
+            'text'  =>'STÄLL FRÅGA',
             'url'   => $this->di->get('url')->create('question/add'),
             'title' => 'Ställ en fråga'
         ],
-        
+
         $login,
     ],
 /*

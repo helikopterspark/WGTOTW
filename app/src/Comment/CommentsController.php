@@ -220,7 +220,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function deletePageCommentsAction($page = null) {
-
+		/*
 		$condition = "page = '{$page}'";
 
         $this->db->delete(
@@ -232,6 +232,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
         $this->indexAction();
         $this->views->add('theme/index', [
         	'content' => '<h2>Resultat</h2><p>Kommentarer för sidan \'' . $page . '\' raderades.</p>'], 'sidebar-reduced');
+			*/
     }
 
 	/**
@@ -242,7 +243,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function deleteAllAction() {
-
+		/*
         $this->db->delete(
             $this->comments->getSource()
         );
@@ -251,6 +252,7 @@ class CommentsController implements \Anax\DI\IInjectionAware {
 		$this->indexAction();
         $this->views->add('theme/index', [
         	'content' => '<h2>Resultat</h2><p>Alla kommentarer raderades.</p>'], 'sidebar-reduced');
+			*/
 	}
 
 	/**

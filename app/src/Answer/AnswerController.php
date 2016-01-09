@@ -226,6 +226,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 				$users = new \CR\Users\User();
 				$users->setDI($this->di);
 				$answer->user = $users->find($answer->getProperties()['answerUserId']);
+				$answer->user->stats = $this->UsersController->getUserStats($answer->getProperties()['answerUserId']);
 				$answer->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($answer->user->getProperties()['email']))) . '.jpg?d=identicon';
 
 			}

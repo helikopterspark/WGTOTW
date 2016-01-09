@@ -21,14 +21,7 @@ class CFormEditAnswer extends \Mos\HTMLForm\CForm
 
         $this->answerUpd = $answer;
 
-        parent::__construct([], [
-            'title' => [
-            'type'          => 'text',
-            'label'         => 'Titel:',
-            'required'      => true,
-            'validation'    => ['not_empty'],
-            'value'         => $this->answerUpd->getProperties()['title'],
-            ],
+        parent::__construct(['id' => 'answer-editform', 'class' => 'answer-editform'], [
             'content' => [
             'type'          => 'textarea',
             'label'         => 'Svar (använd Markdown):',
@@ -87,7 +80,6 @@ class CFormEditAnswer extends \Mos\HTMLForm\CForm
         // Save answer
         $this->answer->save([
             'id'        => $this->answerUpd->getProperties()['id'],
-            'title'      => strip_tags($this->Value('title')),
             'content'      => strip_tags($this->Value('content')),
             'updated'   => $now,
             ]);

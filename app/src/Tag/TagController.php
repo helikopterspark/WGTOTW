@@ -35,10 +35,10 @@ class TagController implements \Anax\DI\IInjectionAware {
 		->orderBy('t.name ASC')
 		->execute();
 
-		$this->theme->setTitle('Taggar');
+		$this->theme->setTitle('Ämnen');
 		$this->views->add('tag/index', [
 			'content' => $all,
-			'title' => 'Taggar',
+			'title' => 'Ämnen',
 		], 'fullpage');
 	}
 

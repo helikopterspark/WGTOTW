@@ -46,7 +46,11 @@
     background: rgb(234, 235, 236);
 }
 
-.question-shortlist-userinfo a {
+.question-shortlist-userinfo a, .readmore-link {
+    color: @candyRed;
+}
+
+.readmore-link:hover {
     color: @candyRed;
 }
 
@@ -119,4 +123,51 @@
 
 .userinfo-text {
     margin-left: 70px;
+}
+
+/**
+* Question forms
+*
+*/
+/**
+* Forms
+*
+*/
+.question-form-container h4, .question-editform-container h4 {
+    margin-left: 10%;
+    padding-top: @magicNumber;
+}
+
+.question-form-userinfo {
+    margin-top: @magicNumber;
+    text-align: right;
+    border-bottom: 1px dotted #ddd;
+}
+
+.question-form-userinfo a {
+    color: @candyRed;
+}
+
+input.text {
+   width: 100%;
+   border-style: none;
+   box-shadow: 1px 1px 1px #999;
+   font-size: 14px;
+}
+
+.question-editform, .question-form {
+   max-width: 100%;
+   background-color: #F5F5F5;
+}
+
+.question-form fieldset, .question-editform fieldset {
+   border-style: none;
+}
+
+.question-form textarea, .question-editform textarea {
+   width: 100%;
+   height: 200px;
+   border-style: none;
+   box-shadow: 1px 1px 1px #999;
+   font-size: 14px;
 }
