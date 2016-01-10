@@ -1,49 +1,29 @@
-
 <article class='article1'>
-
 	<h2><?=$title?></h2>
-
-	<table>
-		<thead>
-			<tr>
-				<!-- <td>ID</td> -->
-				<td>Gravatar</td>
-				<td>Akronym</td>
-				<td>Namn</td>
-				<td><i class="fa fa-pencil"></i></td><td style='text-align: center;'><i class="fa fa-trash-o"></i> / <i class="fa fa-times"></i> / <i class="fa fa-check"></i></td>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($users as $user) : ?>
+	<table class="tag-table">
+		<?php $rowcounter = 1; ?>
+		<?php foreach ($users as $user) : ?>
+			<?php if ($rowcounter == 5 || $rowcounter == 1): ?>
+				<?php $rowcounter = 1; ?>
 				<tr>
-					<!-- <td><?=$user->getProperties()['id']?></td> -->
-					<td><img src='<?=$user->gravatar?>' alt='Gravatar'></td>
-					<td>
-						<?php if ($user->getProperties()['deleted']) : ?>
-							<span class='deleted'>
-							<?php elseif (!$user->getProperties()['active']) : ?>
-								<span class='inactive'>
+				<?php endif; ?>
+				<td width="25%">
+					<div>
+                        <div class="userinfo-overview-cell">
+                        <p><a href='<?=$this->url->create('users/id').'/'.$user->getProperties()['id']?>'
+    						title='<?=$user->getProperties()['acronym']?>'>
+                            <img src="<?=$user->gravatar?>" alt="<?=$user->getProperties()['acronym']?>"/></a>
+					        <a href='<?=$this->url->create('users/id').'/'.$user->getProperties()['id']?>'
+						title='<?=$user->getProperties()['acronym']?>'><?=$user->getProperties()['acronym']?></a><br>
+						Karma: <?=$user->stats?></p>
+                        </div>
+                    </div>
+					</td>
 
-								<?php else : ?>
-									<span>
-									<?php endif; ?>
-									<a href="<?=$this->url->create('users/id').'/'.$user->getProperties()['id']?>"><?=$user->getProperties()['acronym']?></a></span>
-								</td>
-								<td>
-									<?=$user->getProperties()['name']?></td>
-									<?php if ($this->di->UserloginController->checkLoginCorrectUser($user->getProperties()['id'])) : ?>
-										<td><a href="<?=$this->url->create('users/update').'/' . $user->getProperties()['id']?>"><i class="fa fa-pencil"></i></a></td>
-										<td class="centered">
-											<?php if (!$user->getProperties()['deleted']) : ?>
-												<a href="<?=$this->url->create('users/softdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-trash-o"></i></a>
-											<?php else : ?>
-												<a href="<?=$this->url->create('users/delete').'/'.$user->getProperties()['id']?>"><i class="fa fa-times"></i></a> |
-												<a href="<?=$this->url->create('users/undosoftdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-check"></i></a>
-											<?php endif; ?>
-									<?php endif; ?>
-								</td>
-								</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
-</article>
+					<?php if ($rowcounter == 5): ?>
+					</tr>
+				<?php endif; ?>
+				<?php $rowcounter++; ?>
+			<?php endforeach; ?>
+		</table>
+	</article>

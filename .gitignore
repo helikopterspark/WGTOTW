@@ -2,6 +2,8 @@
 *.sqlite
 *.log
 queries.sql
+style.css
+style.less.cache
 
 
 # OS generated files

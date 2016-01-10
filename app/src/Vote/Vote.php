@@ -16,7 +16,7 @@ class Vote implements \Anax\DI\IInjectionAware {
     * @param object $object, the object to update
     * @param string $objecttype, string with type of object
     *
-    * @return true or false
+    * @return true or false, if false casting a vote is possible
     */
     public function checkVote($object, $objecttype) {
 
@@ -33,7 +33,7 @@ class Vote implements \Anax\DI\IInjectionAware {
 	}
 
     /**
-    * Update the upvotes or downvotes column in the database tablr for object
+    * Update the upvotes or downvotes column in the database table for object
     *
     * @param object $object, type of object to vote for
     * @param string $objecttype, string with name of object type
@@ -64,6 +64,30 @@ class Vote implements \Anax\DI\IInjectionAware {
 
 		$url = $this->url->create('question/id/'.$questionId.'#'.$objecttype.'-'.$object->getProperties()['id']);
 		$this->response->redirect($url);
+	}
+
+	/**
+	* Get total number of votes for a user
+	*
+	* @param int $id, user ID
+	*
+	* @return int @votes, total number of votes for the user
+	*/
+	public function getTotalUserVotes($id = null) {
+
+		$tablearray = array('answer', 'comment', 'question');
+		$votes = 0;
+
+		foreach ($tablearray as $table) {
+			$this->db->select("COUNT(*) AS votes")
+				->from('vote2'.$table)
+				->where('idUser = ?')
+				->execute([$id]);
+			$res = $this->db->fetchAll();
+			$votes += $res[0]->votes;
+		}
+
+		return $votes;
 	}
 
 }

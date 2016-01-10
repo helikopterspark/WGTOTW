@@ -101,6 +101,21 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     }
 
     /**
+    * Check admin user login
+    *
+    * @param int $userId
+    *
+    * @return boolean
+    */
+    public function checkLoginAdmin($userId = null) {
+        if ($this->di->session->has('acronym') && $this->di->session->get('isAdmin')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
     * Redirect to login
     *
     * @param string $message, error message

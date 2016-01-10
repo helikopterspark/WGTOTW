@@ -3,18 +3,19 @@
 	<table class="tag-table">
 		<?php $rowcounter = 1; ?>
 		<?php foreach ($content as $tag) : ?>
-			<?php if ($rowcounter == 5): ?>
+			<?php if ($rowcounter == 5 || $rowcounter == 1): ?>
 				<?php $rowcounter = 1; ?>
 				<tr>
 				<?php endif; ?>
 				<td>
-					<span class="tag-box">
-					<p><span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>'
-						title='<?=$tag->getProperties()['description']?>'><?=$tag->name?></a></span>
-						&nbsp;x&nbsp;<?=$tag->getProperties()['taggedquestions']?></p>
-						<p><?=$tag->getProperties()['description']?></p>
+					<div class="tag-box">
+						<p><span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>'
+							title='<?=$tag->getProperties()['description']?>'><?=$tag->name?></a></span>
+							&nbsp;x&nbsp;<?=$tag->getProperties()['taggedquestions']?></p>
+							<p><?=$tag->getProperties()['description']?></p>
+						</div>
 					</td>
-				</span>
+
 					<?php if ($rowcounter == 5): ?>
 					</tr>
 				<?php endif; ?>

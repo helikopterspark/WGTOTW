@@ -2874,6 +2874,9 @@ body > * {
 .right-align {
   text-align: right;
 }
+.center-align {
+  text-align: center;
+}
 .byline {
   height: 66px;
   margin-top: 44px;
@@ -2887,6 +2890,9 @@ body > * {
 }
 .smaller-text {
   color: #666;
+}
+.even-smaller-text {
+  font-size: 0.75em;
 }
 .bigger-text {
   font-size: 1.25em;
@@ -3011,11 +3017,27 @@ a:focus {
   line-height: 44px;
 }
 .tab-sidebar {
+  *zoom: 1;
   display: inline-block;
-  min-width: 496px;
-  color: #fff;
-  min-height: 32px;
-  border-bottom: 3px solid #ddd;
+  width: 52.55%;
+  height: 32px;
+  border-bottom: 2px solid #878787;
+}
+.tab-sidebar:before,
+.tab-sidebar:after {
+  content: "";
+  display: table;
+}
+.tab-sidebar:after {
+  clear: both;
+}
+.tab-sidebar:before,
+.tab-sidebar:after {
+  content: "";
+  display: table;
+}
+.tab-sidebar:after {
+  clear: both;
 }
 .tab-button,
 .tab-button-selected {
@@ -3023,17 +3045,19 @@ a:focus {
   float: right;
   font: 80% 'Roboto', sans-serif;
   margin: 0;
-  min-width: 130px;
+  min-width: 32%;
   text-align: center;
   border-style: solid;
   border-bottom-color: #fff;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 2px;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 .tab-button {
-  border-bottom: 3px solid #ddd;
+  border-bottom: 2px solid #878787;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -3050,9 +3074,10 @@ a:focus {
 .tab-button-selected {
   padding-top: 6px;
   padding-bottom: 7px;
-  border-top-color: #000;
-  border-left-color: #ddd;
-  border-right-color: #ddd;
+  border-width: 2px;
+  border-top-color: #878787;
+  border-left-color: #878787;
+  border-right-color: #878787;
   background-color: #fff;
 }
 .tab-button:hover {
@@ -3126,6 +3151,7 @@ a.up-button:hover {
   width: 100%;
   padding: 1em;
   text-decoration: none;
+  font-family: 'Roboto Slab', serif;
   color: inherit;
   white-space: nowrap;
 }
@@ -3255,6 +3281,8 @@ fieldset {
   margin-top: 22px;
   margin-right: 15px;
   width: 90%;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #eee;
 }
 .comments:before,
 .comments:after {
@@ -3552,7 +3580,7 @@ input.text {
 }
 .tag-badge a {
   text-decoration: none;
-  color: #fff;
+  color: #fff !important;
 }
 .tag-badge a:hover {
   text-decoration: none;
@@ -3578,6 +3606,53 @@ input.text {
   height: 27.5px;
   margin-bottom: 22px;
   line-height: 1em;
+}
+.userdetail-left-info {
+  float: left;
+  width: 30%;
+}
+.userdetail-left-info img {
+  box-shadow: 3px 3px 3px #999;
+  margin-bottom: 7.3333333333333px;
+}
+.userdetail-karma-votes {
+  text-align: center;
+}
+.userdetail-center-info {
+  display: inline-block;
+  width: 70%;
+  min-height: 220px;
+  line-height: 2.0em;
+}
+.userdetail-center-info h3 {
+  font-size: 1.875em;
+}
+.userdetails-tab-table a,
+.userdetail-center-info a {
+  color: #000;
+}
+.question-tags-cell {
+  margin-bottom: 10px;
+}
+.users-overview-container {
+  margin-top: 44px;
+  margin-bottom: 44px;
+}
+.userinfo-overview-cell {
+  width: 100%;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.userinfo-overview-cell a {
+  color: #cb151c;
+}
+.userinfo-overview-cell img {
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-left: 5px;
+  box-shadow: 3px 3px 3px #999;
 }
 .question-shortlist-container {
   *zoom: 1;
@@ -3608,7 +3683,7 @@ input.text {
 }
 .stats-box {
   padding: 7px;
-  color: #999;
+  color: #999 77;
   background: #f4f5f6;
 }
 .answers-exist {
@@ -3806,9 +3881,8 @@ input.text {
 }
 .tab-sidebar-answers {
   display: inline-block;
-  min-width: 327px;
-  min-height: 32px;
-  border-bottom: 3px solid #ddd;
+  width: 23%;
+  min-height: 31px;
 }
 .answer-shortlist-container {
   margin-top: 22px;
@@ -3900,6 +3974,7 @@ input.text {
 .answer-button-container {
   margin-left: 10%;
   margin-top: 44px;
+  margin-bottom: 44px;
   line-height: 44px;
 }
 a.answer-button {

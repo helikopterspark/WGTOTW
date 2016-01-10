@@ -152,7 +152,6 @@ body > * {
     //background-color: rgb(234, 234, 234);
 }
 
-
 /**
 * For articles
 */
@@ -173,6 +172,10 @@ body > * {
     text-align: right;
 }
 
+.center-align {
+    text-align: center;
+}
+
 .byline {
     height: 3 * @magicNumber;
     margin-top: 2 * @magicNumber;
@@ -187,6 +190,10 @@ body > * {
 
 .smaller-text {
     color: #666;
+}
+
+.even-smaller-text {
+    font-size: @fontSizeSmaller;
 }
 
 .bigger-text {
@@ -298,11 +305,11 @@ a:focus {
 }
 
 .tab-sidebar {
+    .clearfix();
     display: inline-block;
-    min-width: 496px;
-    color: #fff;
-    min-height: 32px;
-    border-bottom: 3px solid #ddd;
+    width: 52.55%;
+    height: 32px;
+    border-bottom: 2px solid rgb(135, 135, 135);
 }
 
 .tab-button, .tab-button-selected, {
@@ -310,10 +317,12 @@ a:focus {
     float: right;
    font: 80% 'Roboto', sans-serif;
    margin: 0;
-   min-width: 130px;
+   min-width: 32%;
    text-align: center;
    border-style: solid;
    border-bottom-color: #fff;
+   border-top-left-radius: 7px;
+   border-top-right-radius: 2px;
    -webkit-transition: all 0.2s ease-in-out;
    -moz-transition: all 0.2s ease-in-out;
    -o-transition: all 0.2s ease-in-out;
@@ -321,7 +330,7 @@ a:focus {
 }
 
 .tab-button {
-    border-bottom: 3px solid #ddd;
+    border-bottom: 2px solid rgb(135, 135, 135);
     border-top: none;
     border-left: none;
     border-right: none;
@@ -339,9 +348,10 @@ a:focus {
 .tab-button-selected {
     padding-top: 6px;
     padding-bottom: 7px;
-    border-top-color: #000;
-    border-left-color: #ddd;
-    border-right-color: #ddd;
+    border-width: 2px;
+    border-top-color: rgb(135, 135, 135);
+    border-left-color: rgb(135, 135, 135);
+    border-right-color: rgb(135, 135, 135);
     background-color: #fff;
 }
 

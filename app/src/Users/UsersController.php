@@ -27,12 +27,46 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	public function indexAction() {
 
 		$all = $this->users->findAll();
+
+		if (!$this->di->UserloginController->checkLoginAdmin()) {
+			// remove admin users from the array
+			$count = 0;
+			foreach ($all as $user) {
+				if ($user->getProperties()['isAdmin'] !== null) {
+					unset($all[$count]);
+				}
+				$count++;
+			}
+		}
+
 		foreach ($all as $user) {
-			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=20&d=identicon';
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=60&d=identicon';
+			$user->stats = $this->getUserStats($user->getProperties()['id']);
 		}
 
 		$this->theme->setTitle("Alla användare");
 		$this->views->add('users/list-all', [
+			'users' => $all,
+			'title' => "Alla användare",
+		], 'fullpage');
+	}
+
+	/**
+	 * List all users.
+	 *
+	 * @return void
+	 */
+	public function indexadminAction() {
+
+		$all = $this->users->findAll();
+
+		foreach ($all as $user) {
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=20&d=identicon';
+			$user->stats = $this->getUserStats($user->getProperties()['id']);
+		}
+
+		$this->theme->setTitle("Alla användare");
+		$this->views->add('users/list-all-admin', [
 			'users' => $all,
 			'title' => "Alla användare",
 			], 'main');
@@ -69,7 +103,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$user = $this->users->find($id);
 
 		if ($user) {
-			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?d=identicon';
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=130&d=identicon';
 			// Get user answers
 			$uAnswers = $this->getUserAnswers($id);
 			// Get user comments
@@ -79,6 +113,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$uQuestions = $this->di->QuestionController->getRelatedData($uQuestions);
 
 			$rank = $this->getUserStats($id);
+			$votes = $this->vote->getTotalUserVotes($id);
 			// Check Activity tab
 			$tab = $this->di->request->getGet('tab') ? $this->di->request->getGet('tab') : 'questions';
 			switch ($tab) {
@@ -98,6 +133,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$this->views->add('users/view', [
 				'user' => $user,
 				'rank' => $rank,
+				'votes' => $votes,
 				'title' => 'Användare ' . $user->acronym,
 				'flash' => $this->di->flashmessage->outputMsgs(),
 			], 'fullpage');
@@ -204,9 +240,9 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			->andWhere("c.deleted IS NULL")
 			->orderBy("c.upvotes - c.downvotes DESC")
 			->execute([$id]);
-		// Clean answer content from markdown and html-tags
+		// Clean comment content from markdown and html-tags
 		foreach ($comments['answercomments'] as $comment) {
-			$md2html = $this->textFilter->doFilter($comment->getProperties()['content'], 'shortcode, markdown');
+			$md2html = $this->textFilter->doFilter($comment->getProperties()['acontent'], 'shortcode, markdown');
 			$comment->filteredcontent = strip_tags($md2html);
 		}
 
