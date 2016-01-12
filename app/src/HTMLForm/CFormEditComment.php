@@ -30,6 +30,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             'type'          => 'textarea',
             'label'         => 'Kommentar (använd gärna Markdown):',
             'required'      => true,
+            'autofocus'     => true,
             'validation'    => ['not_empty'],
             'value'         => $this->commentUpd->getProperties()['content'],
             ],

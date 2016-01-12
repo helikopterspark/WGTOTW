@@ -1,0 +1,48 @@
+.header_container {
+    position:fixed;
+    top:0px;
+    //left:0px;
+    min-width: 960px;
+    margin: 0 auto;
+    padding-top: 4px;
+    height: @magicNumber * 1.5;
+    color: white;
+    background-color: rgba(43, 51, 60, 0.8);
+    z-index:9999;
+}
+
+.header {
+    padding-right: 5px;
+    z-index:1001;
+    font-family: @fontFamilyHeadings;
+}
+
+.inline-div, .search-form div, .search-form form, .search-form fieldset, .search-form input, .search-form p {
+    display: inline-block;
+}
+
+.inline-div {
+    margin-left: 10px;
+}
+
+.inline-div a {
+    color: #fff;
+}
+
+.search-form input {
+    border-radius: 2px;
+    padding: 2px;
+    border: 1px solid rgb(20, 24, 26);
+    background-color: black;
+}
+
+.search-form fieldset {
+    max-height: @magicNumber;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.search-form label, .search-form br {
+    display: none;
+}

@@ -26,6 +26,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             'acronym' => [
             'type'          => 'text',
             'label'         => 'Användarnamn:',
+            'autofocus'     => true,
             'required'      => true,
             'validation'    => ['not_empty'],
             ],

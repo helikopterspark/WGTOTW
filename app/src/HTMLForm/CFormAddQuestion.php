@@ -31,6 +31,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
             'type'          => 'text',
             'label'         => 'Titel:',
             'required'      => true,
+            'autofocus'     => true,
             'validation'    => ['not_empty'],
             ],
             'content' => [
@@ -42,7 +43,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
             'tags' => [
             'type'          => 'select-multiple',
             'options'       => $tagTitles,
-            'label'         => 'Ämnestaggar',
+            'label'         => 'Ämnestaggar (flera val möjliga)',
             'required'       => true,
             'size'          => 10,
             ],

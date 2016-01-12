@@ -29,6 +29,15 @@ return [
     */
 
     'views' => [
+        [
+        'region'   => 'topheader',
+        'template' => ['callback' => function() {
+            return $this->di->topbar->create();
+        },
+        ],
+        'data'     => [],
+        'sort'  => -1
+    ],
     [
     'region'   => 'header',
     'template' => 'wgtotw/header',

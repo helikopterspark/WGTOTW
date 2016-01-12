@@ -22,6 +22,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'type'          => 'text',
             'label'         => 'Användarnamn:',
             'required'      => true,
+            'autofocus'     => true,
             'validation'    => ['not_empty'],
             'value'         => $tempuser['acronym'] ? $tempuser['acronym'] : null,
             ],

@@ -25,8 +25,9 @@ INSERT INTO wgtotw_tag2question (idQuestion, idTag) VALUES
 
 
 DELETE FROM wgtotw_answer;
-INSERT INTO wgtotw_answer (title, content, created, upvotes, downvotes, answerUserId, questionId) VALUES 
-('Svar på första frågan', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW() - INTERVAL 1 DAY, 3, 1, 3, 1);
+ALTER TABLE wgtotw_answer AUTO_INCREMENT = 1;
+INSERT INTO wgtotw_answer ( content, created, upvotes, downvotes, answerUserId, questionId) VALUES 
+('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW() - INTERVAL 1 DAY, 3, 1, 3, 1);
 
 DELETE FROM wgtotw_comment2question;
 INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, commentUserId) VALUES
@@ -42,8 +43,8 @@ INSERT INTO wgtotw_comment (content, created, upvotes, downvotes, commentUserId)
 ('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', NOW() - INTERVAL 1 DAY, 1, 2, 4);
 INSERT INTO wgtotw_comment2question (idQuestion, idComment) VALUES (1, 3);
 
-INSERT INTO wgtotw_answer (title, content, created, upvotes, downvotes, answerUserId, questionId) VALUES 
-('Andra svaret på första frågan', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW() - INTERVAL 2 DAY, 1, 3, 4, 1);
+INSERT INTO wgtotw_answer (content, created, upvotes, downvotes, answerUserId, questionId) VALUES 
+('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', NOW() - INTERVAL 2 DAY, 1, 3, 4, 1);
 
 UPDATE wgtotw_answer SET accepted = NOW() WHERE id = 1;
 

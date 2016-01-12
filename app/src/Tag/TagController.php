@@ -66,6 +66,30 @@ class TagController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
+	* Find most popular
+	*
+	* @param int $limit, no of post to fetch
+	*
+	* @return array $populartags, order by most popular
+	*/
+	public function getMostPopularTags($limit = 1) {
+		$populartags = null;
+
+		$this->tag = new \CR\Tag\Tag();
+		$this->tag->setDI($this->di);
+
+		$populartags = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
+		->from('tag AS t')
+		->join('tag2question AS t2q', 't.id = t2q.idTag')
+		->groupBy('t.id')
+		->orderBy('taggedquestions DESC')
+		->limit($limit)
+		->execute();
+
+		return $populartags;
+	}
+
+	/**
 	* Add new
 	*
 	* @return void

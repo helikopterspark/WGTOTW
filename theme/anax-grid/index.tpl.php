@@ -14,7 +14,14 @@
 
 <body>
 
+
+
 <div id='wrapper' <?=$this->theme->getClassAttributeFor("wrapper")?>>
+
+<div id='topheader'>
+<?php if(isset($topheader)) echo $topheader?>
+<?php $this->views->render('topheader')?>
+</div>
 
 <div id='header'>
 <?php if(isset($header)) echo $header?>

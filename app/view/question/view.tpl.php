@@ -40,8 +40,8 @@
 						<a href='<?=$this->url->create('users/id').'/'.$question->user->getProperties()['id']?>'><?=$question->user->getProperties()['acronym']?></a>
 						&nbsp;&#8226;&nbsp;<?=$question->user->stats?>
 					</div>
-					<div class="userinfo-text"><span class="smaller-text">
-						<div>
+					<div class="userinfo-text">
+						<div class="smaller-text">
 							<?php $timeinterval = time() - $timestamp; ?>
 							<?php if (($timeinterval) < 60): ?>
 								<?=round($timeinterval)?> sekunder sedan
@@ -65,7 +65,6 @@
 								<?=round($timeinterval/(60*60*24*30))?> månader sedan
 							<?php endif; ?>
 						</div>
-					</span>
 
 					<?php if (isset($question->getProperties()['updated'])) : ?>
 						<div class="smaller-text">

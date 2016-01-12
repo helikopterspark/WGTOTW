@@ -1,3 +1,3 @@
 <article class="article1">
-<div class='comments' id='comments'>
+<div class='comments'>
 	<!-- <hr class='comments-hr'> -->

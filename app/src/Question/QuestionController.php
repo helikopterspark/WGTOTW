@@ -38,9 +38,12 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			'title' => 'Alla frågor',
 		], 'main-extended');
 		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
-		$this->views->add('tag/view', [
+
+		$populartags = $this->TagController->getMostPopularTags(6);
+
+		$this->views->add('tag/side-shortlist', [
 			'title' => $title,
-			'tag' => null,
+			'content' => $populartags,
 		], 'sidebar-reduced');
 	}
 
@@ -112,12 +115,42 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 				'params'	=> [$res[0]],
 			]);
 			$this->views->add('tag/side-view', [
+				'title' => 'Relaterade ämnen',
 				'content' => $res[0]->tags,
 			], 'sidebar-reduced');
 		} else {
 			$url = $this->url->create('question');
 			$this->response->redirect($url);
 		}
+	}
+
+	/**
+	* Search action, search for questions with searchstring
+	*
+	* @param string @searchstring
+	*
+	* @return void
+	*/
+	public function searchAction() {
+		$searchstring = $this->request->getPost('search');
+
+		$res = $this->questions->query()
+			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
+			->orderBy('created DESC')
+			->execute();
+
+		$res = $this->getRelatedData($res);
+
+		$this->theme->setTitle('Sökresultat för '.$searchstring);
+		$this->views->add('question/index', [
+			'content' => $res,
+			'title' => 'Sökresultat för '.$searchstring,
+		], 'main-extended');
+		$title = count($res) == 1 ? count($res) .' fråga' : count($res) .' frågor';
+		$this->views->add('tag/view', [
+			'title' => $title,
+			'tag' => null,
+		], 'sidebar-reduced');
 	}
 
 	/**
@@ -170,9 +203,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->di->theme->setTitle('Ny fråga');
 			$this->views->add('theme/index', [
 				'title' => 'Ny fråga',
-				'content' => '<h2>Ny fråga</h2>' . $form->getHTML() . '<script type="text/javascript" language="JavaScript">
-			    document.forms["question-form"].elements["title"].focus();
-			    </script>',
+				'content' => '<h2>Ny fråga</h2>' . $form->getHTML(),
 			], 'main-extended');
 		}
 	}
@@ -198,9 +229,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			$this->di->theme->setTitle('Redigera fråga');
 			$this->views->add('theme/index', [
 				'title' => 'Redigera fråga',
-				'content' => '<h2>Redigera fråga</h2>' . $form->getHTML() . '<script type="text/javascript" language="JavaScript">
-			    document.forms["question-editform"].elements["title"].focus();
-				</script>',
+				'content' => '<h2>Redigera fråga</h2>' . $form->getHTML(),
 			], 'main-extended');
 
 		} else {

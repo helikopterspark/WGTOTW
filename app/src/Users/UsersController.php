@@ -286,8 +286,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->di->theme->setTitle("Registrera användare");
 		$this->views->add('theme/index', [
 			'title' => 'Registrera användare',
-			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML() .
-			'<script type="text/javascript" language="JavaScript"> document.forms["user-form"].elements["acronym"].focus();</script>',
+			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML(),
 			], 'main');
 		//$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->di->flashmessage->clearMessages();
@@ -313,7 +312,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$form->setDI($this->di);
 			$form->check();
 
-			$content = $form->getHTML() . '<script type="text/javascript" language="JavaScript"> document.forms["user-editform"].elements["acronym"].focus();</script>';
+			$content = $form->getHTML();
 
 		} else {
 			// Wrong user is logged in

@@ -26,6 +26,7 @@ class CFormEditAnswer extends \Mos\HTMLForm\CForm
             'type'          => 'textarea',
             'label'         => 'Svar (använd Markdown):',
             'required'      => true,
+            'autofocus'     => true,
             'validation'    => ['not_empty'],
             'value'         => $this->answerUpd->getProperties()['content'],
             ],

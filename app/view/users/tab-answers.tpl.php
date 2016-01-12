@@ -22,7 +22,7 @@
         </thead>
         <?php foreach ($content as $answer): ?>
             <tr>
-                <td width="60%"><a href='<?=$this->url->create('question/id').'/'.$answer->getProperties()['questionId'].'#answer-'.$answer->getProperties()['id']?>'>
+                <td class="userdetails-tab-table-td"><a href='<?=$this->url->create('question/id').'/'.$answer->getProperties()['questionId'].'#answer-'.$answer->getProperties()['id']?>'>
                     <?=mb_substr($answer->getProperties()['qtitle'], 0, 64)?></a></td>
                     <td class="center-align"><?php if ($answer->getProperties()['accepted']): ?>
                         <span class="answer-accepted"><i class="fa fa-check"></i></span>

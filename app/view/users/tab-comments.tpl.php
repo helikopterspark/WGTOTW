@@ -21,7 +21,7 @@
         </thead>
         <?php foreach ($content['questioncomments'] as $comment): ?>
             <tr>
-                <td width="60%"><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
+                <td class="userdetails-tab-table-td"><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
                     <?=mb_substr($comment->getProperties()['qtitle'], 0, 64)?> ...</a></td>
                     <td class="center-align"><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?></td>
                     <td class="right-align"><?=$comment->getProperties()['created']?></td>
@@ -40,7 +40,7 @@
             </thead>
             <?php foreach ($content['answercomments'] as $comment): ?>
                 <tr>
-                    <td width="60%"><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
+                    <td class="userdetails-tab-table-td"><a href='<?=$this->url->create('question/id').'/'.$comment->getProperties()['qID'].'#comment-'.$comment->getProperties()['id']?>'>
                         <?=mb_substr($comment->filteredcontent, 0, 64)?> ...</a></td>
                         <td class="center-align"><?=$comment->getProperties()['upvotes'] - $comment->getProperties()['downvotes']?></td>
                         <td class="right-align"><?=$comment->getProperties()['created']?></td>

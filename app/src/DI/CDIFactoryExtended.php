@@ -88,6 +88,14 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           return $votes;
       });
 
+      // Topbar
+      $this->setShared('topbar', function () {
+          $topbar = new \CR\Topbar\CTopbar();
+          $topbar->setDI($this);
+          //$topbar->configure(ANAX_APP_PATH . 'config/navbar.php');
+          return $topbar;
+      });
+
       }
 
     }

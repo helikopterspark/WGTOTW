@@ -208,7 +208,7 @@ class AnswerController implements \Anax\DI\IInjectionAware {
 			die('Missing id');
 		}
 
-		$res = $this->answer->delete($id);
+		//$res = $this->answer->delete($id);
 	}
 
 	/**

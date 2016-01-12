@@ -7,7 +7,7 @@
 				<?php $rowcounter = 1; ?>
 				<tr>
 				<?php endif; ?>
-				<td width="25%">
+				<td class="user-table-td">
 					<div>
                         <div class="userinfo-overview-cell">
                         <p><a href='<?=$this->url->create('users/id').'/'.$user->getProperties()['id']?>'

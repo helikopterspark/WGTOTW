@@ -39,10 +39,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
 
         $this->views->add('theme/index', [
 			'title' => 'Logga in',
-			'content' => '<h2>Logga in</h2>' . $this->di->flashmessage->outputMsgs(). $loginform .
-            '<script type="text/javascript" language="JavaScript">
-            document.forms["login-form"].elements["acronym"].focus();
-            </script>',
+			'content' => '<h2>Logga in</h2>' . $this->di->flashmessage->outputMsgs(). $loginform,
         ], 'main-extended');
 		//$this->views->add('users/users-sidebar', [], 'sidebar');
         $this->di->flashmessage->clearMessages();

@@ -22,7 +22,7 @@
         </thead>
         <?php foreach ($content as $question): ?>
             <tr>
-                <td width="60%"><a href='<?=$this->url->create('question/id').'/'.$question->getProperties()['id']?>'>
+                <td class="userdetails-tab-table-td"><a href='<?=$this->url->create('question/id').'/'.$question->getProperties()['id']?>'>
                     <div class="question-tags-cell"><?=mb_substr($question->getProperties()['title'], 0, 64)?></a></div>
                     <div>
                         <?php foreach ($question->tags as $tag) : ?>
