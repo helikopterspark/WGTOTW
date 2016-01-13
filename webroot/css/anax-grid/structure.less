@@ -9,7 +9,6 @@ html {
 }
 
 body {
-    //background: url("../../img/bg.png") repeat-x scroll 0 0 #fff;
     color: #333;
     margin: auto;
     overflow-y: scroll;
@@ -364,13 +363,11 @@ a:focus {
    top: 0px;
 }
 
-a.up-button {
-   color:#bbb !important;
+a.up-button, a.page-button, a.current-page {
    font: 80% 'Roboto', sans-serif;
    padding: 7px;
    padding-left: 12px;
    padding-right: 12px;
-   background-color: rgb(50, 54, 60);
    border-color: #999;
    border-style: solid;
    -webkit-transition: all 0.2s ease-in-out;
@@ -379,7 +376,22 @@ a.up-button {
    transition: all 0.2s ease-in-out;
 }
 
-a.up-button:hover {
+a.up-button, a.current-page {
+    color:#bbb !important;
+    background-color: rgb(50, 54, 60);
+}
+
+a.page-button {
+    color:rgb(50, 54, 60) !important;
+    background-color: #fff;
+}
+
+.hits-per-page {
+    float: left;
+}
+
+a.up-button:hover, a.page-button:hover, a.current-page:hover {
+    text-decoration: none;
    color: #fff !important;
    border-color: #666;
    background-color: #666;

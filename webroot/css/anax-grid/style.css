@@ -3091,13 +3091,13 @@ a.up-button:hover {
 .tab-button:active {
   top: 0px;
 }
-a.up-button {
-  color: #bbb !important;
+a.up-button,
+a.page-button,
+a.current-page {
   font: 80% 'Roboto', sans-serif;
   padding: 7px;
   padding-left: 12px;
   padding-right: 12px;
-  background-color: #32363c;
   border-color: #999;
   border-style: solid;
   -webkit-transition: all 0.2s ease-in-out;
@@ -3105,7 +3105,22 @@ a.up-button {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
-a.up-button:hover {
+a.up-button,
+a.current-page {
+  color: #bbb !important;
+  background-color: #32363c;
+}
+a.page-button {
+  color: #32363c !important;
+  background-color: #fff;
+}
+.hits-per-page {
+  float: left;
+}
+a.up-button:hover,
+a.page-button:hover,
+a.current-page:hover {
+  text-decoration: none;
   color: #fff !important;
   border-color: #666;
   background-color: #666;
@@ -3636,6 +3651,7 @@ input.text {
 }
 .tag-table td {
   padding-top: 22px;
+  vertical-align: top;
 }
 .inactive,
 .inactive a {

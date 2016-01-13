@@ -9,6 +9,8 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
+	private $customhits = array(5, 10, 15);
+
 	/**
 	* Initialize the controller.
 	*
@@ -22,24 +24,46 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	/**
 	* List all questions
 	*
+	* @param int $hits, number of hits per page
+	* @param int $page, page for offset
+	*
 	* @return void
 	*/
-	public function indexAction() {
+	public function indexAction($hits = null, $page = 0) {
+		// Check hits-per-page preference in session
+		if (!$hits) {
+			if ($this->di->session->has('qhits')) {
+				$qhits = $this->di->session->get('qhits');
+			} else {
+				$qhits = 10;
+			}
+		} else {
+			$qhits = $hits;
+			$this->di->session->set('qhits', $qhits);
+		}
 
-		$all = null;
 		$all = $this->questions->query()
 			->orderBy('created DESC')
+			->limit($qhits)
+			->offset($page)
 			->execute();
 		$all = $this->getRelatedData($all);
+
+		$count = $this->questions->query("COUNT(*) AS count")
+			->execute();
+
+		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/index', $this->customhits);
 
 		$this->theme->setTitle('Alla frågor');
 		$this->views->add('question/index', [
 			'content' => $all,
+			'pages' => $pagelinks,
 			'title' => 'Alla frågor',
 		], 'main-extended');
-		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
 
 		$populartags = $this->TagController->getMostPopularTags(6);
+
+		$title = $count[0]->count == 1 ? $count[0]->count .' fråga' : $count[0]->count .' frågor';
 
 		$this->views->add('tag/side-shortlist', [
 			'title' => $title,
@@ -51,19 +75,42 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* List all questions with provided tag
 	*
 	* @param integer $tag id for tag
+	* @param int $hits, number of hits per page
+	* @param int $page, page for offset
 	*
 	* @return void
 	*/
-	public function tagAction($tag = null) {
+	public function tagAction($tag = null, $hits = null, $page = 0) {
+		// Check hits-per-page preference in session
+		if (!$hits) {
+			if ($this->di->session->has('qhits')) {
+				$qhits = $this->di->session->get('qhits');
+			} else {
+				$qhits = 10;
+			}
+		} else {
+			$qhits = $hits;
+			$this->di->session->set('qhits', $qhits);
+		}
 
 		$t = new \CR\Tag\Tag();
 		$t->setDI($this->di);
 		$tagname = $t->find($tag);
 
+		$count = $this->questions->query("COUNT(*) AS count")
+		->from('question AS q')
+		->join('tag2question AS t2q', 'q.id = t2q.idQuestion')
+		->where("t2q.idTag = " . $tag)
+		->execute();
+
+		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/tag/'.$tag, $this->customhits);
+
 		$all = $this->questions->query("q.*")
 		->from('question AS q')
 		->join('tag2question AS t2q', 'q.id = t2q.idQuestion')
 		->where("t2q.idTag = " . $tag)
+		->limit($qhits)
+		->offset($page)
 		->groupBy('q.id')
 		->orderBy('q.created DESC')
 		->execute();
@@ -72,9 +119,12 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		$this->theme->setTitle($tagname->getProperties()['name']);
 		$this->views->add('question/index', [
 			'content' => $all,
+			'pages' => $pagelinks,
 			'title' => 'Frågor om ' . $tagname->getProperties()['name'],
 		], 'main-extended');
-		$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
+
+		//$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
+		$title = $count[0]->count == 1 ? $count[0]->count .' fråga' : $count[0]->count .' frågor';
 		$this->views->add('tag/view', [
 			'title' => $title,
 			'tag' => $tagname,
@@ -127,26 +177,49 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	/**
 	* Search action, search for questions with searchstring
 	*
-	* @param string @searchstring
+	* @param int $hits, number of hits per page
+	* @param int $page, page for offset
 	*
 	* @return void
 	*/
-	public function searchAction() {
-		$searchstring = $this->request->getPost('search');
+	public function searchAction($hits = null, $page = 0) {
+		// For pagination, check for new searchstring or use saved in session
+		$searchstring = $this->request->getPost('search') ? $this->request->getPost('search') : $this->di->session->get('search');
+		$this->di->session->set('search', $searchstring);
+		// Check hits-per-page preference in session
+		if (!$hits) {
+			if ($this->di->session->has('qhits')) {
+				$qhits = $this->di->session->get('qhits');
+			} else {
+				$qhits = 10;
+			}
+		} else {
+			$qhits = $hits;
+			$this->di->session->set('qhits', $qhits);
+		}
 
 		$res = $this->questions->query()
 			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
+			->limit($qhits)
+			->offset($page)
 			->orderBy('created DESC')
 			->execute();
 
 		$res = $this->getRelatedData($res);
 
+		$count = $this->questions->query("COUNT(*) AS count")
+			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
+			->execute();
+
+		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/search', $this->customhits);
+
 		$this->theme->setTitle('Sökresultat för '.$searchstring);
 		$this->views->add('question/index', [
 			'content' => $res,
+			'pages' => $pagelinks,
 			'title' => 'Sökresultat för '.$searchstring,
 		], 'main-extended');
-		$title = count($res) == 1 ? count($res) .' fråga' : count($res) .' frågor';
+		$title = $count[0]->count == 1 ? $count[0]->count .' fråga' : $count[0]->count .' frågor';
 		$this->views->add('tag/view', [
 			'title' => $title,
 			'tag' => null,

@@ -81,6 +81,13 @@ class CDIFactoryExtended extends \Anax\DI\CDIFactoryDefault
           return $userlogincontroller;
       });
 
+      // Paginator
+      $this->setShared('paginator', function() {
+          $paginate = new \CR\Paginator\CPaginator();
+          $paginate->setDI($this);
+          return $paginate;
+      });
+
       // Vote service
       $this->setShared('vote', function() {
           $votes = new \CR\Vote\Vote();

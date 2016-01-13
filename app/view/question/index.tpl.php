@@ -56,4 +56,5 @@
 		</div> <!-- question-shortlist-content -->
 	</div> <!-- question-shortlist-container -->
 	<?php endforeach; ?>
+		<?=$pages?>
 </article>

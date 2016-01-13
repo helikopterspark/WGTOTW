@@ -9,6 +9,8 @@ class TagController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
+	private $customhits = array(4, 8, 12);
+
 	/**
 	* Initialize the controller.
 	*
@@ -24,20 +26,28 @@ class TagController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function indexAction() {
+	public function indexAction($hits = 8, $page = 0) {
 
 		$all = null;
 
 		$all = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
 		->from('tag AS t')
 		->join('tag2question AS t2q', 't.id = t2q.idTag')
+		->limit($hits)
+		->offset($page)
 		->groupBy('t.id')
 		->orderBy('t.name ASC')
 		->execute();
 
+		$count = $this->tag->query("COUNT(*) AS count")
+			->execute();
+
+		$pagelinks = $this->paginator->paginate($hits, $page, $count[0]->count, 'tag/index', $this->customhits);
+
 		$this->theme->setTitle('Ämnen');
 		$this->views->add('tag/index', [
 			'content' => $all,
+			'pages' => $pagelinks,
 			'title' => 'Ämnen',
 		], 'fullpage');
 	}

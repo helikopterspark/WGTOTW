@@ -26,4 +26,5 @@
 				<?php $rowcounter++; ?>
 			<?php endforeach; ?>
 		</table>
+		<?=$pages?>
 	</article>

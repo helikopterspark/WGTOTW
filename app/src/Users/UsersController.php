@@ -9,6 +9,8 @@ class UsersController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
+	private $customhits = array(4, 8, 12);
+
 	/**
 	 * Initialize the controller.
 	 *
@@ -47,6 +49,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->theme->setTitle("Alla användare");
 		$this->views->add('users/list-all', [
 			'users' => $all,
+			'pages' => null,
 			'title' => "Alla användare",
 		], 'fullpage');
 	}
