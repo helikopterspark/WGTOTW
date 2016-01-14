@@ -2,7 +2,7 @@ imports:
     - php
 
 filter:
-    excluded_paths: [vendor/*, test/*]
+    excluded_paths: [vendor/*, test/*, 3pp/*, src/*, app/src/Source/*, webroot/css/anax-grid/lessphp/*]
 
 tools:
     external_code_coverage:
