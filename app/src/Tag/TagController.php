@@ -9,7 +9,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 
 	use \Anax\DI\TInjectable;
 
-	private $customhits = array(4, 8, 12);
+	private $customhits = array(4, 8, 16);
 
 	/**
 	* Initialize the controller.
@@ -30,6 +30,23 @@ class TagController implements \Anax\DI\IInjectionAware {
 
 		$all = null;
 
+		$all = $this->tag->query()
+			->limit($hits)
+			->offset($page)
+			->groupBy('id')
+			->orderBy('name ASC')
+			->execute();;
+
+		foreach ($all as $tag) {
+			$this->db->select("COUNT(idQuestion) AS taggedquestions")
+				->from('tag2question')
+				->where('idTag = '.$tag->getProperties()['id'])
+				->execute();
+			$res = $this->db->fetchAll();
+			$tag->setProperties(['taggedquestions' => $res[0]->taggedquestions]);
+		}
+
+		/*
 		$all = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
 		->from('tag AS t')
 		->join('tag2question AS t2q', 't.id = t2q.idTag')
@@ -38,6 +55,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 		->groupBy('t.id')
 		->orderBy('t.name ASC')
 		->execute();
+		*/
 
 		$count = $this->tag->query("COUNT(*) AS count")
 			->execute();
