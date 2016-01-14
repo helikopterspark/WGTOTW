@@ -14,6 +14,9 @@
 							title='<?=$tag->getProperties()['description']?>'><?=$tag->name?></a></span>
 							&nbsp;x&nbsp;<?=$tag->getProperties()['taggedquestions']?></p>
 							<p><?=$tag->getProperties()['description']?></p>
+							<?php if ($this->di->UserloginController->checkLoginAdmin($this->di->session->get('id'))): ?>
+								<a class='edit-button' href='<?=$this->url->create("tag/update/".$tag->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera ämne</a>
+							<?php endif; ?>
 						</div>
 					</div>
 					</td>

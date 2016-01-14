@@ -3,6 +3,7 @@
 */
 .tag-box {
     font-size: @fontSizeSmall;
+    padding-bottom: @magicNumber;
 }
 
 .tag-badge {
@@ -33,4 +34,22 @@
 .tag-table td {
     padding-top: @magicNumber;
     vertical-align: top;
+    width: 25%;
+}
+
+.tag-editform, .tag-form {
+   max-width: 100%;
+   background-color: #F5F5F5;
+}
+
+.tag-form fieldset, .tag-editform fieldset {
+   border-style: none;
+}
+
+.tag-form textarea, .tag-editform textarea {
+   width: 100%;
+   height: 200px;
+   border-style: none;
+   box-shadow: 1px 1px 1px #999;
+   font-size: 14px;
 }

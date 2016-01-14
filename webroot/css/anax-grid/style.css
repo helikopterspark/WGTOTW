@@ -3627,6 +3627,7 @@ input.text {
 }
 .tag-box {
   font-size: 0.875em;
+  padding-bottom: 22px;
 }
 .tag-badge {
   display: inline-block;
@@ -3652,6 +3653,24 @@ input.text {
 .tag-table td {
   padding-top: 22px;
   vertical-align: top;
+  width: 25%;
+}
+.tag-editform,
+.tag-form {
+  max-width: 100%;
+  background-color: #F5F5F5;
+}
+.tag-form fieldset,
+.tag-editform fieldset {
+  border-style: none;
+}
+.tag-form textarea,
+.tag-editform textarea {
+  width: 100%;
+  height: 200px;
+  border-style: none;
+  box-shadow: 1px 1px 1px #999;
+  font-size: 14px;
 }
 .inactive,
 .inactive a {
@@ -3682,15 +3701,21 @@ input.text {
 }
 .userdetail-center-info {
   display: inline-block;
-  width: 70%;
+  width: 40%;
   min-height: 220px;
   line-height: 2.0em;
 }
 .userdetail-center-info h3 {
   font-size: 1.875em;
 }
+.user-actions {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 66px;
+}
 .userdetails-tab-table a,
-.userdetail-center-info a {
+.userdetail-center-info a,
+.user-actions a {
   color: #000;
 }
 .userdetails-tab-table-td {
@@ -3765,6 +3790,10 @@ input.text {
   width: 90%;
   font-size: 0.875em;
 }
+.question-shortlist-content img,
+.question-shortlist-content figure {
+  display: none;
+}
 .question-shortlist-userinfo {
   *zoom: 1;
   position: relative;
@@ -3799,6 +3828,7 @@ input.text {
   color: #cb151c;
 }
 .question-shortlist-userinfo img {
+  display: block;
   float: left;
   margin-right: 6px;
   margin-top: 3px;
@@ -3840,6 +3870,11 @@ input.text {
 }
 .question-detail-content:after {
   clear: both;
+}
+.question-detail-content img,
+.question-detail-content figure {
+  max-width: 100px;
+  max-height: 100px;
 }
 .question-detail-bottom {
   *zoom: 1;

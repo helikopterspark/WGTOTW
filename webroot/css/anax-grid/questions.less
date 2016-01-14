@@ -34,13 +34,16 @@
     font-size: @fontSizeSmall;
 }
 
+.question-shortlist-content img, .question-shortlist-content figure {
+    display: none;
+}
+
 .question-shortlist-userinfo {
     .clearfix();
     position: relative;
     float: right;
     padding: 5px;
     margin-right: 10px;
-    //margin-top: @magicNumber / 3;
     margin-bottom: 5px;
     max-height: 50px;
     background: rgb(234, 235, 236);
@@ -55,6 +58,7 @@
 }
 
 .question-shortlist-userinfo img {
+    display: block;
     float: left;
     margin-right: 6px;
     margin-top: 3px;
@@ -89,8 +93,12 @@
 .question-detail-content {
     .clearfix();
     margin-left: 10%;
-    //padding-left: 10px;
     width: 90%;
+}
+
+.question-detail-content img, .question-detail-content figure {
+    max-width: 100px;
+    max-height: 100px;
 }
 
 .question-detail-bottom {

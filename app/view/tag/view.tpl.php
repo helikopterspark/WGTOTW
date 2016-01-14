@@ -8,6 +8,9 @@
 				</span>
 			</p>
 			<p><?=$tag->getProperties()['description']?><p>
+				<?php if ($this->di->UserloginController->checkLoginAdmin($this->di->session->get('id'))): ?>
+					<a class='edit-button' href='<?=$this->url->create("tag/update/".$tag->getProperties()['id'])?>' title='Redigera'><i class="fa fa-pencil"></i> Redigera ämne</a>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 	</article>

@@ -37,6 +37,9 @@ class UsersController implements \Anax\DI\IInjectionAware {
 				if ($user->getProperties()['isAdmin'] !== null) {
 					unset($all[$count]);
 				}
+				if ($user->getProperties()['deleted']) {
+					unset($all[$count]);
+				}
 				$count++;
 			}
 		}

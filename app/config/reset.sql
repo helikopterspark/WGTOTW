@@ -32,6 +32,9 @@ CREATE TABLE wgtotw_user
 	active datetime
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
+-- INSERT INTO wgtotw_user (acronym, email, name, password, isAdmin, created, active) VALUES
+-- ('admin', 'admin@wgtotw.com', 'Administrator', 'admin', 1, NOW(), NOW());
+
 CREATE TABLE wgtotw_question
 (
 	id integer primary key not null auto_increment,

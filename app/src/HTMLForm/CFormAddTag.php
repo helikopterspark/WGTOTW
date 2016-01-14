@@ -3,36 +3,35 @@
 namespace CR\HTMLForm;
 
 /**
- * Anax base class for wrapping sessions.
+ * CForm class for adding tag.
  *
  */
-class CFormEditComment extends \Mos\HTMLForm\CForm
+class CFormAddTag extends \Mos\HTMLForm\CForm
 {
     use \Anax\DI\TInjectionaware,
     \Anax\MVC\TRedirectHelpers;
 
-    private $type;
-    private $pageId;
+    private $lastID;
 
     /**
      * Constructor
      *
      */
-    public function __construct($params = null)
-    {
+    public function __construct() {
 
-        $this->commentUpd = $params['comment'];
-        $this->type = $params['type'];
-        $this->pageId = $params['pageId'];
-
-        parent::__construct(['id' => 'comment-form', 'class' => 'comment-form'], [
-            'content' => [
-            'type'          => 'textarea',
-            'label'         => 'Kommentar (använd gärna Markdown):',
+        parent::__construct(['id' => 'tag-form', 'class' => 'tag-form'], [
+            'name' => [
+            'type'          => 'text',
+            'label'         => 'Ämne:',
             'required'      => true,
             'autofocus'     => true,
             'validation'    => ['not_empty'],
-            'value'         => $this->commentUpd->getProperties()['content'],
+            ],
+            'description' => [
+            'type'          => 'textarea',
+            'label'         => 'Beskrivning (max 255 tecken):',
+            'required'      => true,
+            'validation'    => ['not_empty'],
             ],
 
             'submit' => [
@@ -42,12 +41,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             ],
             'reset' => [
             'type'      => 'reset',
-            'value'     => 'Återställ',
-            ],
-            'delete' => [
-            'type'      => 'submit',
-            'value'     => 'Radera',
-            'callback'  => [$this, 'callbackDelete'],
+            'value'     => 'Rensa',
             ],
             'submit-abort' => [
             'type'      => 'submit',
@@ -59,8 +53,6 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
             ]);
 }
 
-
-
     /**
      * Customise the check() method.
      *
@@ -70,11 +62,10 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
-            $this->redirectTo('question/id/'.$this->pageId.'#comment-'.$this->commentUpd->getProperties()['id']);
+            $this->redirectTo('tag');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
-    }
-
+        }
     }
 
 
@@ -88,14 +79,15 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
 
         $now = date('Y-m-d H:i:s');
 
-        $this->comment = new \CR\Comment\Comment();
-        $this->comment->setDI($this->di);
-
-        $this->comment->save([
-            'id'        => $this->commentUpd->getProperties()['id'],
-            'content'   => strip_tags($this->Value('content')),
-            'updated'   => $now,
+        $this->tag = new \CR\Tag\Tag();
+        $this->tag->setDI($this->di);
+        // Save question
+        $this->tag->save([
+            'name'      => strip_tags($this->Value('name')),
+            'description'      => strip_tags($this->Value('description')),
+            'created'   => $now
             ]);
+        $this->lastID = $this->tag->db->lastInsertId();
 
         return true;
     }
@@ -120,29 +112,7 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
      */
     public function callbackSuccess()
     {
-        $this->redirectTo('question/id/'.$this->pageId.'#comment-'.$this->commentUpd->getProperties()['id']);
-    }
-
-    /**
-     * Callback What to do if the form was submitted?
-     * Delete comment. NOTE: soft delete
-     *
-     */
-    public function callbackDelete()
-    {
-        $now = date('Y-m-d H:i:s');
-
-        $this->comment = new \CR\Comment\Comment();
-        $this->comment->setDI($this->di);
-
-        $this->comment->save([
-            'id'        => $this->commentUpd->getProperties()['id'],
-            'deleted'   => $now,
-            ]);
-
-        $this->di->flashmessage->info('<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Kommentaren togs bort.');
-        
-        return true;
+        $this->redirectTo('question/tag/' . $this->lastID);
     }
 
 
@@ -156,4 +126,5 @@ class CFormEditComment extends \Mos\HTMLForm\CForm
         $this->AddOutput("<p><i>Det gick inte att spara. Kontrollera fälten.</i></p>");
         $this->redirectTo();
     }
+
 }

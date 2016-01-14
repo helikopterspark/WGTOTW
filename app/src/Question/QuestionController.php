@@ -103,7 +103,11 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		->where("t2q.idTag = " . $tag)
 		->execute();
 
-		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/tag/'.$tag, $this->customhits);
+		if ($count[0]->count == 0) {
+			$pagelinks = $this->paginator->paginate($qhits, $page, 1, 'question/tag/'.$tag, $this->customhits);
+		} else {
+			$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/tag/'.$tag, $this->customhits);
+		}
 
 		$all = $this->questions->query("q.*")
 		->from('question AS q')

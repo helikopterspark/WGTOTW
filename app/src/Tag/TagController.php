@@ -24,6 +24,9 @@ class TagController implements \Anax\DI\IInjectionAware {
 	/**
 	* List all
 	*
+	* @param int $hits, number of hits per page
+	* @param int $page, page for offset
+	*
 	* @return void
 	*/
 	public function indexAction($hits = 8, $page = 0) {
@@ -31,17 +34,18 @@ class TagController implements \Anax\DI\IInjectionAware {
 		$all = null;
 
 		$all = $this->tag->query()
-			->limit($hits)
-			->offset($page)
-			->groupBy('id')
-			->orderBy('name ASC')
-			->execute();;
+		->limit($hits)
+		->offset($page)
+		->where('deleted IS NULL')
+		->groupBy('id')
+		->orderBy('name ASC')
+		->execute();;
 
 		foreach ($all as $tag) {
 			$this->db->select("COUNT(idQuestion) AS taggedquestions")
-				->from('tag2question')
-				->where('idTag = '.$tag->getProperties()['id'])
-				->execute();
+			->from('tag2question')
+			->where('idTag = '.$tag->getProperties()['id'])
+			->execute();
 			$res = $this->db->fetchAll();
 			$tag->setProperties(['taggedquestions' => $res[0]->taggedquestions]);
 		}
@@ -58,7 +62,8 @@ class TagController implements \Anax\DI\IInjectionAware {
 		*/
 
 		$count = $this->tag->query("COUNT(*) AS count")
-			->execute();
+		->where('deleted IS NULL')
+		->execute();
 
 		$pagelinks = $this->paginator->paginate($hits, $page, $count[0]->count, 'tag/index', $this->customhits);
 
@@ -109,6 +114,7 @@ class TagController implements \Anax\DI\IInjectionAware {
 		$populartags = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
 		->from('tag AS t')
 		->join('tag2question AS t2q', 't.id = t2q.idTag')
+		->where('t.deleted IS NULL')
 		->groupBy('t.id')
 		->orderBy('taggedquestions DESC')
 		->limit($limit)
@@ -118,54 +124,89 @@ class TagController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	* Add new
+	* Add new tag form
 	*
 	* @return void
 	*/
 	public function addAction() {
-		/*
-		$form = new \Anax\HTMLForm\CFormAddTag();
-		$form->setDI($this->di);
-		$form->check();
 
-		$this->di->theme->setTitle('New');
-		$this->views->add('tag/add', [
-		'title' => 'New Tag',
-		'content' => $form->getHTML()
-	], 'main');
-	*/
-}
+		if ($this->di->UserloginController->checkLoginAdmin($this->di->session->get('id'))) {
 
-/**
-* Delete
-*
-* @param integer $id
-*
-* @return void
-*/
-public function deleteAction($id = null) {
-	if (!isset($id)) {
-		die('Missing id');
+			$form = new \CR\HTMLForm\CFormAddTag();
+			$form->setDI($this->di);
+			$form->check();
+
+			$this->di->theme->setTitle('Nytt ämne');
+			$this->views->add('tag/add', [
+				'title' => 'Nytt ämne',
+				'content' => $form->getHTML()
+			], 'main-extended');
+		} else {
+			$url = $this->url->create('tag');
+			$this->response->redirect($url);
+		}
+
 	}
 
-	//$res = $this->tag->delete($id);
-}
+	/**
+	* Add new tag form
+	*
+	* @return void
+	*/
+	public function updateAction($id = null) {
+
+		if ($this->di->UserloginController->checkLoginAdmin($this->di->session->get('id'))) {
+
+			$res = $this->tag->find($id);
+
+			$form = new \CR\HTMLForm\CFormEditTag($res);
+			$form->setDI($this->di);
+			$form->check();
+
+			$this->di->theme->setTitle('New');
+			$this->views->add('tag/add', [
+				'title' => 'Redigera ämne',
+				'content' => $form->getHTML()
+			], 'main-extended');
+		} else {
+			$url = $this->url->create('tag');
+			$this->response->redirect($url);
+		}
+
+	}
+
+	/**
+	* Delete
+	*
+	* @param integer $id
+	*
+	* @return void
+	*/
+	public function deleteAction($id = null) {
+		/*
+		if (!isset($id)) {
+			die('Missing id');
+		}
+
+		$res = $this->tag->delete($id);
+		*/
+	}
 
 
-/**
-* Setup database
-*
-* @return void
-*/
-public function setupAction() {
-	//$this->db->setVerbose();
-	/*
-	$this->db->dropTableIfExists('tag2question')->execute();
-	$this->db->dropTableIfExists('tag')->execute();
+	/**
+	* Setup database
+	*
+	* @return void
+	*/
+	public function setupAction() {
+		//$this->db->setVerbose();
+		/*
+		$this->db->dropTableIfExists('tag2question')->execute();
+		$this->db->dropTableIfExists('tag')->execute();
 
-	$this->db->createTable(
-	'tag',
-	[
+		$this->db->createTable(
+		'tag',
+		[
 		'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
 		'name' => ['varchar(80)'],
 		'description' => ['varchar(255)'],
@@ -178,13 +219,13 @@ public function setupAction() {
 	$this->db->createTable(
 	'tag2question',
 	[
-		'idQuestion' => ['integer', 'not null'],
-		'idTag' => ['integer', 'not null'],
-		'foreign key' => ['(idQuestion)', 'references', 'wgtotw_question(id)'],
-		'foreign key' => ['(idTag)', 'references', 'wgtotw_tag(id)'],
-		'primary key' => ['(idQuestion, idTag)'],
-	]
-	)->execute();
-	*/
+	'idQuestion' => ['integer', 'not null'],
+	'idTag' => ['integer', 'not null'],
+	'foreign key' => ['(idQuestion)', 'references', 'wgtotw_question(id)'],
+	'foreign key' => ['(idTag)', 'references', 'wgtotw_tag(id)'],
+	'primary key' => ['(idQuestion, idTag)'],
+]
+)->execute();
+*/
 }
 }

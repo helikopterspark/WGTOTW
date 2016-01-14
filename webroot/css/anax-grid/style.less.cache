@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:70681:"@charset "utf-8";
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:71335:"@charset "utf-8";
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 @import url(http://fonts.googleapis.com/css?family=Roboto:300);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,500);
@@ -3627,6 +3627,7 @@ input.text {
 }
 .tag-box {
   font-size: 0.875em;
+  padding-bottom: 22px;
 }
 .tag-badge {
   display: inline-block;
@@ -3652,6 +3653,24 @@ input.text {
 .tag-table td {
   padding-top: 22px;
   vertical-align: top;
+  width: 25%;
+}
+.tag-editform,
+.tag-form {
+  max-width: 100%;
+  background-color: #F5F5F5;
+}
+.tag-form fieldset,
+.tag-editform fieldset {
+  border-style: none;
+}
+.tag-form textarea,
+.tag-editform textarea {
+  width: 100%;
+  height: 200px;
+  border-style: none;
+  box-shadow: 1px 1px 1px #999;
+  font-size: 14px;
 }
 .inactive,
 .inactive a {
@@ -3682,15 +3701,21 @@ input.text {
 }
 .userdetail-center-info {
   display: inline-block;
-  width: 70%;
+  width: 40%;
   min-height: 220px;
   line-height: 2.0em;
 }
 .userdetail-center-info h3 {
   font-size: 1.875em;
 }
+.user-actions {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 66px;
+}
 .userdetails-tab-table a,
-.userdetail-center-info a {
+.userdetail-center-info a,
+.user-actions a {
   color: #000;
 }
 .userdetails-tab-table-td {
@@ -3765,6 +3790,10 @@ input.text {
   width: 90%;
   font-size: 0.875em;
 }
+.question-shortlist-content img,
+.question-shortlist-content figure {
+  display: none;
+}
 .question-shortlist-userinfo {
   *zoom: 1;
   position: relative;
@@ -3799,6 +3828,7 @@ input.text {
   color: #cb151c;
 }
 .question-shortlist-userinfo img {
+  display: block;
   float: left;
   margin-right: 6px;
   margin-top: 3px;
@@ -3840,6 +3870,11 @@ input.text {
 }
 .question-detail-content:after {
   clear: both;
+}
+.question-detail-content img,
+.question-detail-content figure {
+  max-width: 100px;
+  max-height: 100px;
 }
 .question-detail-bottom {
   *zoom: 1;
@@ -4253,4 +4288,4 @@ input.text {
     width: 960px;
   }
 }
-";s:5:"files";a:34:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452539990;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1452257902;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452336939;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1452254971;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452724036;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/topheader.less";i:1452637738;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1452637242;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1452364852;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1452428112;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452722865;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1452535180;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452452218;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1452451776;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1452627113;}s:7:"updated";i:1452724049;}
+";s:5:"files";a:34:{s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/style.less";i:1452539990;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/variables.less";i:1452257902;s:91:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/colorschemes.less";i:1452336939;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/mixins.less";i:1444250759;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/css3mixins.less";i:1444250870;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/normalize.less";i:1426618643;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/grid.less";i:1449696303;s:115:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1448288920;s:112:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1449696555;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1448288921;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1448288920;s:109:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1448288920;s:114:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1448288920;s:107:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1448288920;s:111:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1448288920;s:118:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1448288920;s:110:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1448288920;s:108:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1448288920;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/typography.less";i:1452254971;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/structure.less";i:1452724036;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/topheader.less";i:1452637738;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/navbar.less";i:1452637242;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/figure.less";i:1444078417;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/forms.less";i:1452364852;s:87:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/comments.less";i:1452428112;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/flashmsgs.less";i:1447711554;s:85:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/source.less";i:1444932904;s:83:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/tags.less";i:1452807558;s:84:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/users.less";i:1452796583;s:88:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/questions.less";i:1452795256;s:86:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/answers.less";i:1452451776;s:89:"/Applications/XAMPP/xamppfiles/htdocs/phpmvc/WGTOTW/webroot/css/anax-grid/responsive.less";i:1452627113;}s:7:"updated";i:1452807562;}
