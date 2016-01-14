@@ -49,8 +49,10 @@ EOD;
 
         } else {
             // Not logged in, show Login link
+            $url = $this->di->get('url')->create('users/add');
+            $login = '<i class="fa fa-user-plus"></i><a href="'.$url.'"> Bli medlem </a><div class="topbar-spacer"></div>';
             $url = $this->di->get('url')->create('login');
-            $login = '<i class="fa fa-sign-in"></i><a href="'.$url.'"> LOGGA IN</a>';
+            $login .= '<i class="fa fa-sign-in"></i><a href="'.$url.'"> LOGGA IN</a><div class="topbar-spacer"></div>';
         }
 
         $html = <<<EOD

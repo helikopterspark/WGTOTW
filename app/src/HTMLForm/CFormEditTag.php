@@ -71,6 +71,7 @@ class CFormEditTag extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
+            $this->di->session->set('temptag', null);  // clear temptag info
             $this->redirectTo('tag');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
@@ -85,11 +86,21 @@ class CFormEditTag extends \Mos\HTMLForm\CForm
      */
     public function callbackSubmit()
     {
-
         $now = date('Y-m-d H:i:s');
 
         $this->tag = new \CR\Tag\Tag();
         $this->tag->setDI($this->di);
+
+        // Check whether name already exists
+        $nameExists = $this->tag->query()
+            ->where('name = ?')
+            ->execute([$this->Value('name')]);
+
+        if ($nameExists) {
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Ämnesnamnet '.$this->Value('name').' är upptaget!</p>');
+            $this->redirectTo('tag/update/'.$this->tagUpd->getProperties()['id']);
+        }
+
         // Save question
         $this->tag->save([
             'id'        => $this->tagUpd->getProperties()['id'],
@@ -114,12 +125,15 @@ class CFormEditTag extends \Mos\HTMLForm\CForm
 
         $this->tag->save([
             'id'        => $this->tagUpd->getProperties()['id'],
+            'name'      => $this->tagUpd->getProperties()['name'].$this->tagUpd->getProperties()['id'].'deleted',
             'deleted'   => $now,
             ]);
 
         $this->di->flashmessage->info('<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Ämnet togs bort.');
+        $this->di->session->set('temptag', null);  // clear temptag info
+        $this->redirectTo('tag/add');
 
-        return true;
+        //return true;
     }
 
     /**

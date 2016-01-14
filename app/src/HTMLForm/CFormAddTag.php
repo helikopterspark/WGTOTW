@@ -17,7 +17,7 @@ class CFormAddTag extends \Mos\HTMLForm\CForm
      * Constructor
      *
      */
-    public function __construct() {
+    public function __construct($temptag = null) {
 
         parent::__construct(['id' => 'tag-form', 'class' => 'tag-form'], [
             'name' => [
@@ -26,12 +26,14 @@ class CFormAddTag extends \Mos\HTMLForm\CForm
             'required'      => true,
             'autofocus'     => true,
             'validation'    => ['not_empty'],
+            'value'         => $temptag['name'] ? $temptag['name'] : null,
             ],
             'description' => [
             'type'          => 'textarea',
             'label'         => 'Beskrivning (max 255 tecken):',
             'required'      => true,
             'validation'    => ['not_empty'],
+            'value'         => $temptag['description'] ? $temptag['description'] : null,
             ],
 
             'submit' => [
@@ -62,6 +64,7 @@ class CFormAddTag extends \Mos\HTMLForm\CForm
     public function check($callIfSuccess = null, $callIfFail = null)
     {
         if ($this->di->request->getPost('submit-abort')) {
+            $this->di->session->set('temptag', null);  // clear temptag info
             $this->redirectTo('tag');
         } else {
             return parent::check([$this, 'callbackSuccess'], [$this, 'callbackFail']);
@@ -81,7 +84,24 @@ class CFormAddTag extends \Mos\HTMLForm\CForm
 
         $this->tag = new \CR\Tag\Tag();
         $this->tag->setDI($this->di);
-        // Save question
+
+        // Save temporary info in session in case registration validation fails
+        $temptag = array('name' => $this->Value('name'),
+            'description' => $this->Value('description'),
+        );
+
+        // Check whether name already exists
+        $nameExists = $this->tag->query()
+            ->where('name = ?')
+            ->execute([$this->Value('name')]);
+
+        if ($nameExists) {
+            $this->di->session->set('temptag', $temptag);
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Ämnesnamnet '.$this->Value('name').' är upptaget!</p>');
+            $this->redirectTo('tag/add');
+        }
+
+        // Save tag
         $this->tag->save([
             'name'      => strip_tags($this->Value('name')),
             'description'      => strip_tags($this->Value('description')),

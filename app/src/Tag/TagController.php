@@ -132,15 +132,18 @@ class TagController implements \Anax\DI\IInjectionAware {
 
 		if ($this->di->UserloginController->checkLoginAdmin($this->di->session->get('id'))) {
 
-			$form = new \CR\HTMLForm\CFormAddTag();
+			$this->tag = $this->di->session->get('temptag');
+
+			$form = new \CR\HTMLForm\CFormAddTag($this->tag);
 			$form->setDI($this->di);
 			$form->check();
 
 			$this->di->theme->setTitle('Nytt ämne');
 			$this->views->add('tag/add', [
 				'title' => 'Nytt ämne',
-				'content' => $form->getHTML()
+				'content' => $this->di->flashmessage->outputMsgs() . $form->getHTML()
 			], 'main-extended');
+			$this->di->flashmessage->clearMessages();
 		} else {
 			$url = $this->url->create('tag');
 			$this->response->redirect($url);
@@ -166,8 +169,9 @@ class TagController implements \Anax\DI\IInjectionAware {
 			$this->di->theme->setTitle('New');
 			$this->views->add('tag/add', [
 				'title' => 'Redigera ämne',
-				'content' => $form->getHTML()
+				'content' => $this->di->flashmessage->outputMsgs() . $form->getHTML()
 			], 'main-extended');
+			$this->di->flashmessage->clearMessages();
 		} else {
 			$url = $this->url->create('tag');
 			$this->response->redirect($url);

@@ -151,7 +151,6 @@ class UsersController implements \Anax\DI\IInjectionAware {
 				'user' => $user,
 				'content' => $tabContent,
 			], 'fullpage');
-			//$this->views->add('users/users-sidebar', [], 'sidebar');
 			$this->di->flashmessage->clearMessages();
 		} else {
 			$url = $this->url->create('users');
@@ -289,19 +288,18 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$form->setDI($this->di);
 		$form->check();
 
-		$this->di->theme->setTitle("Registrera användare");
+		$this->di->theme->setTitle("Bli medlem");
 		$this->views->add('theme/index', [
-			'title' => 'Registrera användare',
-			'content' => '<h2>Registrera användare</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML(),
+			'title' => 'Bli medlem',
+			'content' => '<h2>Bli medlem</h2>' . $this->di->flashmessage->outputMsgs() . $form->getHTML(),
 			], 'main');
-		//$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->di->flashmessage->clearMessages();
 	}
 
 	/**
 	 * Update user.
 	 *
-	 * @param int $id of user to add.
+	 * @param int $id of user to edit.
 	 *
 	 * @return void
 	 */
@@ -332,7 +330,6 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			'title' => 'Uppdatera användare',
 			'content' => '<h2>Uppdatera användare</h2>' . $this->di->flashmessage->outputMsgs() . $content
 		], 'main-extended');
-		//$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->di->flashmessage->clearMessages();
 	}
 

@@ -44,7 +44,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             ],
             'submit-add' => [
             'type'      => 'submit',
-            'value'     => 'Registrera ny användare',
+            'value'     => 'Bli medlem',
             'formnovalidate' => true,
             'callback'  => [$this, 'callbackSubmit'],
             ],

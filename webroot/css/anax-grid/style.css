@@ -3157,6 +3157,10 @@ a.current-page:hover {
   z-index: 1001;
   font-family: 'Roboto Slab', serif;
 }
+.topbar-spacer {
+  display: inline-block;
+  width: 1em;
+}
 .inline-div,
 .search-form div,
 .search-form form,

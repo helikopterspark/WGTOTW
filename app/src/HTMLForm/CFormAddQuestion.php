@@ -23,7 +23,9 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
         $this->tags = $tags;
 
         foreach ($this->tags as $value) {
-            $tagTitles[$value->getProperties()['id']] = $value->getProperties()['name'];
+            if ($value->getProperties()['deleted'] == null) {
+                $tagTitles[$value->getProperties()['id']] = $value->getProperties()['name'];
+            }
         }
 
         parent::__construct(['id' => 'question-form', 'class' => 'question-form'], [
