@@ -54,7 +54,7 @@ class CFormEditQuestion extends \Mos\HTMLForm\CForm
             'tags' => [
             'type'          => 'select-multiple',
             'options'       => $tagTitles,
-            'values'      => $preselected,
+            'checked'      => $preselected,
             'label'         => 'Ämnestaggar (flera val möjliga)',
             'required'       => true,
             'size'          => 10,

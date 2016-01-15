@@ -152,6 +152,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             $this->di->session->set('acronym', $this->Value('acronym'));
             $this->di->session->set('id', $user->id);
             $this->di->session->set('email', $user->email);
+            $this->di->session->set('colortheme', $user->colortheme);
             if ($user->isAdmin) {
                 $this->di->session->set('isAdmin', 1);
             }

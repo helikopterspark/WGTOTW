@@ -15,6 +15,7 @@ $app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 *
 */
 $app->router->add('', function() use ($app) {
+    //$app->theme->addClassAttributeFor('html', $app->session->get('colortheme'));
     $app->theme->setTitle("PIGS IN SPACE");
 
     $app->views->add('default/page', [

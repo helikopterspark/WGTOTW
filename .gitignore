@@ -1,6 +1,7 @@
 # Logs and databases
 *.sqlite
 *.log
+*.jpg
 queries.sql
 style.css
 style.less.cache

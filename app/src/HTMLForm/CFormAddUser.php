@@ -58,6 +58,16 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'required'      => true,
             'validation'    => ['not_empty'],
             ],
+            'colortheme' => [
+                'type'      => 'radio',
+                'label'     => 'Färgtema:',
+                'required'  => false,
+                'values'   => [
+                    'light-theme' => 'light-theme',
+                    'dark-theme' => 'dark-theme',
+                ],
+                'checked'   => $tempuser['colortheme'] ? $tempuser['colortheme'] : 'light-theme',
+            ],
             'active' => [
             'type'          => 'checkbox',
             'label'         => 'Aktivera',
@@ -119,6 +129,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'email' => $this->Value('email'),
             'name' => $this->Value('name'),
             'url' => $this->Value('url'),
+            'colortheme' => $this->Value('colortheme'),
         );
 
         // Check whether acronym already exists
@@ -165,6 +176,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'name' => $this->Value('name'),
             'password' => $enc_password,
             'url' => $this->Value('url'),
+            'colortheme' => $this->Value('colortheme'),
             'created' => $now,
             'active' => $active,
             ]);

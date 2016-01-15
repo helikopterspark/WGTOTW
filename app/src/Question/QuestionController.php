@@ -17,6 +17,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function initialize() {
+		//$this->theme->addClassAttributeFor('html', $this->di->session->get('colortheme'));
 		$this->questions = new \CR\Question\Question();
 		$this->questions->setDI($this->di);
 	}
@@ -82,7 +83,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*/
 	public function tagAction($tag = null, $hits = null, $page = 0) {
 		// Check hits-per-page preference in session
-		if (!$hits) {
+		if (!$hits || $hits == 0) {
 			if ($this->di->session->has('qhits')) {
 				$qhits = $this->di->session->get('qhits');
 			} else {
@@ -186,12 +187,14 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function searchAction($hits = null, $page = 0) {
+	public function searchAction($search = null, $hits = null, $page = 0) {
 		// For pagination, check for new searchstring or use saved in session
-		$searchstring = $this->request->getPost('search') ? $this->request->getPost('search') : $this->di->session->get('search');
+		$searchstring = $search ? strip_tags($search) : $this->di->session->get('search');
+		// For pagination, save in session
 		$this->di->session->set('search', $searchstring);
+
 		// Check hits-per-page preference in session
-		if (!$hits) {
+		if (!$hits || $hits == 0) {
 			if ($this->di->session->has('qhits')) {
 				$qhits = $this->di->session->get('qhits');
 			} else {
@@ -215,7 +218,7 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
 			->execute();
 
-		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/search', $this->customhits);
+		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/search/'.$searchstring, $this->customhits);
 
 		$this->theme->setTitle('Sökresultat för '.$searchstring);
 		$this->views->add('question/index', [
@@ -271,7 +274,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 			$tag = new \CR\Tag\Tag();
 			$tag->setDI($this->di);
-	        $tags = $tag->findAll();
+	        $tags = $tag->query()
+						->where('deleted IS NULL')
+						->orderBy('name ASC')
+						->execute();
 
 			$form = new \CR\HTMLForm\CFormAddQuestion($tags);
 			$form->setDI($this->di);
@@ -297,7 +303,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		if ($this->di->UserloginController->checkLoginCorrectUser($qstn[0]->user->getProperties()['id'])) {
 			$tag = new \CR\Tag\Tag();
 			$tag->setDI($this->di);
-	        $tags = $tag->findAll();
+	        $tags = $tag->query()
+				->where('deleted IS NULL')
+				->orderBy('name ASC')
+				->execute();
 
 			$form = new \CR\HTMLForm\CFormEditQuestion($qstn[0], $tags);
 			$form->setDI($this->di);

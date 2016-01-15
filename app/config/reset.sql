@@ -26,6 +26,7 @@ CREATE TABLE wgtotw_user
 	password char(255),
     url varchar(80),
     isAdmin bit,
+    colortheme varchar(16) DEFAULT 'light-theme',
 	created datetime,
 	updated datetime,
 	deleted datetime,

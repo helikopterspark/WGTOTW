@@ -50,14 +50,24 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             ],
             'url' => [
             'type'          => 'url',
-            'label'         => 'URL',
+            'label'         => 'URL:',
             'required'      => false,
             'value'         => $user->getProperties()['url'],
             ],
             'password' => [
             'type'          => 'password',
-            'label'         => 'Lösenord',
+            'label'         => 'Lösenord:',
             'required'      => false,
+            ],
+            'colortheme' => [
+                'type'      => 'radio',
+                'label'     => 'Färgtema:',
+                'required'  => false,
+                'values'   => [
+                    'light-theme' => 'light-theme',
+                    'dark-theme' => 'dark-theme',
+                ],
+                'checked'   => $user->getProperties()['colortheme'],
             ],
             'active' => [
             'type'          => 'checkbox',
@@ -162,6 +172,7 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'name' => $this->Value('name'),
             'password' => $enc_password,
             'url' => $this->Value('url'),
+            'colortheme' => $this->Value('colortheme'),
             'updated' => $now,
             'active' => $active,
             'deleted' => $deleted
@@ -169,6 +180,7 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
 
         $this->di->session->set('acronym', $this->Value('acronym'));
         $this->di->session->set('email', $this->Value('email'));
+        $this->di->session->set('colortheme', $this->Value('colortheme'));
         $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span>&nbsp;Användaren '.$this->Value('acronym').' uppdaterades!</p>');
         return true;
     }

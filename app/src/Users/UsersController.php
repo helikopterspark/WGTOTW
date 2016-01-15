@@ -26,23 +26,33 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 *
 	 * @return void
 	 */
-	public function indexAction() {
-
-		$all = $this->users->findAll();
+	public function indexAction($hits = 8, $page = 0) {
 
 		if (!$this->di->UserloginController->checkLoginAdmin()) {
-			// remove admin users from the array
-			$count = 0;
-			foreach ($all as $user) {
-				if ($user->getProperties()['isAdmin'] !== null) {
-					unset($all[$count]);
-				}
-				if ($user->getProperties()['deleted']) {
-					unset($all[$count]);
-				}
-				$count++;
-			}
+			// remove admin and delted users from the array
+			$all = $this->users->query()
+				->where('isAdmin IS NULL')
+				->andWhere('deleted IS NULL')
+				->limit($hits)
+				->offset($page)
+				->orderBy('acronym ASC')
+				->execute();
+			$res = $this->users->query("COUNT(*) AS count")
+				->where('isAdmin IS NULL')
+				->andWhere('deleted IS NULL')
+				->execute();
+			$count = $res[0]->count;
+		} else {
+			$all = $this->users->query()
+				->limit($hits)
+				->offset($page)
+				->orderBy('acronym ASC')
+				->execute();
+			$res = $this->users->findAll();
+			$count = count($res);
 		}
+
+		$pagelinks = $this->paginator->paginate($hits, $page, $count, 'users/index', $this->customhits);
 
 		foreach ($all as $user) {
 			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=60&d=identicon';
@@ -52,7 +62,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$this->theme->setTitle("Alla användare");
 		$this->views->add('users/list-all', [
 			'users' => $all,
-			'pages' => null,
+			'pages' => $pagelinks,
 			'title' => "Alla användare",
 		], 'fullpage');
 	}

@@ -3,9 +3,7 @@
 */
 
 html {
-    background-color: rgb(50, 54, 60);
-    background-image: url("../../img/3px-tile.png");
-
+    //background-color: rgb(50, 54, 60);
 }
 
 body {
@@ -417,4 +415,13 @@ a.up-button:hover, a.page-button:hover, a.current-page:hover {
 
 .downvote-active:hover {
     color: rgb(226, 106, 106) !important;
+}
+
+.anchor {
+  display: block;
+  height: @magicNumber * 1.5;
+  margin-top: -(@magicNumber * 1.5);
+  //height: 115px; /*same height as header*/
+  //margin-top: -115px; /*same height as header*/
+  visibility: hidden;
 }

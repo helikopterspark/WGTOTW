@@ -58,6 +58,7 @@ class UserloginController implements \Anax\DI\IInjectionAware {
             $this->di->session->set('id', null);
             $this->di->session->set('email', null);
             $this->di->session->set('isAdmin', null);
+            $this->di->session->set('colortheme', null);
 
             $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är utloggad.';
             $this->di->flashmessage->info($info);

@@ -20,13 +20,13 @@ class CTopbar
     */
     public function create() {
 
-        /*
+        
         $form = new \CR\HTMLForm\CFormSearch();
         $form->setDI($this->di);
         $form->check();
         $search = $form->getHTML();
-        */
 
+/*
         $url = $this->di->get('url')->create('question/search');
 
         $search = <<<EOD
@@ -36,7 +36,7 @@ class CTopbar
             </fieldset>
         </form>
 EOD;
-
+*/
         if ($this->di->session->has('acronym')) {
             // show user gravatar and acronym in topbar
             $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg?s=20&d=identicon';

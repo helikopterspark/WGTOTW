@@ -24,7 +24,7 @@ class CFormSearch extends \Mos\HTMLForm\CForm
         parent::__construct(['id' => 'search-form', 'class' => 'search-form'], [
             'search' => [
             'type'          => 'search',
-            'placeholder'     => 'Sök i frågor',
+            'placeholder'     => '&#128269; Sök i frågor',
             'callback'  => [$this, 'callbackSubmit'],
             ],
 
@@ -76,7 +76,7 @@ class CFormSearch extends \Mos\HTMLForm\CForm
     public function callbackSuccess()
     {
         //$this->AddOUtput("<p><i>Användaren " . $this->user->acronym . " registrerades</i></p>");
-        $this->redirectTo('question/search/' . $this->Value('search'));
+        $this->redirectTo('question/search/' . strip_tags($this->Value('search')));
     }
 
 

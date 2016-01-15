@@ -70,7 +70,7 @@ return [
     'lang' => 'sv',
 
         // Color theme
-    'theme' => 'red-theme',
+    'theme' => $this->di->session->has('colortheme') ? $this->di->session->get('colortheme') : 'light-theme',
 
         // Append this value to each <title>
     'title_append' => ' | Byggt med Anax',
