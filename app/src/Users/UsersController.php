@@ -292,7 +292,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	/**
 	* List users by rank
 	*
-	* @param int $limit, number of users to fetch
+	* @param int $limit number of users to fetch
 	*
 	* @return void
 	*/

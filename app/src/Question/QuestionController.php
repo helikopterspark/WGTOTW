@@ -24,9 +24,6 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	/**
 	* List all questions
 	*
-	* @param int $hits, number of hits per page
-	* @param int $page, page for offset
-	*
 	* @return void
 	*/
 	public function indexAction() {
@@ -67,13 +64,11 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	/**
 	* List all questions with provided tag
 	*
-	* @param integer $tag id for tag
-	* @param int $hits, number of hits per page
-	* @param int $page, page for offset
-	*
 	* @return void
 	*/
 	public function tagAction() {
+
+		$tag = null;
 
 		$qhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('qhits');
 		$qhits = $qhits ? $qhits : 10;
@@ -176,13 +171,11 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	/**
 	* Search action, search for questions with searchstring
 	*
-	* @param int $hits, number of hits per page
-	* @param int $page, page for offset
-	*
 	* @return void
 	*/
 	public function searchAction() {
 
+		$searchstring = null;
 		// For pagination
 		$qhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('qhits');
 		$qhits = $qhits != null ? $qhits : 10;
