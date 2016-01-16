@@ -26,14 +26,19 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 *
 	 * @return void
 	 */
-	public function indexAction($hits = 8, $page = 0) {
+	public function indexAction() {
+
+		$uhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('uhits');
+		$uhits = $uhits != null ? $uhits : 8;
+		$this->di->session->set('uhits', $uhits);
+		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
 
 		if (!$this->di->UserloginController->checkLoginAdmin()) {
 			// remove admin and delted users from the array
 			$all = $this->users->query()
 				->where('isAdmin IS NULL')
 				->andWhere('deleted IS NULL')
-				->limit($hits)
+				->limit($uhits)
 				->offset($page)
 				->orderBy('acronym ASC')
 				->execute();
@@ -44,7 +49,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$count = $res[0]->count;
 		} else {
 			$all = $this->users->query()
-				->limit($hits)
+				->limit($uhits)
 				->offset($page)
 				->orderBy('acronym ASC')
 				->execute();
@@ -52,7 +57,8 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			$count = count($res);
 		}
 
-		$pagelinks = $this->paginator->paginate($hits, $page, $count, 'users/index', $this->customhits);
+		$get = array('hits' => $uhits, 'page' => $page);
+		$pagelinks = $this->paginator->paginateGet($count, 'users/index', $get, $this->customhits);
 
 		foreach ($all as $user) {
 			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=60&d=identicon';
@@ -284,6 +290,43 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
+	* List users by rank
+	*
+	* @param int $limit, number of users to fetch
+	*
+	* @return void
+	*/
+	public function getrankedAction($limit = 1) {
+		$all = $this->users->query()
+			->where('isAdmin IS NULL')
+			->andWhere('deleted IS NULL')
+			->orderBy('acronym ASC')
+			->execute();
+		$res = $this->users->query("COUNT(*) AS count")
+			->where('isAdmin IS NULL')
+			->andWhere('deleted IS NULL')
+			->execute();
+		$count = $res[0]->count;
+
+		foreach ($all as $user) {
+			$user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->getProperties()['email']))) . '.jpg?s=40&d=identicon';
+			$user->stats = $this->getUserStats($user->getProperties()['id']);
+		}
+
+		// Sort by rank with anonymous function
+		usort($all, function($a, $b) {if ($a->stats == $b->stats) {return 0;} return ($a->stats < $b->stats) ? 1 : -1;});
+
+		// Limit list
+		$ranked = array_slice($all, 0, $limit);
+
+		$this->views->add('users/list-side', [
+			'users' => $ranked,
+			'title' => "Topp ".count($ranked)." användare",
+			'totalusers' => $count,
+		], 'sidebar-reduced');
+	}
+
+	/**
 	 * Add new user.
 	 *
 	 * @param string $acronym of user to add.
@@ -351,6 +394,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function deleteAction($id = null) {
+		/*
 		if (!isset($id)) {
 			die("Missing id");
 		}
@@ -359,6 +403,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 
 		$url = $this->url->create('users');
 		$this->response->redirect($url);
+		*/
 	}
 
 	/**
@@ -519,18 +564,23 @@ class UsersController implements \Anax\DI\IInjectionAware {
 
 		$now = date('Y-m-d H:i:s');
 
-		$enc_password = $this->encryptPassword('admin');
-		$this->db->execute([
-			'admin',
-			'admin@dbwebb.se',
-			'Administrator',
-			$enc_password,
-			$now,
-			null,
-			$now,
-			null
+		$userExists = $this->user->query()
+            ->where('acronym = ?')
+            ->execute(['admin']);
+		if (!$userExists) {
+			$enc_password = $this->encryptPassword('admin');
+			$this->db->execute([
+				'admin',
+				'admin@dbwebb.se',
+				'Administrator',
+				$enc_password,
+				$now,
+				null,
+				$now,
+				null
 			]);
-
+		}
+		/*
 		$enc_password = $this->encryptPassword('johndoe');
 		$this->db->execute([
 			'johndoe',
@@ -566,7 +616,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			null,
 			$now
 			]);
-
+		*/
 		$url = $this->url->create('users');
 		$this->response->redirect($url);
 	}

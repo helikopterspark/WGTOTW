@@ -15,13 +15,26 @@ $app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 *
 */
 $app->router->add('', function() use ($app) {
-    //$app->theme->addClassAttributeFor('html', $app->session->get('colortheme'));
-    $app->theme->setTitle("PIGS IN SPACE");
+    $app->theme->setTitle("RED PLANET");
 
-    $app->views->add('default/page', [
-        'title' => "<h2>Allt om grisar i rymden</h2>",
-        'content' => "<p>Start page</p>",
-    ]);
+    $app->dispatcher->forward([
+      'controller' => 'question',
+      'action' => 'getlatest',
+      'params' => [10],
+  ]);
+
+  $app->dispatcher->forward([
+    'controller' => 'users',
+    'action' => 'getranked',
+    'params' => [6],
+]);
+
+    $app->dispatcher->forward([
+      'controller' => 'tag',
+      'action' => 'getmostpopular',
+      'params' => [7, null],
+  ]);
+
 });
 
 /**

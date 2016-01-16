@@ -33,7 +33,7 @@
 			<div class="answer-detail-content">
 
 				<?=$answer->filteredcontent?>
-				
+
 				<div class="answer-detail-bottom">
 					<?php if ($this->di->UserloginController->checkLoginCorrectUser($answer->user->getProperties()['id'])) : ?>
 						<a class='edit-button' href='<?=$this->url->create("question/id/".$answer->getProperties()['questionId'] . "?editanswer=yes&answerid=" . $answer->getProperties()['id']."#answer-".$answer->getProperties()['id'])?>' title='Redigera'>

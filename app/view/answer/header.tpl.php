@@ -1,6 +1,6 @@
 <!-- Heading for answer section -->
 <article class="article1">
-    <div id='answers' class="answers"></div>
+    <div id='answers' class="answers anchor"></div>
     <div class="answers-header-container">
         <div class="answers-no-of">
             <h3><?=$content?>&nbsp;<?=$title?></h3>

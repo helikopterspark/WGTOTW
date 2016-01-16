@@ -19,13 +19,13 @@
 		<p>Namn: <?=$user->getProperties()['name']?><br/>
 			Email: <a href="mailto:<?=$user->getProperties()['email']?>"><?=$user->getProperties()['email']?></a><br/>
 			Webbsida: <?=$user->getProperties()['url']?><br/>
-			Skapad: <?=$user->getProperties()['created']?><br/>
-			Aktiverad: <?=$user->getProperties()['active']?><br/>
+			Medlem sedan: <?=$user->getProperties()['created']?><br/>
+			<!-- Aktiverad: <?=$user->getProperties()['active']?><br/> -->
 			<?php if ($user->getProperties()['updated']) : ?>
 				Uppdaterad: <?=$user->getProperties()['updated']?><br/>
 			<?php endif; ?>
 			<?php if ($user->getProperties()['deleted']) : ?>
-				Borttagen: <?=$user->getProperties()['deleted']?><br/>
+				Avslutat konto: <?=$user->getProperties()['deleted']?><br/>
 			<?php endif; ?>
 		</p>
 	</div> <!-- userdetail-center-info -->

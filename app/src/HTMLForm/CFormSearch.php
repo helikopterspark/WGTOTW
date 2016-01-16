@@ -76,7 +76,7 @@ class CFormSearch extends \Mos\HTMLForm\CForm
     public function callbackSuccess()
     {
         //$this->AddOUtput("<p><i>Användaren " . $this->user->acronym . " registrerades</i></p>");
-        $this->redirectTo('question/search/' . strip_tags($this->Value('search')));
+        $this->redirectTo('question/search/?search=' . strip_tags($this->Value('search')));
     }
 
 

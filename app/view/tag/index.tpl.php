@@ -10,7 +10,7 @@
 				<td>
 					<div>
 					<div class="tag-box">
-						<p><span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>'
+						<p><span class="tag-badge"><a href='<?=$this->url->create('question/tag').'?tag='.$tag->getProperties()['id']?>'
 							title='<?=$tag->getProperties()['description']?>'><?=$tag->name?></a></span>
 							&nbsp;x&nbsp;<?=$tag->getProperties()['taggedquestions']?></p>
 							<p><?=$tag->getProperties()['description']?></p>

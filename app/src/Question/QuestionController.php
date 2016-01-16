@@ -17,7 +17,6 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	* @return void
 	*/
 	public function initialize() {
-		//$this->theme->addClassAttributeFor('html', $this->di->session->get('colortheme'));
 		$this->questions = new \CR\Question\Question();
 		$this->questions->setDI($this->di);
 	}
@@ -30,30 +29,24 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function indexAction($hits = null, $page = 0) {
-		// Check hits-per-page preference in session
-		if (!$hits) {
-			if ($this->di->session->has('qhits')) {
-				$qhits = $this->di->session->get('qhits');
-			} else {
-				$qhits = 10;
-			}
-		} else {
-			$qhits = $hits;
-			$this->di->session->set('qhits', $qhits);
-		}
+	public function indexAction() {
+
+		$qhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('qhits');
+		$qhits = $qhits != null ? $qhits : 10;
+		$this->di->session->set('qhits', $qhits);
+		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
 
 		$all = $this->questions->query()
-			->orderBy('created DESC')
-			->limit($qhits)
-			->offset($page)
-			->execute();
+		->orderBy('created DESC')
+		->limit($qhits)
+		->offset($page)
+		->execute();
 		$all = $this->getRelatedData($all);
 
 		$count = $this->questions->query("COUNT(*) AS count")
-			->execute();
-
-		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/index', $this->customhits);
+		->execute();
+		$get = array('hits' => $qhits, 'page' => $page);
+		$pagelinks = $this->paginator->paginateGet($count[0]->count, 'question/index', $get, $this->customhits);
 
 		$this->theme->setTitle('Alla frågor');
 		$this->views->add('question/index', [
@@ -62,14 +55,13 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			'title' => 'Alla frågor',
 		], 'main-extended');
 
-		$populartags = $this->TagController->getMostPopularTags(6);
-
 		$title = $count[0]->count == 1 ? $count[0]->count .' fråga' : $count[0]->count .' frågor';
 
-		$this->views->add('tag/side-shortlist', [
-			'title' => $title,
-			'content' => $populartags,
-		], 'sidebar-reduced');
+		$this->dispatcher->forward([
+			'controller' => 'tag',
+			'action' => 'getmostpopular',
+			'params' => [6, $title],
+		]);
 	}
 
 	/**
@@ -81,17 +73,18 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function tagAction($tag = null, $hits = null, $page = 0) {
-		// Check hits-per-page preference in session
-		if (!$hits || $hits == 0) {
-			if ($this->di->session->has('qhits')) {
-				$qhits = $this->di->session->get('qhits');
-			} else {
-				$qhits = 10;
-			}
+	public function tagAction() {
+
+		$qhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('qhits');
+		$qhits = $qhits ? $qhits : 10;
+		$this->di->session->set('qhits', $qhits);
+		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
+
+		if ($this->di->request->getGet('tag')) {
+			$tag = $this->di->request->getGet('tag');
 		} else {
-			$qhits = $hits;
-			$this->di->session->set('qhits', $qhits);
+			$url = $this->url->create('question');
+			$this->response->redirect($url);
 		}
 
 		$t = new \CR\Tag\Tag();
@@ -104,10 +97,12 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		->where("t2q.idTag = " . $tag)
 		->execute();
 
+		$get = array('tag' => $tag, 'hits' => $qhits, 'page' => $page);
+
 		if ($count[0]->count == 0) {
-			$pagelinks = $this->paginator->paginate($qhits, $page, 1, 'question/tag/'.$tag, $this->customhits);
+			$pagelinks = $this->paginator->paginateGet(1, 'question/tag', $get, $this->customhits);
 		} else {
-			$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/tag/'.$tag, $this->customhits);
+			$pagelinks = $this->paginator->paginateGet($count[0]->count, 'question/tag', $get, $this->customhits);
 		}
 
 		$all = $this->questions->query("q.*")
@@ -128,7 +123,6 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			'title' => 'Frågor om ' . $tagname->getProperties()['name'],
 		], 'main-extended');
 
-		//$title = count($all) == 1 ? count($all) .' fråga' : count($all) .' frågor';
 		$title = $count[0]->count == 1 ? $count[0]->count .' fråga' : $count[0]->count .' frågor';
 		$this->views->add('tag/view', [
 			'title' => $title,
@@ -160,9 +154,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 			], 'main-extended');
 			$this->di->flashmessage->clearMessages();
 			$this->dispatcher->forward([
-     			'controller' => 'comments',
-     			'action'     => 'viewComments',
-     			'params'	=> [$id, 'question', $id],
+				'controller' => 'comments',
+				'action'     => 'viewComments',
+				'params'	=> [$id, 'question', $id],
 			]);
 			$this->dispatcher->forward([
 				'controller' => 'answer',
@@ -187,38 +181,41 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 	*
 	* @return void
 	*/
-	public function searchAction($search = null, $hits = null, $page = 0) {
-		// For pagination, check for new searchstring or use saved in session
-		$searchstring = $search ? strip_tags($search) : $this->di->session->get('search');
-		// For pagination, save in session
-		$this->di->session->set('search', $searchstring);
+	public function searchAction() {
 
-		// Check hits-per-page preference in session
-		if (!$hits || $hits == 0) {
-			if ($this->di->session->has('qhits')) {
-				$qhits = $this->di->session->get('qhits');
-			} else {
-				$qhits = 10;
-			}
+		// For pagination
+		$qhits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('qhits');
+		$qhits = $qhits != null ? $qhits : 10;
+		$this->di->session->set('qhits', $qhits);
+		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
+
+		if ($this->di->request->getGet('search')) {
+			$searchstring = strip_tags($this->di->request->getGet('search'));
 		} else {
-			$qhits = $hits;
-			$this->di->session->set('qhits', $qhits);
+			$url = $this->url->create('question');
+			$this->response->redirect($url);
 		}
 
 		$res = $this->questions->query()
-			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
-			->limit($qhits)
-			->offset($page)
-			->orderBy('created DESC')
-			->execute();
+		->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
+		->limit($qhits)
+		->offset($page)
+		->orderBy('created DESC')
+		->execute();
 
 		$res = $this->getRelatedData($res);
 
 		$count = $this->questions->query("COUNT(*) AS count")
-			->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
-			->execute();
+		->where("title LIKE '%".$searchstring."%' OR content LIKE '%".$searchstring."%'")
+		->execute();
 
-		$pagelinks = $this->paginator->paginate($qhits, $page, $count[0]->count, 'question/search/'.$searchstring, $this->customhits);
+		$get = array('search' => $searchstring, 'hits' => $qhits, 'page' => $page);
+
+		if ($count[0]->count == 0) {
+			$pagelinks = $this->paginator->paginateGet(1, 'question/search', $get, $this->customhits);
+		} else {
+			$pagelinks = $this->paginator->paginateGet($count[0]->count, 'question/search', $get, $this->customhits);
+		}
 
 		$this->theme->setTitle('Sökresultat för '.$searchstring);
 		$this->views->add('question/index', [
@@ -274,10 +271,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 
 			$tag = new \CR\Tag\Tag();
 			$tag->setDI($this->di);
-	        $tags = $tag->query()
-						->where('deleted IS NULL')
-						->orderBy('name ASC')
-						->execute();
+			$tags = $tag->query()
+			->where('deleted IS NULL')
+			->orderBy('name ASC')
+			->execute();
 
 			$form = new \CR\HTMLForm\CFormAddQuestion($tags);
 			$form->setDI($this->di);
@@ -303,10 +300,10 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		if ($this->di->UserloginController->checkLoginCorrectUser($qstn[0]->user->getProperties()['id'])) {
 			$tag = new \CR\Tag\Tag();
 			$tag->setDI($this->di);
-	        $tags = $tag->query()
-				->where('deleted IS NULL')
-				->orderBy('name ASC')
-				->execute();
+			$tags = $tag->query()
+			->where('deleted IS NULL')
+			->orderBy('name ASC')
+			->execute();
 
 			$form = new \CR\HTMLForm\CFormEditQuestion($qstn[0], $tags);
 			$form->setDI($this->di);
@@ -324,95 +321,118 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		}
 	}
 
-/**
-* Delete
-*
-* @param integer $id
-*
-* @return void
-*/
-public function deleteAction($id = null) {
-	if (!isset($id)) {
-		die('Missing id');
-	}
-
-	//$res = $this->questions->delete($id);
-}
-
-/**
-* Get user data, tags, answers and comments
-*
-* @param array $data questions fetched from db
-*
-* @return array $data questions with user data, answers and comments
-*/
-public function getRelatedData($data) {
-	// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
-	if (is_array($data)) {
-		foreach ($data as $id => &$question) {
-
-			$question->filteredcontent = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
-			// Get user info
-			$users = new \CR\Users\User();
-			$users->setDI($this->di);
-			$question->user = $users->find($question->getProperties()['questionUserId']);
-			$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg?d=identicon';
-			$question->user->stats = $this->UsersController->getUserStats($question->getProperties()['questionUserId']);
-			// Get associated tags
-			$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
-			$question->tags = array();
-			foreach ($tagIDlist as $value) {
-				$tag = new \CR\Tag\Tag();
-				$tag->setDI($this->di);
-				$question->tags[] = $tag->find($value->idTag);
-			}
-			// Sort tags in alphabetical order by name
-			usort($question->tags, function($a, $b) {
-				return strcmp($a->name, $b->name);
-			});
-			// Get no of answers to question
-			$this->db->select("COUNT(*) AS noOfAnswers")
-			->from('answer')
-			->where("questionId = ".$question->getProperties()['id'])
-			->execute();
-
-			$res = $this->db->fetchAll();
-			$question->noOfAnswers = $res[0]->noOfAnswers;
+	/**
+	* Delete
+	*
+	* @param integer $id
+	*
+	* @return void
+	*/
+	public function deleteAction($id = null) {
+		if (!isset($id)) {
+			die('Missing id');
 		}
+		//$res = $this->questions->delete($id);
 	}
-	return $data;
-}
 
-/**
-* Get selected tags for a question
-*
-* @param integer $id, question ID
-*
-* @return array $tagIDlist
-*/
-private function getSelectedTagIDs($id) {
-	$this->db->select("idTag")
+	/**
+	* Get user data, tags, answers and comments
+	*
+	* @param array $data questions fetched from db
+	*
+	* @return array $data questions with user data, answers and comments
+	*/
+	public function getRelatedData($data) {
+		// If $data array not empty, convert question content from markdown to html, and get user data, Gravatars and tags
+		if (is_array($data)) {
+			foreach ($data as $id => &$question) {
+
+				$question->filteredcontent = $this->textFilter->doFilter($question->getProperties()['content'], 'shortcode, markdown');
+				// Get user info
+				$users = new \CR\Users\User();
+				$users->setDI($this->di);
+				$question->user = $users->find($question->getProperties()['questionUserId']);
+				$question->user->gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($question->user->getProperties()['email']))) . '.jpg?d=identicon';
+				$question->user->stats = $this->UsersController->getUserStats($question->getProperties()['questionUserId']);
+				// Get associated tags
+				$tagIDlist = $this->getSelectedTagIDs($question->getProperties()['id']);
+				$question->tags = array();
+				foreach ($tagIDlist as $value) {
+					$tag = new \CR\Tag\Tag();
+					$tag->setDI($this->di);
+					$question->tags[] = $tag->find($value->idTag);
+				}
+				// Sort tags in alphabetical order by name
+				usort($question->tags, function($a, $b) {
+					return strcmp($a->name, $b->name);
+				});
+				// Get no of answers to question
+				$this->db->select("COUNT(*) AS noOfAnswers")
+				->from('answer')
+				->where("questionId = ".$question->getProperties()['id'])
+				->execute();
+
+				$res = $this->db->fetchAll();
+				$question->noOfAnswers = $res[0]->noOfAnswers;
+			}
+		}
+		return $data;
+	}
+
+	/**
+	* Get selected tags for a question
+	*
+	* @param integer $id, question ID
+	*
+	* @return array $tagIDlist
+	*/
+	private function getSelectedTagIDs($id) {
+		$this->db->select("idTag")
 		->from('tag2question')
 		->where("idQuestion = ?")
 		->execute([$id]);
-	$tagIDlist = $this->db->fetchAll();
+		$tagIDlist = $this->db->fetchAll();
 
-	return $tagIDlist;
-}
+		return $tagIDlist;
+	}
 
-/**
-* Setup database
-*
-* @return void
-*/
-public function setupAction() {
-	//$this->db->setVerbose();
-/*
-	$this->db->dropTableIfExists('question')->execute();
+	/**
+	* Get latest questions
+	*
+	* @param int $limit, no of questions to fetched
+	*
+	* @return array $latestquestions
+	*/
+	public function getlatestAction($limit = 1) {
 
-	$this->db->createTable(
-	'question',
-	[
+		$all = $this->questions->query()
+		->orderBy('created DESC')
+		->limit($limit)
+		->execute();
+		$latestquestions = $this->getRelatedData($all);
+
+		$this->views->add('question/shortlist', [
+			'content' => $latestquestions,
+			'pages' => null,
+			'title' => null,
+		], 'main-extended');
+
+		//return $latestquestions;
+	}
+
+	/**
+	* Setup database
+	*
+	* @return void
+	*/
+	public function setupAction() {
+		//$this->db->setVerbose();
+		/*
+		$this->db->dropTableIfExists('question')->execute();
+
+		$this->db->createTable(
+		'question',
+		[
 		'id' => ['integer', 'primary key', 'not null', 'auto_increment'],
 		'title' => ['varchar(80)'],
 		'data' => ['text'],

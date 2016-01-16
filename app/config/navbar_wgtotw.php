@@ -41,13 +41,6 @@
      ],
 
      // This is a menu item
-     'about' => [
-         'text'  =>'OM',
-         'url'   => $this->di->get('url')->create('about'),
-         'title' => 'Om webbplatsen'
-     ],
-
-     // This is a menu item
      'ask' => [
          'text'  =>'STÄLL FRÅGA',
          'url'   => $this->di->get('url')->create('question/add'),

@@ -2,27 +2,47 @@
 * style for questions
 *
 */
+
+.frontpage-question-table {
+    font-size: @fontSizeSmall;
+}
+
+.badge-section {
+    float: left;
+}
+
 .question-shortlist-container {
     .clearfix();
     border-bottom: 1px solid rgb(234, 235, 236);
     margin-bottom: 20px;
 }
 
-.question-stats {
+.question-stats, .question-stats-small {
+    text-align: center;
     float: left;
     font-size: @fontSizeSmall;
-    text-align: center;
     width: 10%;
 }
 
-.stats-box {
+.question-stats-small {
+    display: inline-block;
+    max-height: 2em;
+}
+
+.stats-box, .stats-box-small {
     padding: 7px;
     color: #99977;
     background: rgb(244, 245, 246);
 }
 
-.answers-exist {
-    background: #999;
+.stats-box-small {
+    text-align: center;
+    height: 2.5em;
+}
+
+.answers-exist, .answers-exist-small {
+    //background: #999;
+    background-color: #848375;
     padding: 7px;
     color: #ffffee;
 }
@@ -32,6 +52,10 @@
     padding-left: 10px;
     width: 90%;
     font-size: @fontSizeSmall;
+}
+
+.question-shortlist-content-small {
+    display: inline-block;
 }
 
 .question-shortlist-content img, .question-shortlist-content figure {
@@ -136,10 +160,6 @@
 
 /**
 * Question forms
-*
-*/
-/**
-* Forms
 *
 */
 .question-form-container h4, .question-editform-container h4 {

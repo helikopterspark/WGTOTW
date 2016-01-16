@@ -50,12 +50,17 @@ body > * {
 */
 #header {
     position: relative;
-    height: 5 * 22px;
+    height: 6 * @magicNumber;
 }
 
 .globe {
     margin-left: 1%;
-    margin-top: @magicNumber;
+    margin-top: @magicNumber * 2.5;
+}
+
+.globe img {
+    width: @magicNumber * 4;
+    height: @magicNumber *4;
 }
 
 .logo {
@@ -67,15 +72,15 @@ body > * {
     font-size: 48px;
     font-weight: bold;
     position: absolute;
-    top: @magicNumber;
-    left: 90px;
+    top: @magicNumber * 2.7;
+    left: 110px;
 }
 
 .siteslogan {
     font-style: italic;
     position: absolute;
-    top: 85px;
-    left: 90px;
+    top: 115px;
+    left: 110px;
     color: #666;
 }
 
@@ -124,6 +129,15 @@ body > * {
     background-color: rgb(234, 234, 234);
 }
 
+.upper-footer a {
+    color: #999;
+}
+
+.upper-footer a:hover {
+    text-decoration: none;
+    color: #000;
+}
+
 .lower-footer {
     padding-top: @magicNumber;
     height: @magicNumber * 5;
@@ -149,13 +163,19 @@ body > * {
 /**
 * For articles
 */
-.article1 {
+.article1, .article3 {
     //border-right: 1px solid #ccc;
     padding-left: 1em;
 }
 
-.article1, .article2 {
+.article1, .article2, .article3 {
     padding-right: 1em;
+}
+
+.article3 {
+    margin-top: 36px;
+    margin-bottom: 64px;
+    margin-left: 3%;
 }
 
 .lowered-letter {
@@ -419,9 +439,7 @@ a.up-button:hover, a.page-button:hover, a.current-page:hover {
 
 .anchor {
   display: block;
-  height: @magicNumber * 1.5;
-  margin-top: -(@magicNumber * 1.5);
-  //height: 115px; /*same height as header*/
-  //margin-top: -115px; /*same height as header*/
+  height: @magicNumber * 1.6;
+  margin-top: -(@magicNumber * 1.6);
   visibility: hidden;
 }

@@ -24,7 +24,7 @@
 			<?=$question->filteredcontent?>
 			<div class='tags'>
 				<?php foreach ($question->tags as $tag) : ?>
-					<div class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></div>
+					<div class="tag-badge"><a href='<?=$this->url->create('question/tag').'?tag='.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></div>
 				<?php endforeach; ?>
 			</div>
 			<div class="question-detail-bottom">

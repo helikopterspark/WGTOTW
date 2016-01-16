@@ -31,10 +31,15 @@ class TagController implements \Anax\DI\IInjectionAware {
 	*/
 	public function indexAction($hits = 8, $page = 0) {
 
+		$thits = $this->di->request->getGet('hits') ? $this->di->request->getGet('hits') : $this->di->session->get('thits');
+		$thits = $thits != null ? $thits : 8;
+		$this->di->session->set('thits', $thits);
+		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
+
 		$all = null;
 
 		$all = $this->tag->query()
-		->limit($hits)
+		->limit($thits)
 		->offset($page)
 		->where('deleted IS NULL')
 		->groupBy('id')
@@ -50,22 +55,12 @@ class TagController implements \Anax\DI\IInjectionAware {
 			$tag->setProperties(['taggedquestions' => $res[0]->taggedquestions]);
 		}
 
-		/*
-		$all = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
-		->from('tag AS t')
-		->join('tag2question AS t2q', 't.id = t2q.idTag')
-		->limit($hits)
-		->offset($page)
-		->groupBy('t.id')
-		->orderBy('t.name ASC')
-		->execute();
-		*/
-
 		$count = $this->tag->query("COUNT(*) AS count")
 		->where('deleted IS NULL')
 		->execute();
 
-		$pagelinks = $this->paginator->paginate($hits, $page, $count[0]->count, 'tag/index', $this->customhits);
+		$get = array('hits' => $thits, 'page' => $page);
+		$pagelinks = $this->paginator->paginateGet($count[0]->count, 'tag/index', $get, $this->customhits);
 
 		$this->theme->setTitle('Ämnen');
 		$this->views->add('tag/index', [
@@ -105,11 +100,8 @@ class TagController implements \Anax\DI\IInjectionAware {
 	*
 	* @return array $populartags, order by most popular
 	*/
-	public function getMostPopularTags($limit = 1) {
+	public function getmostpopularAction($limit, $title) {
 		$populartags = null;
-
-		$this->tag = new \CR\Tag\Tag();
-		$this->tag->setDI($this->di);
 
 		$populartags = $this->tag->query("t.*, COUNT(t2q.idQuestion) AS taggedquestions")
 		->from('tag AS t')
@@ -120,7 +112,10 @@ class TagController implements \Anax\DI\IInjectionAware {
 		->limit($limit)
 		->execute();
 
-		return $populartags;
+		$this->views->add('tag/side-shortlist', [
+			'title' => $title,
+			'content' => $populartags,
+		], 'sidebar-reduced');
 	}
 
 	/**

@@ -178,9 +178,12 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'deleted' => $deleted
             ]);
 
-        $this->di->session->set('acronym', $this->Value('acronym'));
-        $this->di->session->set('email', $this->Value('email'));
-        $this->di->session->set('colortheme', $this->Value('colortheme'));
+        if ($this->di->session->get('id') == $this->userUpd->getProperties()['id']) {
+            $this->di->session->set('acronym', $this->Value('acronym'));
+            $this->di->session->set('email', $this->Value('email'));
+            $this->di->session->set('colortheme', $this->Value('colortheme'));
+        }
+
         $this->di->flashmessage->success('<p><span class="flashmsgicon"><i class="fa fa-check-circle fa-2x"></i></span>&nbsp;Användaren '.$this->Value('acronym').' uppdaterades!</p>');
         return true;
     }

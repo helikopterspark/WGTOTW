@@ -42,8 +42,8 @@ return [
     'region'   => 'header',
     'template' => 'wgtotw/header',
     'data'     => [
-    'siteTitle' => "PIGS IN SPACE",
-    'siteTagline' => "Allt du vill veta om grisar i rymden",
+    'siteTitle' => "RED PLANET",
+    'siteTagline' => "Allt du vill veta om att bo på planeten Mars",
     ],
     'sort'     => -1
     ],
@@ -83,7 +83,7 @@ return [
     'style' => null,
 
         // Favicon
-    'favicon' => 'favicon.ico',
+    'favicon' => 'mars.ico',
 
         // Path to modernizr or null to disable
     'modernizr' => 'js/modernizr.js',

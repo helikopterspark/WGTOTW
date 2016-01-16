@@ -6,6 +6,22 @@ WGTOTW
 [![Code Coverage](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/build.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/build-status/master)
 
+This forum site is built with the Anax MVC micro framework. It requires a MySQL database.
+
+To install:
+
+Clone from github.com.
+
+Run composer update --no-dev to retrieve third party code libraries.
+
+Enter database credentials in app/conf/config_mysql_wgtotw.php.
+
+Run app/config/reset.sql via phpAdmin or MySQL Workbench to set up all tables. An admin user is created.
+
+Do chmod 777 webroot/css/anax-grid (to allow the generation of style.css from the LESS-files).
+
+Edit webroot/.htaccess to allow modrewrite on your server (make sure your Apache server settings allow modrewrite).
+
 Anax-MVC
 =========
 

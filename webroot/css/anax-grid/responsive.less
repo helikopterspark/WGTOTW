@@ -2,30 +2,57 @@
 @media (max-width: 767px) {
 
 	html {
-		background-color: #fff;
-		background-image: none;
+		background-color: #fff !important;
+		background-image: none !important;
+	}
+
+	.header_container {
+		font-size: 2em;
+		padding-top: 10px;
+		height: @magicNumber * 3;
 	}
 
 	#wrapper {
 		min-width: 320px;
 	}
 
+	#header {
+		margin-top: @magicNumber;
+	}
+
+	.header img {
+		//display: none;
+		height: 40px;
+		width: 40px;
+		vertical-align: -5px;
+	}
+
 	.comments {
 		width: 100%;
+	}
+
+	.question-title-heading {
+		font-size: 2em;
 	}
 
 	//#header,
 	#navbar {
 		.column(@columns);
-		margin-bottom: @magicNumber * 3.5;
+		margin-top: @magicNumber / 2;
+		margin-bottom: @magicNumber * 8;
+		font-size: 2em;
+	}
+
+	.globe {
+		margin-top: @magicNumber * 3;
 	}
 
 	.siteslogan {
-		top: 65px;
+		display: none;
 	}
 
 	.sitetitle {
-		font-size: 2.25em;
+		font-size: 5em;
 	}
 
 	.byline {
@@ -51,6 +78,10 @@
 	#footer {
 		.column(@columns);
 		margin-bottom: @magicNumber;
+	}
+
+	#main-extended p, #fullpage p, #sidebar-reduced p {
+		font-size: 2em;
 	}
 
 }
