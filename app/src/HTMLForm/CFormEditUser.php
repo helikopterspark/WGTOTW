@@ -53,6 +53,11 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'label'         => 'Lösenord:',
             'required'      => false,
             ],
+            'repeat_password' => [
+            'type'          => 'password',
+            'label'         => 'Upprepa lösenord',
+            'required'      => false,
+            ],
             'colortheme' => [
                 'type'      => 'radio',
                 'label'     => 'Färgtema:',
@@ -127,6 +132,18 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
 
         if ($emailExists) {
             $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Det finns redan en användare med mailadressen '.$this->Value('email').' registrerad!</p>');
+            $this->redirectTo('users/update/'.$this->userUpd->getProperties()['id']);
+        }
+
+        // Check whether password is too short
+        if ($this->Value('password') && strlen($this->Value('password')) < 4) {
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Lösenordet är för kort (minst 4 tecken).</p>');
+            $this->redirectTo('users/update/'.$this->userUpd->getProperties()['id']);
+        }
+
+        // Check whether passwords match
+        if ($this->Value('password') !== $this->Value('repeat_password')) {
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Lösenorden matchar inte.</p>');
             $this->redirectTo('users/update/'.$this->userUpd->getProperties()['id']);
         }
 

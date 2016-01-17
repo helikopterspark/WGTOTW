@@ -21,7 +21,7 @@ class CFormAddQuestion extends \Mos\HTMLForm\CForm
     public function __construct($tags = null) {
 
         $this->tags = $tags;
-
+        $tagTitles = array();
         foreach ($this->tags as $value) {
             if ($value->getProperties()['deleted'] == null) {
                 $tagTitles[$value->getProperties()['id']] = $value->getProperties()['name'];

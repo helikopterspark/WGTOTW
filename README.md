@@ -24,6 +24,8 @@ Edit webroot/.htaccess to allow modrewrite on your server (make sure your Apache
 
 To set up an admin user, type in the address to your side with the route 'users/setup'. User credentials is admin/admin.
 
+Use the admin user to create a number of tags, since without tags questions cannot be entered.
+
 Anax-MVC
 =========
 

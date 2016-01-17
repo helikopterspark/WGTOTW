@@ -3,7 +3,7 @@
 USE WGTOTW;
 -- USE carb14;
 
--- SET NAMES 'utf8';
+SET NAMES 'utf8';
 
 DROP TABLE IF EXISTS wgtotw_vote2question;
 DROP TABLE IF EXISTS wgtotw_vote2comment;

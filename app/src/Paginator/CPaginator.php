@@ -59,11 +59,14 @@ class CPaginator implements \Anax\DI\IInjectionAware {
 
         $html = '<div class="paginate-section right-align">';
         $html .= '<div class="hits-per-page">';
+		if ($pagearray) {
+
         foreach ($customhits as $value) {
             $class = $get['hits'] == $value ? 'current-page' : 'page-button';
 			$getparams = $params.'hits='.$value.'&page='.$pagearray[0]['page'];
             $html .= "<a class='".$class."' href='".$this->di->get('url')->create(''.$pagearray[0]["urlpart"].'').$getparams."'>".$value."</a>&nbsp;";
         }
+	}
         $html .= '<span class="smaller-text">per sida</span></div>';
 
         foreach ($pagearray as $pagelink) {

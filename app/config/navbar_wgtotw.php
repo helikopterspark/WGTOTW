@@ -68,6 +68,11 @@
                         'url'   => $this->di->get('url')->create('tag/add'),
                         'title' => 'Nytt ämne',
                     ],
+                    'newadmin' => [
+                        'text'  => 'Ny användare',
+                        'url'   => $this->di->get('url')->create('users/add'.'/'.null.'/'.$this->di->session->get('isAdmin')),
+                        'title' => 'Skapa ny användare',
+                    ]
                 ],
             ],
         ];

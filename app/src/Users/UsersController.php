@@ -336,8 +336,9 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	public function addAction($acronym = null) {
 
 		$this->users = $this->di->session->get('tempuser');
+		$isadmin = $this->di->session->get('isAdmin');
 
-		$form = new \CR\HTMLForm\CFormAddUser($this->users);
+		$form = new \CR\HTMLForm\CFormAddUser($this->users, $isadmin);
 		$form->setDI($this->di);
 		$form->check();
 
@@ -567,27 +568,30 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			]
 			)->execute();
 		*/
-		$this->db->insert(
-			'user',
-			['acronym', 'email', 'name', 'password', 'created', 'updated', 'active', 'deleted']
-			);
 
 		$now = date('Y-m-d H:i:s');
 
-		$userExists = $this->user->query()
+		$userExists = $this->users->query()
             ->where('acronym = ?')
             ->execute(['admin']);
 		if (!$userExists) {
 			$enc_password = $this->encryptPassword('admin');
+			$this->db->insert(
+				'user',
+				['acronym', 'email', 'name', 'password', 'url', 'isAdmin', 'colortheme', 'created', 'updated', 'deleted', 'active']
+				);
 			$this->db->execute([
 				'admin',
-				'admin@dbwebb.se',
+				'admin@admin.com',
 				'Administrator',
 				$enc_password,
+				null,
+				1,
+				'light-theme',
 				$now,
 				null,
-				$now,
-				null
+				null,
+				$now
 			]);
 		}
 		/*

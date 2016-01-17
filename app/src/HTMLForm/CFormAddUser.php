@@ -15,8 +15,15 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
      * Constructor
      *
      */
-    public function __construct($tempuser = null)
+    public function __construct($tempuser = null, $isadmin = false)
     {
+
+        if ($isadmin) {
+            $admincheck = array('type' => 'checkbox', 'label' => 'admin', 'checked' => false);
+        } else {
+            $admincheck = array('type' => 'hidden', 'value' => null);
+        }
+
         parent::__construct(['id' => 'user-form', 'class' => 'user-form'], [
             'acronym' => [
             'type'          => 'text',
@@ -68,6 +75,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
                 ],
                 'checked'   => $tempuser['colortheme'] ? $tempuser['colortheme'] : 'light-theme',
             ],
+            'isadmin'   => $admincheck,
             'submit' => [
             'type'      => 'submit',
             'value'     => 'Registrera',
@@ -125,6 +133,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'name' => $this->Value('name'),
             'url' => $this->Value('url'),
             'colortheme' => $this->Value('colortheme'),
+            'isadmin' => $this->Value('isadmin'),
         );
 
         // Check whether acronym already exists
@@ -150,6 +159,13 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
         }
 
         // Check whether passwords match
+        if (strlen($this->Value('password')) < 4) {
+            $this->di->session->set('tempuser', $tempuser);
+            $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Lösenordet är för kort (minst 4 tecken).</p>');
+            $this->redirectTo('users/add');
+        }
+
+        // Check whether passwords match
         if ($this->Value('password') !== $this->Value('repeat_password')) {
             $this->di->session->set('tempuser', $tempuser);
             $this->di->flashmessage->alert('<p><span class="flashmsgicon"><i class="fa fa-exclamation-circle fa-2x"></i></span>&nbsp;Lösenorden matchar inte.</p>');
@@ -171,6 +187,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'password' => $enc_password,
             'url' => $this->Value('url'),
             'colortheme' => $this->Value('colortheme'),
+            'isAdmin' => $this->Value('isadmin') ? $this->Value('isadmin') : null,
             'created' => $now,
             'active' => $now,
             ]);
