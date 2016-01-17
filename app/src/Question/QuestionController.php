@@ -182,7 +182,9 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 		$this->di->session->set('qhits', $qhits);
 		$page = $this->di->request->getGet('page') ? $this->di->request->getGet('page') : 0;
 
-		if ($this->di->request->getGet('search')) {
+		if ($this->di->request->getPost('search')) {
+			$searchstring = strip_tags($this->di->request->getPost('search'));
+		} elseif ($this->di->request->getGet('search')){
 			$searchstring = strip_tags($this->di->request->getGet('search'));
 		} else {
 			$url = $this->url->create('question');

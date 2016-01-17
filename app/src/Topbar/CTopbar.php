@@ -20,12 +20,6 @@ class CTopbar
     */
     public function create() {
 
-
-        $form = new \CR\HTMLForm\CFormSearch();
-        $form->setDI($this->di);
-        $form->check();
-        $search = $form->getHTML();
-
         if ($this->di->session->has('acronym')) {
             // show user gravatar and acronym in topbar
             $gravatar = 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->di->session->get('email')))) . '.jpg?s=20&d=identicon';
@@ -46,6 +40,20 @@ class CTopbar
             $url = $this->di->get('url')->create('login');
             $login .= '<i class="fa fa-sign-in"></i><a href="'.$url.'"> LOGGA IN</a><div class="topbar-spacer"></div>';
         }
+
+/*
+        $form = new \CR\HTMLForm\CFormSearch();
+        $form->setDI($this->di);
+        $form->check();
+        $search = $form->getHTML();
+        */
+        $search = <<<EOD
+            <form id="search-form" class="search-form" action="question/search/" method="post">
+
+                <input id="form-element-search" class="form-element-search" type="text" name="search" placeholder="&#128269; Sök i frågor">
+
+            </form>
+EOD;
 
         $html = <<<EOD
         <div class="header_container">

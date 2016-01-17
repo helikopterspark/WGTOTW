@@ -36,14 +36,18 @@
 }
 
 .search-form input {
+    font-size: @fontSizeSmall;
+    max-height: @magicNumber / 2;
+    max-width: 150px;
+    color: #999;
     border-radius: 2px;
     padding: 2px;
     border: 1px solid rgb(20, 24, 26);
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .search-form fieldset {
-    max-height: @magicNumber;
+    max-height: @magicNumber / 2;
     margin: 0px;
     padding: 0px;
     background-color: rgba(255, 255, 255, 0);

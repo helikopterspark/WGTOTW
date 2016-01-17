@@ -3,6 +3,7 @@
  * Config-file for Anax, theme related settings, return it all as array.
  *
  */
+ $theme = $this->di->session->has('colortheme') ? $this->di->session->get('colortheme') : 'light-theme';
 
 return [
 
@@ -70,7 +71,7 @@ return [
     'lang' => 'sv',
 
         // Color theme
-    'theme' => $this->di->session->has('colortheme') ? $this->di->session->get('colortheme') : 'light-theme',
+    'theme' => $theme,
 
         // Append this value to each <title>
     'title_append' => ' | Byggt med Anax',
