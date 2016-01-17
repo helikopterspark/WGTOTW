@@ -14,12 +14,14 @@
 			</div>
 			<div class="question-shortlist-content">
 		<h4 class="question-title-heading"><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></h4>
-		<?php if (strlen($question->filteredcontent) > 160): ?>
-			<?=mb_substr($question->filteredcontent, 0, 160)?> ...
+		<div>
+		<?php if (strlen($question->filteredcontent) > 140): ?>
+			<?=mb_substr($question->filteredcontent, 0, 140)?>...
 			<a class="readmore-link" href="<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>"> mer <i class="fa fa-angle-double-right"></i></a>
 		<?php else : ?>
 			<?=$question->filteredcontent?>
 		<?php endif; ?>
+	</div>
 		<?php foreach ($question->tags as $tag) : ?>
 			<div class="tag-badge"><a href='<?=$this->url->create('question/tag').'?tag='.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></div>
 		<?php endforeach; ?>

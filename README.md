@@ -6,7 +6,9 @@ WGTOTW
 [![Code Coverage](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/build.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/build-status/master)
 
-This forum site is built with the Anax MVC micro framework. It requires a MySQL database.
+This web application is a forum site and it is built with the Anax MVC micro framework. It was built as the project for a course in MVC frameworks at Blekinge Tekniska Högskola.
+
+The web app requires a MySQL database and an Apache webserver. You need Composer in order to include a few packages from Packagist.
 
 To install:
 
@@ -24,7 +26,7 @@ Edit webroot/.htaccess to allow modrewrite on your server (make sure your Apache
 
 To set up an admin user, type in the address to your side with the route 'users/setup'. User credentials is admin/admin.
 
-Use the admin user to create a number of tags, since without tags questions cannot be entered.
+Use the admin user to create a number of tags, since without tags questions cannot be entered. The admin user can create new admin users.
 
 Anax-MVC
 =========
