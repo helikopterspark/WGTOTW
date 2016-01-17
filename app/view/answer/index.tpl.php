@@ -1,7 +1,8 @@
 <!-- Index page for answers -->
 <article class='article1'>
 	<?php foreach ($content as $answer) : ?>
-		<div id='answer-<?=$answer->getProperties()['id']?>' class='answer-shortlist-container'>
+		<div id='answer-<?=$answer->getProperties()['id']?>' class='anchor'></div>
+		<div class='answer-shortlist-container'>
 			<div class="answer-detail-stats">
 				<p>
 					<?php if (!$vote): ?>

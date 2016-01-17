@@ -68,11 +68,6 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
                 ],
                 'checked'   => $tempuser['colortheme'] ? $tempuser['colortheme'] : 'light-theme',
             ],
-            'active' => [
-            'type'          => 'checkbox',
-            'label'         => 'Aktivera',
-            'checked'       => true,
-            ],
             'submit' => [
             'type'      => 'submit',
             'value'     => 'Registrera',
@@ -178,7 +173,7 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
             'url' => $this->Value('url'),
             'colortheme' => $this->Value('colortheme'),
             'created' => $now,
-            'active' => $active,
+            'active' => $now,
             ]);
 
         $this->di->session->set('tempuser', null);  // clear tempuser info

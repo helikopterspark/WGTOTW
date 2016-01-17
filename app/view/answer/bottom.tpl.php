@@ -5,9 +5,6 @@
         <h4>Svara på frågan:</h4>
         <?=$content?>
     </div>
-    <script type="text/javascript" language="JavaScript">
-    document.forms['answer-form'].elements['content'].focus();
-    </script>
 <?php else : ?>
 <div class='answer-button-container'>
     <p>

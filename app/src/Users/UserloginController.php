@@ -48,28 +48,25 @@ class UserloginController implements \Anax\DI\IInjectionAware {
     /**
     * Logout
     *
-    * @param string $acronym, user acronym
+    * @param bool $logout
     *
     * @return void
     */
     public function logoutAction() {
-        if ($this->checkLoginSimple()) {
-            $this->di->session->set('acronym', null);
-            $this->di->session->set('id', null);
-            $this->di->session->set('email', null);
-            $this->di->session->set('isAdmin', null);
-            $this->di->session->set('colortheme', null);
 
-            $info = '<span class="flashmsgicon"><i class="fa fa-info-circle fa-2x"></i></span>&nbsp;Du är utloggad.';
-            $this->di->flashmessage->info($info);
-            $url = $this->url->create('logout');
-    		$this->response->redirect($url);
+        if ($this->checkLoginSimple()) {
+            $form = new \CR\HTMLForm\CFormConfirmLogout();
+            $form->setDI($this->di);
+            $form->check();
+            $this->views->add('theme/index', [
+                'title' => 'Utloggad',
+                'content' => '<h3>Vill du logga ut?</h3>' . $form->getHTML(),
+            ], 'main-extended');
         } else {
             $this->views->add('theme/index', [
                 'title' => 'Utloggad',
                 'content' => $this->di->flashmessage->outputMsgs()
             ], 'flash');
-
             $this->di->flashmessage->clearMessages();
         }
     }

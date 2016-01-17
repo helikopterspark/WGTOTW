@@ -39,9 +39,11 @@
 				<?php if (!$user->getProperties()['deleted']) : ?>
 					<br><a href="<?=$this->url->create('users/softdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-trash-o"></i> Avsluta konto</a>
 				<?php else : ?>
+					<!--
 					<?php if ($this->di->session->get('isAdmin')): ?>
 						<br><a href="<?=$this->url->create('users/delete').'/'.$user->getProperties()['id']?>"><i class="fa fa-times"></i> Radera alla uppgifter</a>
 					<?php endif; ?>
+				-->
 					<br><a href="<?=$this->url->create('users/undosoftdelete').'/'.$user->getProperties()['id']?>"><i class="fa fa-check"></i> Återskapa konto</a>
 				<?php endif; ?>
 			</p>

@@ -387,6 +387,32 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
+    * Softdelete user
+    *
+    * @param integer $id of user to soft delete.
+    *
+    * @return void
+    */
+    public function softDeleteAction($id = null) {
+
+        if ($this->di->UserloginController->checkLoginCorrectUser($id)) {
+            $form = new \CR\HTMLForm\CFormConfirmDeleteUser($id);
+            $form->setDI($this->di);
+            $form->check();
+            $this->views->add('theme/index', [
+                'title' => 'Utloggad',
+                'content' => '<h3>Vill du avsluta kontot?</h3>' . $form->getHTML(),
+            ], 'main-extended');
+        } else {
+            $this->views->add('theme/index', [
+                'title' => 'Kontot avslutat',
+                'content' => $this->di->flashmessage->outputMsgs()
+            ], 'flash');
+            $this->di->flashmessage->clearMessages();
+        }
+    }
+
+	/**
 	 * Delete user.
 	 *
 	 * @param integer $id of user to delete.
@@ -407,30 +433,6 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	}
 
 	/**
-	 * Delete (soft) user.
-	 *
-	 * @param integer $id of user to soft delete.
-	 *
-	 * @return void
-	 */
-	public function softDeleteAction($id = null) {
-		if (!isset($id)) {
-			die("Missing id");
-		}
-
-		$now = date('Y-m-d H:i:s');
-
-		$user = $this->users->find($id);
-
-		$user->deleted = $now;
-		$user->active = null;
-		$user->save();
-
-		$url = $this->url->create('users/id/' . $id);
-		$this->response->redirect($url);
-	}
-
-	/**
 	 * Undo delete (soft) user.
 	 *
 	 * @param integer $id of user to undo soft delete.
@@ -447,7 +449,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 		$user = $this->users->find($id);
 
 		$user->deleted = null;
-		//$user->active = $now;
+		$user->active = $now;
 		$user->save();
 
 		$url = $this->url->create('users/id/' . $id);

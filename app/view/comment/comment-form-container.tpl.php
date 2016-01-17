@@ -1,8 +1,6 @@
 
-<div class='comment-form-container' id="comment-form">
+<div id="comment-form" class="anchor"></div>
+<div class='comment-form-container'>
     <hr>
     <?=$content?>
-    <script type="text/javascript" language="JavaScript">
-    document.forms['comment-form'].elements['content'].focus();
-    </script>
 </div>

@@ -1,7 +1,7 @@
 <article class="article1">
     <h2>Senaste frågorna</h2>
     <table class="frontpage-question-table">
-        <th></th>
+        <tbody>
         <?php foreach ($content as $question): ?>
             <tr>
                 <td>
@@ -87,9 +87,11 @@
                                         <?php endif; ?>
                                     </span>
                                 <?php endif; ?>
-
+                            </span>
+                        </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
+                </tbody>
                 </table>
             </article>

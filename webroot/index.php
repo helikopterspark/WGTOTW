@@ -20,19 +20,19 @@ $app->router->add('', function() use ($app) {
     $app->dispatcher->forward([
       'controller' => 'question',
       'action' => 'getlatest',
-      'params' => [10],
+      'params' => [7],
   ]);
 
   $app->dispatcher->forward([
     'controller' => 'users',
     'action' => 'getranked',
-    'params' => [6],
+    'params' => [3],
 ]);
 
     $app->dispatcher->forward([
       'controller' => 'tag',
       'action' => 'getmostpopular',
-      'params' => [7, null],
+      'params' => [5, null],
   ]);
 
 });

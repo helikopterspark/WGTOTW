@@ -1,7 +1,11 @@
 Om RED PLANET
 ---------
 
-Red Planet är ett forum som är till för dig som vill veta mer om Mars och diskutera med likasinnade om ämnet. Planerar du kanske en resa dit och vill bosätta dig där? Eller så kanske du bara är nyfiken på planeten. Det är bara att registrera dig och börja ställa frågor, eller svara på andras frågor om du redan sitter inne på mycket kunskap.
+Red Planet är ett forum som är till för dig som vill veta mer om Mars och diskutera med likasinnade om ämnet.
+
+Planerar du kanske en resa dit och vill bosätta dig där? Eller du kanske bara är nyfiken på planeten?
+
+Det är bara att registrera sig och börja ställa frågor, eller svara på andras frågor om du redan sitter inne på mycket kunskap.
 
 [![Build Status](https://travis-ci.org/helikopterspark/WGTOTW.svg?branch=master)](https://travis-ci.org/helikopterspark/WGTOTW)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/?branch=master)

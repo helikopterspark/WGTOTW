@@ -19,12 +19,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
     {
         $this->userUpd = $user;
 
-        $active = false;
-
-        if ($user->getProperties()['active']) {
-            $active = true;
-        }
-
         parent::__construct(['id' => 'user-editform', 'class' => 'user-editform'], [
             'acronym' => [
             'type'          => 'text',
@@ -68,11 +62,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
                     'dark-theme' => 'dark-theme',
                 ],
                 'checked'   => $user->getProperties()['colortheme'],
-            ],
-            'active' => [
-            'type'          => 'checkbox',
-            'label'         => 'Aktivera',
-            'checked'       => $active,
             ],
             'submit' => [
             'type'      => 'submit',
@@ -174,7 +163,7 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
             'url' => $this->Value('url'),
             'colortheme' => $this->Value('colortheme'),
             'updated' => $now,
-            'active' => $active,
+            'active' => $now,
             'deleted' => $deleted
             ]);
 
@@ -208,7 +197,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
      */
     public function callbackSuccess()
     {
-        //$this->AddOUtput("<p><i>Användaren " . $this->user->acronym . " registrerades</i></p>");
         $this->redirectTo('users/id/' . $this->userUpd->getProperties()['id']);
     }
 

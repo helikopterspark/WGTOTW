@@ -1,5 +1,5 @@
-<div id='comment-<?=$comment->getProperties()['id']?>' class='comment-container'>
-
+<div id='comment-<?=$comment->getProperties()['id']?>' class='anchor'></div>
+    <div class="comment-container">
     <div class="comment-section">
         <?=$comment->filteredcontent?>
         <div class="comment-userinfo">

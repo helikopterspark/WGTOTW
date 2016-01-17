@@ -22,8 +22,10 @@
         </thead>
         <?php foreach ($content as $question): ?>
             <tr>
-                <td class="userdetails-tab-table-td"><a href='<?=$this->url->create('question/id').'/'.$question->getProperties()['id']?>'>
-                    <div class="question-tags-cell"><?=mb_substr($question->getProperties()['title'], 0, 64)?></a></div>
+                <td class="userdetails-tab-table-td">
+                    <div class="question-tags-cell">
+                    <a href='<?=$this->url->create('question/id').'/'.$question->getProperties()['id']?>'>
+                    <?=mb_substr($question->getProperties()['title'], 0, 64)?></a></div>
                     <div>
                         <?php foreach ($question->tags as $tag) : ?>
                             <span class="smaller-text"><span class="tag-badge"><a href='<?=$this->url->create('question/tag').'/'.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'>
