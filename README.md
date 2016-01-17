@@ -16,11 +16,13 @@ Run composer update --no-dev to retrieve third party code libraries.
 
 Enter database credentials in app/conf/config_mysql_wgtotw.php.
 
-Run app/config/reset.sql via phpAdmin or MySQL Workbench to set up all tables. An admin user is created.
+Run app/config/reset.sql via phpAdmin or MySQL Workbench to set up all tables.
 
 Do chmod 777 webroot/css/anax-grid (to allow the generation of style.css from the LESS-files).
 
 Edit webroot/.htaccess to allow modrewrite on your server (make sure your Apache server settings allow modrewrite).
+
+To set up an admin user, type in the address to your side with the route 'users/setup'. User credentials is admin/admin.
 
 Anax-MVC
 =========

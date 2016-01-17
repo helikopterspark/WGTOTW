@@ -11,8 +11,8 @@
                 </td>
                 <td>
                     <?php if ($question->getProperties()['noOfAnswers'] > 0): ?>
-                        <div class="stats-box-small">
-                            <p class="answers-exist-small"><?=$question->getProperties()['noOfAnswers']?><br>svar</p>
+                        <div class="answers-exist-small">
+                            <p><?=$question->getProperties()['noOfAnswers']?><br>svar</p>
                         </div>
                     <?php else : ?>
                         <div class="stats-box-small">
@@ -21,7 +21,7 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <p class="question-title-heading"><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></p>
+                    <div class="question-title-heading-small"><a href='<?=$this->url->create('question/id/'.$question->getProperties()['id'])?>'><?=$question->getProperties()['title']?></a></div>
                     <div class="badge-section">
                     <?php foreach ($question->tags as $tag) : ?>
                         <div class="tag-badge"><a class="smaller-text" href='<?=$this->url->create('question/tag').'?tag='.$tag->getProperties()['id']?>' title='<?=$tag->getProperties()['description']?>'><?=$tag->getProperties()['name']?></a></div>

@@ -133,15 +133,6 @@ class CFormEditUser extends \Mos\HTMLForm\CForm
         $now = date('Y-m-d H:i:s');
         $deleted = $this->userUpd->getProperties()['deleted'];
 
-        if ($this->userUpd->getProperties()['active'] && $this->di->request->getPost('active')) {
-            $active = $this->userUpd->getProperties()['active'];
-        } else {
-            $active = $this->di->request->getPost('active') ? $now : null;
-            if ($active) {
-                $deleted = null;
-            }
-        }
-
         $password = $this->Value('password');
 
         if ($password) {

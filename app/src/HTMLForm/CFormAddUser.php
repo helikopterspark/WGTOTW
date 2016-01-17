@@ -157,7 +157,6 @@ class CFormAddUser extends \Mos\HTMLForm\CForm
         }
 
         $now = date('Y-m-d H:i:s');
-        $active = $this->di->request->getPost('active') ? $now : null;
 
         if (version_compare(phpversion(), '5.5.0', '<')) {
             $enc_password = md5($this->Value('password'));

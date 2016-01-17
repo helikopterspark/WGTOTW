@@ -462,6 +462,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function activeAction() {
+		/*
 		$all = $this->users->query()
 		->where('active IS NOT NULL')
 		->andWhere('deleted IS NULL')
@@ -474,6 +475,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->addLegend();
+		*/
 	}
 
 	/**
@@ -482,6 +484,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function inactiveAction() {
+		/*
 		$all = $this->users->query()
 		->where('active IS NULL')
 		->andWhere('deleted IS NULL')
@@ -494,6 +497,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->addLegend();
+		*/
 	}
 
 	/**
@@ -502,6 +506,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function nonDeletedAction() {
+		/*
 		$all = $this->users->query()
 		->where('deleted IS NULL')
 		->execute();
@@ -513,6 +518,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->addLegend();
+		*/
 	}
 
 	/**
@@ -521,6 +527,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 	 * @return void
 	 */
 	public function trashAction() {
+		/*
 		$all = $this->users->query()
 		->where('deleted IS NOT NULL')
 		->execute();
@@ -532,6 +539,7 @@ class UsersController implements \Anax\DI\IInjectionAware {
 			], 'main');
 		$this->views->add('users/users-sidebar', [], 'sidebar');
 		$this->addLegend();
+		*/
 	}
 
 	/**

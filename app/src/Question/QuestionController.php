@@ -353,12 +353,17 @@ class QuestionController implements \Anax\DI\IInjectionAware {
 				foreach ($tagIDlist as $value) {
 					$tag = new \CR\Tag\Tag();
 					$tag->setDI($this->di);
-					$question->tags[] = $tag->find($value->idTag);
+					$res = $tag->find($value->idTag);
+					if (!$res->deleted) {
+						$question->tags[] = $res;
+					}
 				}
+
 				// Sort tags in alphabetical order by name
 				usort($question->tags, function($a, $b) {
 					return strcmp($a->name, $b->name);
 				});
+
 				// Get no of answers to question
 				$this->db->select("COUNT(*) AS noOfAnswers")
 				->from('answer')

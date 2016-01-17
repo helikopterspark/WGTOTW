@@ -20,7 +20,7 @@ $app->router->add('', function() use ($app) {
     $app->dispatcher->forward([
       'controller' => 'question',
       'action' => 'getlatest',
-      'params' => [7],
+      'params' => [8],
   ]);
 
   $app->dispatcher->forward([
