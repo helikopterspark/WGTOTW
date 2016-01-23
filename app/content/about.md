@@ -7,6 +7,10 @@ Planerar du kanske en resa dit och vill bosätta dig där? Eller du kanske bara 
 
 Det är bara att registrera sig och börja ställa frågor, eller svara på andras frågor om du redan sitter inne på mycket kunskap.
 
+Webbplatsen är designad och programmerad av Carl Ramsell som en del av en kurs i webbprogrammering på Blekinge Tekniska Högskola.
+
+Mars-ikonen av hxxland: [Mars](http://findicons.com/icon/218935/mars02?id=218935)
+
 [![Build Status](https://travis-ci.org/helikopterspark/WGTOTW.svg?branch=master)](https://travis-ci.org/helikopterspark/WGTOTW)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/helikopterspark/WGTOTW/?branch=master)
@@ -14,8 +18,4 @@ Det är bara att registrera sig och börja ställa frågor, eller svara på andr
 
 Webbplatsen är byggd med ramverket ANAX MVC av Mikael Roos.
 
-Mars-ikonen av hxxland: [Mars](http://findicons.com/icon/218935/mars02?id=218935)
-
 [ANAX MVC på github.com](https://github.com/mosbth/Anax-MVC)
-
-Design och programmering av Carl Ramsell.

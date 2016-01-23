@@ -21,10 +21,10 @@ html.dark-theme {
 	.article1 h2,
 	.article2 h1,
 	.article2 h2,
- {
-		font-family: @fontFamilyOrbitron;
-		color: rgb(37, 37, 37);
-		border-bottom: 1px solid #fff;
+	.question-title-heading a,
+	.question-title-heading-small a {
+		//font-family: @fontFamilyOrbitron;
+		color: #E5DFC5;
 	}
 
 	#main a,
@@ -38,13 +38,24 @@ html.dark-theme {
 	* Questions
 	*
 	*/
-	.question-detail-title-heading a {
+	label, .question-detail-title-heading a {
 		color: #E5DFC5;
 	}
 
 	.question-detail-userinfo {
 		background: #91C7A9;
 	}
+
+	.stats-box, .stats-box-small {
+		background-color: #848375;
+	    color: #ffffee;
+	}
+
+	.answers-exist, .answers-exist-small {
+	    background-color: #91C7A9;
+	    color: #ffffee;
+	}
+
 	/*
 	* Accepted answer
 	*/
@@ -63,16 +74,20 @@ html.dark-theme {
 	    color: @green;
 	}
 
+	.navbar ul {
+	  background-color: #848375;
+	}
+
 	.navbar li.selected-parent,
 	.navbar li.is-parent,
 	.navbar li.selected {
-		color: @purple;
-		border-color: @purple;
+		color: #E5DFC5;
+		border-color: #E5DFC5;
 	}
 
 	.navbar li li.selected {
-		color: @purple;
-		border-color: @purple;
+		color: #E5DFC5;
+		border-color: #E5DFC5;
 	}
 
 	.comments-heading {
@@ -101,8 +116,14 @@ html.dark-theme {
 		background: linear-gradient(to left, rgba(102, 51, 204, 0.2),  rgba(0, 0, 0, 0));
 	}
 
-	#footer, .upper-footer {
+	#footer, .upper-footer, .upper-footer a {
+		color: #ddd;
 		background-color: #848375;
+	}
+
+	form, fieldset {
+		color: #000;
+		background-color: #252120;
 	}
 }
 

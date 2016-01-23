@@ -85,7 +85,7 @@ class CFormLogin extends \Mos\HTMLForm\CForm
             ->where('acronym = ?')
             ->execute([$this->Value('acronym')]);
 
-        if($login[0]->getProperties()['deleted']) {
+        if($login && $login[0]->getProperties()['deleted']) {
             $this->error .= 'Användarens konto är avslutat. Kontakta admin för att återfå kontot.';
             return false;
         }
